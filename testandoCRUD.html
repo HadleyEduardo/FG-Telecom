@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>testando CRUD</title>
+</head>
+<body>
+    <form action="http://localhost:3001/clientes/novo" method="POST" enctype="multipart/form-data">
+        nome:
+        <input type="text" name="nome"/>
+        <br />
+        CPF:
+        <input type="number" name="cpf" />
+        <br />
+        RG:
+        <input type="number" name="rg"  />
+        <br />
+        telefone:
+        <input type="number" name="telefone" />
+        <br />
+        email:
+        <input type="text" name="email" />
+        <h5>Endereço: </h5>
+        rua: 
+        <input type="text" name="rua" />
+        <br />
+        numero: 
+        <input type="number" name="numero" />
+        <br />
+        bairro: 
+        <input type="text" name="bairro" />
+        <br />
+        cidade: 
+        <input type="text" name="cidade" />
+        <br />
+        ponto de referencia
+        <textarea name="pontoReferencia"></textarea>
+        <br />
+        <button type="submit">Enviar</button> 
+    </form>
+</body>
+</html>

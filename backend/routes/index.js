@@ -1,12 +1,12 @@
-const { Router } = require('express');
+import express from 'express';
+import ClienteController from '../controllers/clientes';
 
-const router = Router();
+const router = express.Router();
+let ctrlCliente = new ClienteController();
 
 /* GET index page. */
-router.get('/', (req, res) => {
-  res.json({
-    title: 'Express'
-  });
-});
+router.get('/clientes', ctrlCliente.buscaTodos);
 
-module.exports = router;
+router.post('/clientes/novo', ctrlCliente.novo);
+
+export default router;
