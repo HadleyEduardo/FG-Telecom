@@ -1,0 +1,39 @@
+#menu-lateral{
+    width: 20%;
+    height: 90%;
+    background: white;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    border-right: 2px solid rgba(0, 0, 0, 0.116);
+    padding-top: 10px;
+    margin-right: 100%;
+    text-decoration: none !important;
+}
+
+li{
+    text-decoration: none !important;
+    list-style-type: none !important;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.377);
+    font-size: 88%;
+    margin-left: -5%;
+    height: 40px;
+    margin-bottom: 10px;
+}
+.ativo{
+    background: black;
+    height: 50px;
+    width: 2px;
+    position: absolute;
+    left: 0;
+    margin-top: -15px;
+}
+
+.liAtivo{
+    color: black;
+}
+
+.text-decoration-none{
+    text-decoration: none;
+}
