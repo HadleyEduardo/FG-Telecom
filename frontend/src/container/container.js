@@ -5,8 +5,8 @@ class container extends Component{
 
     render(){
         return(
-            <div id='box'>
-                <div id='container'>
+            <div id={this.props.id.idBoxContainer}>
+                <div id={this.props.id.idContainer}>
                     <div id='conteudo'> 
                         {this.props.children}
                     </div>

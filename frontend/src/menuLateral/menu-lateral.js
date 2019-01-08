@@ -13,7 +13,7 @@ class menu extends Component{
 
     render(){
         return(
-            <div id='menu-lateral'>
+            <div style={this.props.style} id='menu-lateral'>
                 <br />
                 <nav>
                     <ul>

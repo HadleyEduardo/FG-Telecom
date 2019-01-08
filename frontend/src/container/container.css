@@ -1,14 +1,27 @@
-#box{
+/* ocorre mudanças de id durante o codigo para ocorrer as mudanças quando clica no icon list do Header.js */
+#box-estado-normal{
     width: 80%;
-    right: 50%;
     position: fixed;
     right: 0;
     bottom: 0;
     height: 90.5%;
     overflow: auto;
+    transition-delay: 0.1s;
+    transition-duration: 0.5s; 
 }
 
-#container{
+#box-estado-large{
+    width: 100%;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    height: 90.5%;
+    overflow: auto;
+    transition-delay: 0.3s;
+    transition-duration: 0.5s; 
+}
+
+#container-estado-normal{
     background: white;
     position: absolute;
     width: 97%;
@@ -16,6 +29,20 @@
     margin-left: -48.5%;
     box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.288);
     margin-bottom: 10%;
+    transition-delay: 0.3s;
+    transition-duration: 0.5s; 
+}
+
+#container-estado-large{
+    background: white;
+    position: absolute;
+    width: 85%;
+    left: 50%;
+    margin-left: -42.5%;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.288);
+    margin-bottom: 10%;
+    transition-delay: 0.3s;
+    transition-duration: 0.5s;
 }
 
 #conteudo{
