@@ -11,35 +11,12 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
+      styleDropdown: {
+        visibility: 'hidden'
+      },
       toggleMenu: false,
-      loginIconLarge: (
-        <div id='icon-login'>
-          <div id='photo'>
-              <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
-          </div>
-          &nbsp;
-          <div id='caret-icon'>
-              <br />
-              <i className="fas fa-caret-down"></i>
-          </div>
-        </div>
-      ),
-      loginIconMobile: (
-        <div>
-          <div id='icon-login-mobile'>
-            <div id='photo-mobile'>
-                <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
-            </div>
-            &nbsp;
-            <div id='caret-icon-mobile'>
-                <br />
-                <i className="fas fa-caret-down"></i>
-            </div>
-
-          </div>
-          <hr />
-        </div>
-      ), 
+      loginIconLarge: null,
+      loginIconMobile: null, 
       style: {
         visibility: 'visible'
       },
@@ -147,19 +124,43 @@ class App extends Component {
         })
       }
       this.setState({loginIconLarge: (
-        <div id='icon-login'>
-          <div id='photo'>
-              <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
-          </div>
-          &nbsp;
-          <div id='caret-icon'>
-              <br />
-              <i className="fas fa-caret-down"></i>
+        <div>
+          <a href='' onClick={(e) => this.dropdownToggle(e)}>
+            <div id='icon-login'>
+              <div id='photo'>
+                  <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+              </div>
+              &nbsp;
+              <div id='caret-icon'>
+                  <br />
+                  <i className="fas fa-caret-down"></i>
+              </div>
+            </div>
+          </a>
+          <div style={this.state.styleDropdown} id='dropdown'>
+            <i class="fas fa-sign-out-alt"></i> <b> Sair </b>
           </div>
         </div>
       ), loginIconMobile: null})
     }
     
+  }
+
+  dropdownToggle(e){
+    e.preventDefault()
+    if(this.state.styleDropdown.visibility === 'hidden'){
+      this.setState({styleDropdown: {
+        visibility: 'visible'
+      }}, () => {
+        this.widthScreenMobileDevice()
+      })
+    }else{
+      this.setState({styleDropdown: {
+        visibility: 'hidden'
+      }}, () => {
+        this.widthScreenMobileDevice()
+      })
+    }
   }
 
   render() {

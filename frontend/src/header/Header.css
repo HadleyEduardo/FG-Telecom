@@ -308,3 +308,14 @@
     text-align: center;
     height: 40px;
 }
+
+#dropdown{
+    background: white;
+    width: 10%;
+    position: fixed;
+    right: 0.5%;
+    top: 9.5%;
+    border: 1px solid rgba(0, 0, 0, 0.226);
+    border-radius: 3px;
+    padding: 10px 15px 10px 15px
+}
