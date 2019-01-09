@@ -14,6 +14,7 @@ class menu extends Component{
     render(){
         return(
             <div style={this.props.style} id='menu-lateral'>
+                {this.props.loginIcon}
                 <br />
                 <nav>
                     <ul>

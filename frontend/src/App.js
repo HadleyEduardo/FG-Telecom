@@ -1,17 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Header from "./header/Header"
 import Menu from './menuLateral/menu-lateral'
 import Container from './container/container'
 import Rotas from './router'
 import {BrowserRouter as Route} from 'react-router-dom'
+import perfilHadlei from './imagens/seu-Hadlei.png'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       toggleMenu: false,
+      loginIconLarge: (
+        <div id='icon-login'>
+          <div id='photo'>
+              <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+          </div>
+          &nbsp;
+          <div id='caret-icon'>
+              <br />
+              <i className="fas fa-caret-down"></i>
+          </div>
+        </div>
+      ),
+      loginIconMobile: (
+        <div>
+          <div id='icon-login-mobile'>
+            <div id='photo-mobile'>
+                <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+            </div>
+            &nbsp;
+            <div id='caret-icon-mobile'>
+                <br />
+                <i className="fas fa-caret-down"></i>
+            </div>
+
+          </div>
+          <hr />
+        </div>
+      ), 
       style: {
         visibility: 'visible'
       },
@@ -23,16 +51,42 @@ class App extends Component {
     this.toggleMenu = this.toggleMenu.bind(this)
     this.estadoDoMenu = this.estadoDoMenu.bind(this)
     this.estadoDoContainer = this.estadoDoContainer.bind(this)
+    this.widthScreenMobileDevice = this.widthScreenMobileDevice.bind(this)
+  }
+
+  componentWillMount(){
+    var addEvent = function(elem, type, eventHandle) {
+      if (elem == null || typeof(elem) == 'undefined') return;
+      if ( elem.addEventListener ) {
+          elem.addEventListener( type, eventHandle, false );
+      } else if ( elem.attachEvent ) {
+          elem.attachEvent( "on" + type, eventHandle );
+      } else {
+          elem["on"+type]=eventHandle;
+      }
+    };
+    this.windowResize(addEvent)
+    this.widthScreenMobileDevice()
   }
 
   toggleMenu(){
-    this.setState({toggleMenu: !this.state.toggleMenu})
-    this.estadoDoMenu()
-    this.estadoDoContainer()
+    this.setState({toggleMenu: !this.state.toggleMenu}, () => {
+      this.estadoDoMenu()
+      this.estadoDoContainer()
+    })
+  }
+
+  windowResize(addEvent){
+    var widthMobile = () => {
+      return this.widthScreenMobileDevice()
+    }
+    addEvent(window, "resize", () => {
+      widthMobile()  
+    });
   }
 
   estadoDoContainer(){
-    if(!this.state.toggleMenu){
+    if(this.state.toggleMenu){
       this.setState({estadosDoContainer: {
         idBoxContainer: 'box-estado-large',
         idContainer: 'container-estado-large'
@@ -46,7 +100,7 @@ class App extends Component {
   }
 
   estadoDoMenu(){
-    if(!this.state.toggleMenu){
+    if(this.state.toggleMenu){
       this.setState({style: {
         visibility: 'hidden'
       }})
@@ -57,12 +111,63 @@ class App extends Component {
     }
   }
 
+  widthScreenMobileDevice(){
+    var width = window.innerWidth;
+    if(width < 601){
+      if(this.state.toggleMenu === false){
+        this.setState({toggleMenu: true}, () => {
+          this.estadoDoMenu()
+          this.estadoDoContainer()
+        })
+      }
+      this.setState({loginIconLarge: null, loginIconMobile: (
+        <div>
+          <div id='icon-login-mobile'>
+            <div id='photo-mobile'>
+                <img id="photo-perfil-mobile" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+            </div>
+            &nbsp;
+            <div id='caret-icon-mobile'>
+                <br />
+                <i className="fas fa-caret-down"></i>
+            </div>
+          </div>
+            <div id='div-do-nome-usuario'>
+              <p id="nome-do-usuario">Hadlei Garcia</p>
+              <p id="tipo-de-usuario">Administrador</p>
+            </div>
+          <hr />
+        </div>
+        )})
+    }else{
+      if(this.state.toggleMenu === true){
+        this.setState({toggleMenu: false}, () => {
+          this.estadoDoMenu()
+          this.estadoDoContainer()
+        })
+      }
+      this.setState({loginIconLarge: (
+        <div id='icon-login'>
+          <div id='photo'>
+              <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+          </div>
+          &nbsp;
+          <div id='caret-icon'>
+              <br />
+              <i className="fas fa-caret-down"></i>
+          </div>
+        </div>
+      ), loginIconMobile: null})
+    }
+    
+  }
+
   render() {
     return (
       <Route>
         <div className="App">
-            <Header toggleMenu={() => this.toggleMenu()}/>
-            <Menu style={this.state.style} />
+            <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
+            <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
               <Rotas />
             </Container>
