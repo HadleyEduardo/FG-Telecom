@@ -9,13 +9,7 @@ class clientes{
             rg: req.body.rg,
             telefone: req.body.telefone,
             email: req.body.email,
-            endereco: {
-                rua: req.body.rua,
-                numero: req.body.numero,
-                bairro: req.body.bairro,
-                cidade: req.body.cidade,
-                pontoReferencia: req.body.pontoReferencia
-            }
+            endereco: req.body.endereco
         }
         Cliente.create(data)
             .then((cliente) => {
