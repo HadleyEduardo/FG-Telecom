@@ -46,6 +46,53 @@
     }
 }
 
+@media only screen and (max-width: 490px) and (min-width: 0px){
+    #box-estado-normal{
+        width: 100% !important;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        height: 95.5%;
+        overflow: auto;
+        transition-delay: 0.1s;
+        transition-duration: 0.5s; 
+    }
+    
+    #box-estado-large{
+        width: 100% !important;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+        transition-delay: 0.3s;
+        transition-duration: 0.5s; 
+    }
+
+    #container-estado-large{
+        background: white;
+        position: absolute;
+        width: 100% !important;
+        left: 0% !important;
+        margin-left: 0% !important;
+        box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.288);
+        margin-bottom: 10%;
+        transition-delay: 0.3s;
+        transition-duration: 0.5s;
+    }
+
+    #container-estado-normal{
+        background: white;
+        position: absolute;
+        width: 100% !important;
+        left: 0% !important;
+        margin-left: 0% !important;
+        box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.288);
+        margin-bottom: 10%;
+        transition-delay: 0.3s;
+        transition-duration: 0.5s; 
+    }
+}
+
 /* ocorre mudanças de id durante o codigo para ocorrer as mudanças quando clica no icon list do Header.js */
 #box-estado-normal{
     width: 80%;
@@ -97,4 +144,5 @@
     width: 98.5%;
     position: relative;
     left: 0.75%;
+    margin-bottom: 1%;
 }

@@ -14,6 +14,7 @@ class App extends Component {
       styleDropdown: {
         visibility: 'hidden'
       },
+      sizeInput: 40,
       toggleMenu: false,
       loginIconLarge: null,
       loginIconMobile: null, 
@@ -91,6 +92,12 @@ class App extends Component {
   widthScreenMobileDevice(){
     var width = window.innerWidth;
     if(width < 601){
+      if(width < 490){
+        this.setState({sizeInput: 30})
+      }
+      if(width < 350){
+        this.setState({sizeInput: 25})
+      }
       if(this.state.toggleMenu === false){
         this.setState({toggleMenu: true}, () => {
           this.estadoDoMenu()
@@ -117,12 +124,16 @@ class App extends Component {
         </div>
         )})
     }else{
+      if(width > 490){
+        this.setState({sizeInput: 40})
+      }
       if(this.state.toggleMenu === true){
         this.setState({toggleMenu: false}, () => {
           this.estadoDoMenu()
           this.estadoDoContainer()
         })
       }
+      
       this.setState({loginIconLarge: (
         <div>
           <a href='' onClick={(e) => this.dropdownToggle(e)}>
@@ -170,7 +181,7 @@ class App extends Component {
             <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas />
+              <Rotas sizeInput={this.state.sizeInput}/>
             </Container>
         </div>
       </Route>
