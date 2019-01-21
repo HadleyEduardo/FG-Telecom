@@ -1,2 +1,6 @@
+# o arquivo '.gitignore' da pasta 'frontend'
+# ja deixa a pasta 'node_modules' de la fora
+# do controle de versao
+
 backend/node_modules
 .vscode
