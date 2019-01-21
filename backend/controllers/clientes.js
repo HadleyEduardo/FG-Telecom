@@ -3,7 +3,7 @@ import Cliente from '../models/clientes'
 class clientes{
 
     novo(req, res){
-        const data = {
+        var data = {
             nome: req.body.nome,
             cpf: req.body.cpf,
             rg: req.body.rg,
@@ -11,16 +11,54 @@ class clientes{
             email: req.body.email,
             endereco: req.body.endereco
         }
-        Cliente.create(data)
-            .then((cliente) => {
-                res.send('salvei')
-            },
-            (erro) => {
-                res.send('ocorreu um problema: ' + erro)
-            })
-            .catch((e) => {
-                res.send('ocorreu um erro de servidor: ' + e)
-            })
+
+        Cliente.find({cpf: data.cpf}, (erro, cpf) => {
+            if(cpf.length == 0 && erro == undefined) {
+                Cliente.find({rg: data.rg}, (erro, rg) => {
+                    if(rg.length == 0 && erro == undefined){
+                        Cliente.find({telefone: data.telefone}, (erro, telefone) => {
+                            if(telefone.length == 0 && erro == undefined){
+                                Cliente.create(data)
+                                    .then((cliente) => {
+                                        res.send({
+                                            mensagem: 'salvo com sucesso!',
+                                            erro: false
+                                        })
+                                    },
+                                    (erro) => {
+                                        res.send({
+                                            mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
+                                            erro: true
+                                        })
+                                    })
+                                    .catch((e) => {
+                                        res.send({
+                                            mensagem: 'ocorreu um erro de servidor: ' + e,
+                                            erro: true
+                                        })
+                                    })
+                            }else{
+                                res.send({
+                                    mensagem: 'Esse Telefone já está cadastrado!',
+                                    erro: true
+                                })  
+                            }
+                        })
+                    }else{
+                        res.send({
+                            mensagem: 'Esse RG já está cadastrado!',
+                            erro: true
+                        })
+                    }
+                })
+            }else{
+                res.send({
+                    mensagem: 'Esse CPF já está cadastrado!',
+                    erro: true,
+                    cpf: cpf
+                })
+            }
+        })
     }
 
     buscaTodos(req, res){

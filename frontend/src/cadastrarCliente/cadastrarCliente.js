@@ -29,8 +29,6 @@ class cadastrarCliente extends React.Component{
             .catch((e) => {
                 console.log(e)
             })
-
-        console.log(e.target.teste)
     }
     render(){
         const size = this.props.size
@@ -42,27 +40,29 @@ class cadastrarCliente extends React.Component{
         }
         return (
             <div style={{width: '100%', height: '100%'}}>
-            <form onSubmit={ this.enviar} name="form" id="form">
-               <fieldset><legend> {legend} </legend>
-                <fieldset id="usuario" ><legend>Idenficação</legend>
-                    <p>Nome <input type="text" name="nome" id="iNome" size={size} /> </p>
-                    <p>CPF <input type="text" name="cpf" id="icpf" size={size}/> </p>
-                    <p>RG <input type="text" name="rg" id="iRG" size={size} /></p>
-                    <p>Telefone  <input type="text" name="telefone" id="iTelefone" size={size} /></p>
-                    <p>E-mail <input type="email" name="email" id="iemail" size={size} /></p>
-                </fieldset>
-                <fieldset id="Endereco"><legend>Endereco</legend>
-                    <p>Bairro <input type="text" name="bairro" id="ibairro" size={size} /></p>
-                    <p>Rua <input type="text" name="rua" id="irua" size={size} /></p>
-                    <p>Numero <input type="number" name="numero" id="inume" size={size} /></p>
-                    <p>Cidade <input type="text" name="cidade" id="icidade" size={size} /></p>
-                    <p>CEP <input type="text" name="cep" id="icpf" size={size} /></p>
-                    <p>Ponto de referencia <br/> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" cols={size}></textarea></p>
-                </fieldset>
-              <p> <button type="submit" id="isalvar" value="Salvar">Salvar</button> 
-              <button type="reset" value="Limpar" id="ilimpar">Limpar</button> </p>
-                </fieldset>
-            </form>
+                <form onSubmit={ this.enviar} name="form" id="form">
+                    <fieldset><legend> {legend} </legend>
+                        <fieldset id="usuario" ><legend>Idenficação</legend>
+                            <p>Nome <input type="text" name="nome" id="iNome" size={size} /> </p>
+                            <p>CPF <input type="text" name="cpf" id="icpf" size={size}/> </p>
+                            <p>RG <input type="text" name="rg" id="iRG" size={size} /></p>
+                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" size={size} /></p>
+                            <p>E-mail <input type="email" name="email" id="iemail" size={size} /></p>
+                        </fieldset>
+                        <fieldset id="Endereco"><legend>Endereco</legend>
+                            <p>Bairro <input type="text" name="bairro" id="ibairro" size={size} /></p>
+                            <p>Rua <input type="text" name="rua" id="irua" size={size} /></p>
+                            <p>Numero <input type="number" name="numero" id="inume" size={size} /></p>
+                            <p>Cidade <input type="text" name="cidade" id="icidade" size={size} /></p>
+                            <p>CEP <input type="text" name="cep" id="icpf" size={size} /></p>
+                            <p>Ponto de referencia <br/> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" cols={size}></textarea></p>
+                        </fieldset>
+                        <p> 
+                            <button type="submit" id="isalvar" value="Salvar">Salvar</button> 
+                            <button type="reset" value="Limpar" id="ilimpar">Limpar</button> 
+                        </p>
+                    </fieldset>
+                </form>
             </div>
         )
     }
