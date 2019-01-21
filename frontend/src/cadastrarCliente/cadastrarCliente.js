@@ -33,7 +33,7 @@ class cadastrarCliente extends React.Component{
     render(){
         const size = this.props.size
         var legend = null
-        if(size == 40){
+        if(size === 40){
             legend = (<h1>Cadastrar cliente</h1>)
         }else{
             legend = (<h3>Cadastrar cliente</h3>)
