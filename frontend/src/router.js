@@ -12,7 +12,9 @@ import OrdemServico from './ordemDeServico/ordemDeServico'
 import Funcionarios from './funcionarios/funcionarios'
 import Ajuda from './ajuda/ajuda'
 import CadastrarCliente from './cadastrarCliente/cadastrarCliente'
-import CadastrarProduto from './estoque/novo/CadastrarProduto';
+import CadastrarEstoque from './cadastrarEstoque/cadastrarEstoque';
+
+
 class router extends Component{
 
     render(){
@@ -21,9 +23,10 @@ class router extends Component{
                 <Route exact={true} path='/' component={() => <Agenda />} />
                 <Route exact={true} path='/vendas' component={() => <Vendas />} />
                 <Route exact={true} path='/estoque' component={() => <Estoque />} />
+                <Route exact={true} path='/estoque/novo' component={() => <CadastrarEstoque />} />
+
                 <Route exact={true} path='/clientes' component={() => <Clientes />} />
                 <Route exact={true} path='/clientes/novo' component={() =><CadastrarCliente size={this.props.sizeInput}/>}/>
-                <Route exact={true} path='/estoque/novo' component={() =><CadastrarProduto size={this.props.sizeInput}/>}/>
                 <Route exact={true} path='/ordem-de-servico' component={() => <OrdemServico />} />
                 <Route exact={true} path='/funcionarios' component={() => <Funcionarios />} />
                 <Route exact={true} path='/ajuda' component={() => <Ajuda />} />
