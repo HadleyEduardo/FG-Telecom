@@ -14,7 +14,7 @@ class Header extends React.Component{
             <div className = "Header">
                 <a href='' onClick={(e) => this.toggleMenu(e)}>
                     <div id='icon-header'>
-                        <img id='img-icon-header' width='32px' src={listIcon} />
+                        <img id='img-icon-header' src={listIcon} />
                     </div>
                 </a>
                 {this.props.loginIcon}

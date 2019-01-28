@@ -12,19 +12,24 @@ import OrdemServico from './ordemDeServico/ordemDeServico'
 import Funcionarios from './funcionarios/funcionarios'
 import Ajuda from './ajuda/ajuda'
 import CadastrarCliente from './cadastrarCliente/cadastrarCliente'
+import CadastrarItemEstoque from './cadastrarItemEstoque/cadastrarItemEstoque'
+import CadastrarModelo from './cadastrarModeloAparelho/cadastrarModeloAparelho'
+
 class router extends Component{
 
     render(){
         return(
             <div>
                 <Route exact={true} path='/' component={() => <Agenda />} />
-                <Route exact={true} path='/vendas' component={() => <Vendas />} />
+                <Route path='/vendas' component={() => <Vendas />} />
                 <Route exact={true} path='/estoque' component={() => <Estoque />} />
+                <Route path='/estoque/novo-item' component={() => <CadastrarItemEstoque />} />
+                <Route path='/estoque/novo-modelo' component={() => <CadastrarModelo />}/>
                 <Route exact={true} path='/clientes' component={() => <Clientes />} />
-                <Route exact={true} path='/clientes/novo' component={() =><CadastrarCliente size={this.props.sizeInput}/>}/>
-                <Route exact={true} path='/ordem-de-servico' component={() => <OrdemServico />} />
-                <Route exact={true} path='/funcionarios' component={() => <Funcionarios />} />
-                <Route exact={true} path='/ajuda' component={() => <Ajuda />} />
+                <Route path='/clientes/novo' component={() => <CadastrarCliente size={this.props.sizeInput}/>}/>
+                <Route path='/ordem-de-servico' component={() => <OrdemServico />} />
+                <Route path='/funcionarios' component={() => <Funcionarios />} />
+                <Route path='/ajuda' component={() => <Ajuda />} />
             </div>
         )
     }

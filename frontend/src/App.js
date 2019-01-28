@@ -139,7 +139,7 @@ class App extends Component {
           <a href='' onClick={(e) => this.dropdownToggle(e)}>
             <div id='icon-login'>
               <div id='photo'>
-                  <img id="photo-perfil" style={{borderRadius: '100px'}} width='39px' height='39px' src={perfilHadlei} />
+                  <img id="photo-perfil" style={{borderRadius: '100px'}} src={perfilHadlei} />
               </div>
               &nbsp;
               <div id='caret-icon'>
@@ -164,7 +164,7 @@ class App extends Component {
         visibility: 'visible'
       }}, () => {
         this.widthScreenMobileDevice()
-      })
+      }, false)
     }else{
       this.setState({styleDropdown: {
         visibility: 'hidden'

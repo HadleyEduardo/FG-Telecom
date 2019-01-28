@@ -51,6 +51,7 @@
 }
 
 @media only screen and (max-width: 850px) and (min-width: 725px){
+    
     li{
         font-size: 60% !important;
         margin-left: -20% !important;
@@ -60,6 +61,7 @@
 }
 
 @media only screen and (max-width: 724px) and (min-width: 600px){
+
     li{
         font-size: 50% !important;
         margin-left: -25% !important;
@@ -68,8 +70,13 @@
         
     } 
 }
+@media only screen and (max-width: 599px) and (min-width: 490px){
+    #menu-lateral{
+        width: 40% !important;
+    }
+}
 
-@media only screen and (max-width: 599px){
+@media only screen and (max-width: 489px){
     #menu-lateral{
         width: 80% !important;
         height: 90%;
@@ -97,8 +104,6 @@
     padding-top: 10px;
     margin-right: 100%;
     text-decoration: none !important;
-    transition-delay: 0.3s;
-    transition-duration: 0.1s;
     overflow: auto;
 }
 
