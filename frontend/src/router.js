@@ -6,7 +6,7 @@ import { Route } from 'react-router-dom'
 //importando as opcoes de menu para serem setadas nas rotas do React
 import Agenda from './agenda/agenda'
 import Vendas from './venda/venda'
-import Estoque from './estoque/estoque'
+import Estoque from './estoque/Estoque'
 import Clientes from './clientes/clientes'
 import OrdemServico from './ordemDeServico/ordemDeServico'
 import Funcionarios from './funcionarios/funcionarios'
