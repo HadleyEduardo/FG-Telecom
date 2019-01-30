@@ -44,7 +44,7 @@ class cadastrarCliente extends React.Component{
             <div style={{width: '100%', height: '100%'}}>
                 <form onSubmit={ this.enviar} name="form" id="form">
                     <fieldset class="scheduler-border"><legend class="scheduler-border"> {legend} </legend>
-                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Idenficação</legend>
+                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Identificação</legend>
                             <p>Nome <input type="text" name="nome" id="iNome" size={size} /> </p>
                             <p>CPF <input type="text" name="cpf" id="icpf" size={size}/> </p>
                             <p>RG <input type="text" name="rg" id="iRG" size={size} /></p>
