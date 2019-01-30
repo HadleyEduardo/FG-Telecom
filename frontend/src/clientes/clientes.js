@@ -11,17 +11,17 @@ class clientes extends Component {
             <div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-3"></div>
-                        <div className="col-sm-6 col-xs-2 justify-content-center">
+                        <div className="col-4"></div> {/**/}
+                        <div className="col-4 justify-content-center">
                             <form className="form-inline mt-4 mb-4">
                                 <MDBIcon icon="search" />
                                 <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" />
                             </form>
                         </div>
 
-                        <div className="col-sm-3 col-xs-2">
+                        <div className="col-4">
                             <Link to='/clientes/novo'>
-                                <button className="btn btn-primary btn-sm">+</button>
+                                <button className="btn btn-primary btn-sm" id="gambiarra">+</button>
                             </Link>
                         </div>
                     </div>
