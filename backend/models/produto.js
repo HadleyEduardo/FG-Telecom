@@ -1,17 +1,21 @@
 var mongoose = require('mongoose');
 
 var produto = new mongoose.Schema({
-    tipo: {
+    nome: {
+        type: String,
+        required: true,
+    },
+    marca: {
         type: String,
         required: true,
     },
     modelo: {
         type: String,
-        required: true,
+        require: true,
     },
     codigo: {
-        type: Number,
-        required: false
+        type: String,
+        required: true
     }
 });
 

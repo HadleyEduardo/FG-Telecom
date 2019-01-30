@@ -1,8 +1,8 @@
 import Cliente from '../models/clientes'
 
-class clientes{
+class clientes {
 
-    novo(req, res){
+    novo(req, res) {
         var data = {
             nome: req.body.nome,
             cpf: req.body.cpf,
@@ -12,12 +12,12 @@ class clientes{
             endereco: req.body.endereco
         }
 
-        Cliente.find({cpf: data.cpf}, (erro, cpf) => {
-            if(cpf.length == 0 && erro == undefined) {
-                Cliente.find({rg: data.rg}, (erro, rg) => {
-                    if(rg.length == 0 && erro == undefined){
-                        Cliente.find({telefone: data.telefone}, (erro, telefone) => {
-                            if(telefone.length == 0 && erro == undefined){
+        Cliente.find({ cpf: data.cpf }, (erro, cpf) => {
+            if (cpf.length == 0 && erro == undefined) {
+                Cliente.find({ rg: data.rg }, (erro, rg) => {
+                    if (rg.length == 0 && erro == undefined) {
+                        Cliente.find({ telefone: data.telefone }, (erro, telefone) => {
+                            if (telefone.length == 0 && erro == undefined) {
                                 Cliente.create(data)
                                     .then((cliente) => {
                                         res.send({
@@ -25,33 +25,33 @@ class clientes{
                                             erro: false
                                         })
                                     },
-                                    (erro) => {
-                                        res.send({
-                                            mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
-                                            erro: true
+                                        (erro) => {
+                                            res.send({
+                                                mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
+                                                erro: true
+                                            })
                                         })
-                                    })
                                     .catch((e) => {
                                         res.send({
                                             mensagem: 'ocorreu um erro de servidor: ' + e,
                                             erro: true
                                         })
                                     })
-                            }else{
+                            } else {
                                 res.send({
                                     mensagem: 'Esse Telefone já está cadastrado!',
                                     erro: true
-                                })  
+                                })
                             }
                         })
-                    }else{
+                    } else {
                         res.send({
                             mensagem: 'Esse RG já está cadastrado!',
                             erro: true
                         })
                     }
                 })
-            }else{
+            } else {
                 res.send({
                     mensagem: 'Esse CPF já está cadastrado!',
                     erro: true,
@@ -61,14 +61,14 @@ class clientes{
         })
     }
 
-    buscaTodos(req, res){
+    buscaTodos(req, res) {
         Cliente.find()
             .then((clientes) => {
                 res.send(clientes)
             },
-            (erro) => {
-                res.send('Ocorreu um erro: ' + erro)
-            })
+                (erro) => {
+                    res.send('Ocorreu um erro: ' + erro)
+                })
             .catch((e) => {
                 res.send('erro interno no servidor: ' + e)
             })
