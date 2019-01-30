@@ -5,14 +5,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
     "axios": "^0.18.0",
-<<<<<<< HEAD
     "mdbootstrap": "^4.7.0",
     "mdbreact": "4.9.0",
     "react": "16.7.0",
-=======
-    "mdbreact": "^4.9.0",
-    "react": "^16.7.0",
->>>>>>> 0f293f8a9016b2e5fdc0854b4d32d2edafac56e7
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.3"
