@@ -11,6 +11,6 @@ router.get('/clientes', ctrlCliente.buscaTodos);
 router.get('/estoque', ctrlProduto.buscaTodos);
 
 router.post('/clientes/novo', ctrlCliente.novo);
-router.post('/estoque/novo-produto', ctrlCliente.novo);
+router.post('/estoque/novo-produto', ctrlProduto.novo);
 
 export default router;
