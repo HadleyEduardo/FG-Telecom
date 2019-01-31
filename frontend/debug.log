@@ -6,3 +6,5 @@
 [0115/033038.702:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
 [0127/072909.347:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
 [0128/180853.033:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
+[0131/020733.843:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
+[0131/074009.629:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
