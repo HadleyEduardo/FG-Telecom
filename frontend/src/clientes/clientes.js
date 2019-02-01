@@ -2,23 +2,62 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './clientes.css';
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow, MDBIcon, MDBBtn } from "mdbreact";
-import axios from 'axios'; 
+import axios from 'axios';
 
 class clientes extends Component {
-    constructor(){
+    constructor() {
         super();
-        this.state={
-            listaClientes:[],
+        this.state = {
+            listaClientes: [],
+            RenderConteudo: () => {
+
+            }
         };
     }
-    componentWillMount(){
+    componentWillMount() {
         axios.get('http://localhost:3001/clientes')
-        .then((res)=>{
-            const client = res.date;
-            this.setState({listaClientes: client});
-        })
+            .then((res) => {
+                const client = res.data;
+                this.setState({ listaClientes: client }, () => {
+                    this.preencherTabela()
+                });
+            })
+
     }
-    preencherTabela(){
+    preencherTabela() {
+
+        var cliente = this.state.listaClientes;
+        var renderListCliente = [];
+        for (var i = 0; i < cliente.length; i++) {
+
+            renderListCliente[i] = (
+
+                <tr>
+                    <td>{(i + 1)}</td>
+                    <td>{cliente[i].nome}</td>
+                    <td>{cliente[i].cpf}</td>
+                    <td>{cliente[i].telefone}</td>
+                    <td class="actions">
+                        <button className="btn btn-success btn-sm" >Visualizar</button>
+                        <button className="btn btn-warning btn-sm" >Editar</button>
+                        <button className="btn btn-danger btn-sm"  >Excluir</button>
+                    </td>
+                </tr>
+
+            )
+
+        }
+        this.renderConteudoTabela(renderListCliente)
+    }
+
+    renderConteudoTabela(conteudo) {
+        this.setState({
+            RenderConteudo: () => {
+                return conteudo.map((tr) => {
+                    return tr
+                })
+            }
+        })
 
     }
 
@@ -51,23 +90,13 @@ class clientes extends Component {
                                         <th>ID</th>
                                         <th>Nome</th>
                                         <th>CPF</th>
-                                        <th>CADASTRADO</th>
+                                        <th>Telefone</th>
                                         <th className="actions">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    <tr>
-                                        <td>01</td>
-                                        <td>Hadley Eduardo Louveira Garcia</td>
-                                        <td>009.052.711-90</td>
-                                        <td>01/01/2015</td>
-                                        <td class="actions">
-                                            <button className="btn btn-success btn-sm" >Visualizar</button>
-                                            <button className="btn btn-warning btn-sm" >Editar</button>
-                                            <button className="btn btn-danger btn-sm"  >Excluir</button>
-                                        </td>
-                                    </tr>
+                                    {this.state.RenderConteudo()}
 
                                 </tbody>
                             </table>
@@ -102,3 +131,5 @@ class clientes extends Component {
 }
 
 export default clientes
+		
+		
