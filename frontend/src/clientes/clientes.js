@@ -10,18 +10,32 @@ class clientes extends Component {
         return (
             <div>
                 <div className="container">
+                    
+                    <div className='row'>
+                        <div className='col-sm-12'>
+                            <h2 style={{textAlign: 'center'}}>Clientes</h2>
+                        </div>
+                    </div>
+                    
+                    
+                    <br />
+                    
                     <div className="row">
-                        <div className="col-4"></div> {/**/}
-                        <div className="col-4 justify-content-center">
-                            <form className="form-inline mt-4 mb-4">
+
+                        <div className="col-sm-3 col-xs-0"></div>
+                    
+                        <div className="col-sm-5 col-xs-3">
+                            <form className="form-inline mt-1 mb-5">
                                 <MDBIcon icon="search" />
-                                <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" />
+                                <input style={{width: '80%'}} className="form-control form-control-sm ml-2" type="text" placeholder="Search" aria-label="Search" />
                             </form>
                         </div>
 
-                        <div className="col-4">
+                        <div className="col-sm-2 col-xs-0"></div>
+
+                        <div className="col-sm-2 col-xs-1">
                             <Link to='/clientes/novo'>
-                                <button className="btn btn-primary btn-sm" id="gambiarra">+</button>
+                                <button className="btn btn-primary btn-sm" id="gambiarra">+ novo</button>
                             </Link>
                         </div>
                     </div>
@@ -35,7 +49,7 @@ class clientes extends Component {
                                         <th>ID</th>
                                         <th>Nome</th>
                                         <th>CPF</th>
-                                        <th>CADASTRADO</th>
+                                        <th>data de cadastro</th>
                                         <th className="actions">Ações</th>
                                     </tr>
                                 </thead>
@@ -52,18 +66,42 @@ class clientes extends Component {
                                             <button className="btn btn-danger btn-sm"  >Excluir</button>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>01</td>
+                                        <td>Hadley Eduardo Louveira Garcia</td>
+                                        <td>009.052.711-90</td>
+                                        <td>01/01/2015</td>
+                                        <td class="actions">
+                                            <button className="btn btn-success btn-sm" >Visualizar</button>
+                                            <button className="btn btn-warning btn-sm" >Editar</button>
+                                            <button className="btn btn-danger btn-sm"  >Excluir</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>01</td>
+                                        <td>Hadley Eduardo Louveira Garcia</td>
+                                        <td>009.052.711-90</td>
+                                        <td>01/01/2015</td>
+                                        <td class="actions">
+                                            <button className="btn btn-success btn-sm" >Visualizar</button>
+                                            <button className="btn btn-warning btn-sm" >Editar</button>
+                                            <button className="btn btn-danger btn-sm"  >Excluir</button>
+                                        </td>
+                                    </tr>
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
 
 
-                <div className='row'>
-                    <div className='col-3'>
-                        <div id="paginacao">
-                            <div aria-label="Page navigation example">
+
+                    <div className='row'>
+
+                        <div className='col-lg-0 col-md-1 col-sm-2 col-sx-0'></div>
+
+                        <div className='col-sm-2 col-md-2 col-lg-1 col-xs-1'>
+                            <div aria-label="Page navigation">
                                 <div class="pagination pg-blue justify-content-center">
                                     <div class="page-item disabled">
                                         <a class="page-link" tabindex="-1">Previous</a>
@@ -80,7 +118,6 @@ class clientes extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }
