@@ -26,54 +26,61 @@ class clientes extends Component {
                         </div>
                     </div>
 
-                    <table className="table table-striped" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>CADASTRADO</th>
-                                <th className="actions">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
 
-                            <tr>
-                                <td>01</td>
-                                <td>Hadley Eduardo Louveira Garcia</td>
-                                <td>009.052.711-90</td>
-                                <td>01/01/2015</td>
-                                <td class="actions">
-                                    <button className="btn btn-success btn-sm" >Visualizar</button>
-                                    <button className="btn btn-warning btn-sm" >Editar</button>
-                                    <button className="btn btn-danger btn-sm"  >Excluir</button>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
                     <div className='row'>
-                        <div className='col-3'>
-                            <div id="paginacao">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination pg-blue justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" tabindex="-1">Previous</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link">1</a></li>
-                                        <li class="page-item"><a class="page-link">2</a></li>
-                                        <li class="page-item"><a class="page-link">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                        <div className='table-responsive'>
+                            <table className="table table-striped" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>CADASTRADO</th>
+                                        <th className="actions">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>01</td>
+                                        <td>Hadley Eduardo Louveira Garcia</td>
+                                        <td>009.052.711-90</td>
+                                        <td>01/01/2015</td>
+                                        <td class="actions">
+                                            <button className="btn btn-success btn-sm" >Visualizar</button>
+                                            <button className="btn btn-warning btn-sm" >Editar</button>
+                                            <button className="btn btn-danger btn-sm"  >Excluir</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className='row'>
+                    <div className='col-3'>
+                        <div id="paginacao">
+                            <div aria-label="Page navigation example">
+                                <div class="pagination pg-blue justify-content-center">
+                                    <div class="page-item disabled">
+                                        <a class="page-link" tabindex="-1">Previous</a>
+                                    </div>
+                                    <div class="page-item active"><a class="page-link">1</a></div>
+                                    <div class="page-item"><a class="page-link">2</a></div>
+                                    <div class="page-item"><a class="page-link">3</a></div>
+                                    <div class="page-item">
+                                        <a class="page-link">Next</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+
         )
     }
 }

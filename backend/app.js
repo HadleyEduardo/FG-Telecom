@@ -3,14 +3,19 @@ import cookieParser from 'cookie-parser';
 import Debug from 'debug';
 import express from 'express';
 import logger from 'morgan';
-import FileUpload from 'express-fileupload';
-import cors from 'cors';
-import './models/bd'
+import './models/bd' 
 import index from './routes/index';
 
 const app = express();
-app.use(FileUpload());
-const debug = Debug('file-api:app');
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+const debug = Debug('FG-Telecom-backend:app');
 
 
 // uncomment after placing your favicon in /public
@@ -32,12 +37,7 @@ app.use(cors({
 }));
 */
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-});
+
 
 app.use('/', index);
 
