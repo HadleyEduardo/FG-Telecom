@@ -2,9 +2,25 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './clientes.css';
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol, MDBRow, MDBIcon, MDBBtn } from "mdbreact";
-
+import axios from 'axios'; 
 
 class clientes extends Component {
+    constructor(){
+        super();
+        this.state={
+            listaClientes:[],
+        };
+    }
+    componentWillMount(){
+        axios.get('http://localhost:3001/clientes')
+        .then((res)=>{
+            const client = res.date;
+            this.setState({listaClientes: client});
+        })
+    }
+    preencherTabela(){
+
+    }
 
     render() {
         return (
