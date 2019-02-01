@@ -3,3 +3,29 @@
     display: block;
     margin: 0 auto;
 }
+.select-itens{
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.192);
+    color: rgba(0, 0, 0, 0.425);
+    outline: none;
+    width: 100%;
+    font-weight: lighter;
+    padding-bottom: 4px;
+    position: relative;
+    right: 0px;
+}
+.select-itens:active{
+    color: #4285F4;
+    border-bottom: #4285F4;
+}
+
+#icon-select{
+    width: 10%;
+    float: left;
+}
+#select{
+    width: 87%;
+    float: right;
+    padding-top: 6px;
+    margin: 3px;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "file-api",
+  "name": "FG-Telecom-backend",
   "version": "0.0.0",
   "private": true,
   "main": "app.js",
@@ -21,6 +21,7 @@
     "express-fileupload": "^1.0.0-alpha.1",
     "mongoose": "^5.4.2",
     "morgan": "^1.8.2",
+    "nodemon": "^1.18.9",
     "serve-favicon": "^2.4.3",
     "xls-to-json": "^0.5.1"
   },

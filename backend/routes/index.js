@@ -7,10 +7,16 @@ let ctrlCliente = new ClienteController();
 let ctrlProduto = new ProdutoController();
 
 /* GET index page. */
-router.get('/clientes', ctrlCliente.buscaTodos);
-router.get('/estoque', ctrlProduto.buscaTodos);
+router.get('/', function(req, res) {
+    res.send('Bem Vindo a API FG-Telecom')
+})
 
+router.get('/clientes', ctrlCliente.buscaTodos);
 router.post('/clientes/novo', ctrlCliente.novo);
-router.post('/estoque/novo-produto', ctrlProduto.novo);
+
+router.get('/estoque/produto', ctrlProduto.buscaTodos);
+router.post('/estoque/produto/novo', ctrlProduto.novo);
+
+
 
 export default router;
