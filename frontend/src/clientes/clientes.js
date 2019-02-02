@@ -16,7 +16,9 @@ class clientes extends Component {
             modal: true,
         };
     }
-
+    state = {
+        modal14: false
+      }
     toggle = () => {
         this.setState({
             modal: !this.state.modal
