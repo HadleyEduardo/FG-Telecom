@@ -6,15 +6,22 @@ import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } 
 import axios from 'axios';
 
 class clientes extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             listaClientes: [],
             RenderConteudo: () => {
 
             },
             modal: true,
+            qtdPaginas: 1,
+            conteudoPaginacao: () => {
+
+            },
+            classActive: 'active',
+            estiloBotaoMudarPagina: 'disabled'
         };
+        this.fazerPaginacao = this.fazerPaginacao.bind(this)
     }
     state = {
         modal14: false
@@ -25,14 +32,47 @@ class clientes extends Component {
         });
     }
 
+    fazerPaginacao(clientList) {
+        //definindo número de páginas
+        var qtdPaginas = 0
+        for(var i = 2; ; i += 2){
+            qtdPaginas++
+            if(i >= clientList.length){
+                
+                var conteudoPaginacao = []
+                for(var i = 0; i < qtdPaginas; i++){
+                    if(this.props.clientesDados.paginaAtual === (i + 1)){
+                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className={"page-item " + this.state.classActive}> <a class="page-link">{i + 1}</a> </div>)    
+                    }else{
+                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className="page-item"> <a class="page-link">{i + 1}</a> </div>)
+                    }
+                    
+                }
+                this.setState({conteudoPaginacao: () => {
+                    return conteudoPaginacao.map((pagina, key) => {
+                        return <div className='' onClick={(e) => {
+                            this.props.controlarPaginacaoCliente(key + 1)
+                        }} key={key}>{pagina}</div>
+                    })
+                }, qtdPaginas}, () => {
+                    this.preencherTabela()
+                })
+                
+                
+                break;
+            }
+        }
+        // ---------------------------- //
+    }
+
     componentDidMount() {
-        if (this.props.clientesDados === null) {
+        if (this.props.clientesDados.clientList === null) {
             axios.get('http://localhost:3001/clientes')
                 .then((res) => {
                     const client = res.data;
                     this.props.pegandoDadosServidor(client)
                     document.querySelector('div#loader').style.visibility = 'hidden'
-                    this.preencherTabela()
+                    this.fazerPaginacao(client)
                 }, (erro) => {
                     var interval = setInterval(() => {
                         axios.get('http://localhost:3001/clientes')
@@ -41,7 +81,7 @@ class clientes extends Component {
                                 const client = res.data;
                                 this.props.pegandoDadosServidor(client)
                                 document.querySelector('div#loader').style.visibility = 'hidden'
-                                this.preencherTabela()
+                                this.fazerPaginacao(client)
                             })
                     }, 1000)
                     this.setState({
@@ -67,17 +107,24 @@ class clientes extends Component {
                 })
         } else {
             document.querySelector('div#loader').style.visibility = 'hidden'
-            this.preencherTabela()
+            this.fazerPaginacao(this.props.clientesDados.clientList)
+           
+            
+
+            
         }
+        
     }
 
     preencherTabela() {
-
-        var cliente = this.props.clientesDados;
+        var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
             var renderListCliente = [];
-            for (var i = 0; i < cliente.length; i++) {
-
+            
+            for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
+                if(cliente[i] === undefined) {
+                    break;
+                }
                 renderListCliente[i] = (
 
                     <tr>
@@ -110,7 +157,23 @@ class clientes extends Component {
 
     }
 
+
+
     render() {
+        var classAnterior = null
+        var classProximo = null
+        if(this.props.clientesDados.paginaAtual === 1){
+            classAnterior = 'page-item ' + this.state.estiloBotaoMudarPagina
+        }else{
+            classAnterior = 'page-item'
+        }
+
+        if(this.state.qtdPaginas === this.props.clientesDados.paginaAtual){
+            classProximo = 'page-item ' + this.state.estiloBotaoMudarPagina
+        }else{
+            classProximo = 'page-item'
+        }
+
         return (
             <div>
                 <div className="container">
@@ -129,7 +192,7 @@ class clientes extends Component {
                         <div className="col-sm-3 col-xs-0"></div>
 
                         <div className="col-sm-5 col-xs-3">
-                            <form className="form-inline mt-1 mb-5">
+                            <form className="form-inline mt-1 mb-4">
                                 <MDBIcon icon="search" />
                                 <input style={{ width: '80%' }} className="form-control form-control-sm ml-2" type="text" placeholder="Search" aria-label="Search" />
                             </form>
@@ -176,15 +239,13 @@ class clientes extends Component {
 
                         <div className='col-sm-2 col-md-2 col-lg-1 col-xs-1'>
                             <div aria-label="Page navigation">
-                                <div class="pagination pg-blue justify-content-center">
-                                    <div class="page-item disabled">
-                                        <a class="page-link" tabindex="-1">Previous</a>
+                                <div className="pagination pg-blue justify-content-center">
+                                    <div className={classAnterior}>
+                                        <a className="page-link" onClick={() => this.props.controlarPaginacaoCliente(this.props.clientesDados.paginaAtual - 1)}>Anterior</a>
                                     </div>
-                                    <div class="page-item active"><a class="page-link">1</a></div>
-                                    <div class="page-item"><a class="page-link">2</a></div>
-                                    <div class="page-item"><a class="page-link">3</a></div>
-                                    <div class="page-item">
-                                        <a class="page-link">Next</a>
+                                    {this.state.conteudoPaginacao()}
+                                    <div className={classProximo}>
+                                        <a className="page-link" onClick={() => this.props.controlarPaginacaoCliente(this.props.clientesDados.paginaAtual + 1)}>Próximo</a>
                                     </div>
                                 </div>
                             </div>

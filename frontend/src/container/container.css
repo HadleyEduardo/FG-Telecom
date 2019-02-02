@@ -100,7 +100,7 @@
     right: 0;
     bottom: 0;
     height: 90.5%;
-    overflow: auto;
+    overflow: auto !important;
     transition-delay: 0.1s;
     transition-duration: 0.5s; 
 }

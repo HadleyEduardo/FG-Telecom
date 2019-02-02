@@ -25,12 +25,20 @@ class App extends Component {
         idBoxContainer: 'box-estado-normal',
         idContainer:  'container-estado-normal'
       },
-      clientesDados: null
+      clientesDados: {
+        clientList: null,
+        inicioPaginacao: 0,
+        fimPaginacao: 2,
+        qtdContatosPorPagina: 2,
+        paginaAtual: 1
+      }
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.estadoDoMenu = this.estadoDoMenu.bind(this)
     this.estadoDoContainer = this.estadoDoContainer.bind(this)
     this.widthScreenMobileDevice = this.widthScreenMobileDevice.bind(this)
+    this.guardandoDadosLocalmente = this.guardandoDadosLocalmente.bind(this)
+    this.controlarPaginacaoCliente = this.controlarPaginacaoCliente.bind(this)
   }
 
   componentWillMount(){
@@ -176,8 +184,21 @@ class App extends Component {
   }
 
   guardandoDadosLocalmente(dados) {
-    this.setState({clientesDados: dados})
-  } 
+    var clientesDados = this.state.clientesDados
+    clientesDados.clientList = dados
+    this.setState({clientesDados: clientesDados})
+  }
+  
+  controlarPaginacaoCliente(pagina) {
+    var qtd = this.state.clientesDados.qtdContatosPorPagina * pagina
+    var inicioPaginacao = qtd - this.state.clientesDados.qtdContatosPorPagina
+    var fimPaginacao = qtd
+    var clientesDados = this.state.clientesDados
+    clientesDados.inicioPaginacao = inicioPaginacao
+    clientesDados.fimPaginacao = fimPaginacao
+    clientesDados.paginaAtual = pagina
+    this.setState({ clientesDados })
+  }
 
   render() {
     return (
@@ -186,7 +207,7 @@ class App extends Component {
             <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
+              <Rotas pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
         </div>
       </Route>
