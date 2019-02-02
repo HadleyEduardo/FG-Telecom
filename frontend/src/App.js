@@ -24,7 +24,8 @@ class App extends Component {
       estadosDoContainer: {
         idBoxContainer: 'box-estado-normal',
         idContainer:  'container-estado-normal'
-      }
+      },
+      clientesDados: null
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.estadoDoMenu = this.estadoDoMenu.bind(this)
@@ -174,6 +175,10 @@ class App extends Component {
     }
   }
 
+  guardandoDadosLocalmente(dados) {
+    this.setState({clientesDados: dados})
+  } 
+
   render() {
     return (
       <Route>
@@ -181,7 +186,7 @@ class App extends Component {
             <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas sizeInput={this.state.sizeInput}/>
+              <Rotas pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
         </div>
       </Route>

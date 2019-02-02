@@ -25,7 +25,7 @@ class router extends Component{
                 <Route exact={true} path='/estoque' component={() => <Estoque />} />
                 <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque />} />
                 <Route path='/estoque/novo-modelo' component={() => <CadastrarModelo />} />
-                <Route exact={true} path='/clientes' component={() => <Clientes />} />
+                <Route exact={true} path='/clientes' component={() => <Clientes pegandoDadosServidor={(dados) => this.props.pegandoDadosServidor(dados)} clientesDados={this.props.clientesDados} />} />
                 <Route path='/clientes/novo' component={() => <CadastrarCliente size={this.props.sizeInput} />} />
                 <Route path='/ordem-de-servico' component={() => <OrdemServico />} />
                 <Route path='/funcionarios' component={() => <Funcionarios />} />
