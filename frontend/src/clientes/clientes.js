@@ -10,6 +10,8 @@ class clientes extends Component {
         super(props);
         this.state = {
             listaClientes: [],
+            modal14: false,
+            varModal: null,
             RenderConteudo: () => {
 
             },
@@ -23,42 +25,54 @@ class clientes extends Component {
         };
         this.fazerPaginacao = this.fazerPaginacao.bind(this)
     }
-    state = {
-        modal14: false
-      }
+
     toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
     }
-
+    
+    visualisarModal(i) {
+        this.setState({
+            varModal: this.props.clientesDados.clientList[i.target.value],
+        })
+        this.toggleModalVisual();
+    }
+    toggleModalVisual() {
+        this.setState({
+            modal14: !this.state.modal14
+        })
+        console.log('aqui!')
+    }
     fazerPaginacao(clientList) {
         //definindo número de páginas
         var qtdPaginas = 0
-        for(var i = 2; ; i += 2){
+        for (var i = 2; ; i += 2) {
             qtdPaginas++
-            if(i >= clientList.length){
-                
+            if (i >= clientList.length) {
+
                 var conteudoPaginacao = []
-                for(var i = 0; i < qtdPaginas; i++){
-                    if(this.props.clientesDados.paginaAtual === (i + 1)){
-                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className={"page-item " + this.state.classActive}> <a class="page-link">{i + 1}</a> </div>)    
-                    }else{
+                for (var i = 0; i < qtdPaginas; i++) {
+                    if (this.props.clientesDados.paginaAtual === (i + 1)) {
+                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className={"page-item " + this.state.classActive}> <a class="page-link">{i + 1}</a> </div>)
+                    } else {
                         conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className="page-item"> <a class="page-link">{i + 1}</a> </div>)
                     }
-                    
+
                 }
-                this.setState({conteudoPaginacao: () => {
-                    return conteudoPaginacao.map((pagina, key) => {
-                        return <div className='' onClick={(e) => {
-                            this.props.controlarPaginacaoCliente(key + 1)
-                        }} key={key}>{pagina}</div>
-                    })
-                }, qtdPaginas}, () => {
+                this.setState({
+                    conteudoPaginacao: () => {
+                        return conteudoPaginacao.map((pagina, key) => {
+                            return <div className='' onClick={(e) => {
+                                this.props.controlarPaginacaoCliente(key + 1)
+                            }} key={key}>{pagina}</div>
+                        })
+                    }, qtdPaginas
+                }, () => {
                     this.preencherTabela()
                 })
-                
-                
+
+
                 break;
             }
         }
@@ -108,21 +122,21 @@ class clientes extends Component {
         } else {
             document.querySelector('div#loader').style.visibility = 'hidden'
             this.fazerPaginacao(this.props.clientesDados.clientList)
-           
-            
 
-            
+
+
+
         }
-        
+
     }
 
     preencherTabela() {
         var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
             var renderListCliente = [];
-            
+
             for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
-                if(cliente[i] === undefined) {
+                if (cliente[i] === undefined) {
                     break;
                 }
                 renderListCliente[i] = (
@@ -133,7 +147,7 @@ class clientes extends Component {
                         <td>{cliente[i].cpf}</td>
                         <td>{cliente[i].telefone}</td>
                         <td class="actions">
-                            <button className="btn btn-success btn-sm" >Visualizar</button>
+                            <button className="btn btn-success btn-sm" onClick={(event) => this.visualisarModal(event)} value={i} >Visualizar</button>
                             <button className="btn btn-warning btn-sm" >Editar</button>
                             <button className="btn btn-danger btn-sm"  >Excluir</button>
                         </td>
@@ -144,6 +158,38 @@ class clientes extends Component {
             }
             this.renderConteudoTabela(renderListCliente)
         }
+    }
+    Modal(){
+        var armazenaCliente = this.state.varModal
+        console.log(armazenaCliente);
+        return(
+            <MDBContainer>
+                <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} centered>
+                    <MDBModalBody>
+                    <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
+                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
+                            <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente}/> </p>
+                            <p>CPF <input type="text" name="cpf" id="icpf" value="00905271190"/> </p>
+                            <p>RG <input type="text" name="rg" id="iRG" value="363456"/></p>
+                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" value="996633296"  /></p>
+                            <p>E-mail <input type="email" name="email" id="iemail" value="hadleyeduardogarcia@gmail.com" /></p>
+                        </fieldset>
+                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
+                            <p>Bairro <input type="text" name="bairro" id="ibairro" value="Centro"/></p>
+                            <p>Rua <input type="text" name="rua" id="irua"  value="Carlos Luz Ardo"/></p>
+                            <p>Numero <input type="number" name="numero" id="inume"  value="806"/></p>
+                            <p>Cidade <input type="text" name="cidade" id="icidade"  value="Anastacio"/></p>
+                            <p>CEP <input type="text" name="cep" id="icpf"  value="79210000"/></p>
+                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" value="È em algum lugar" ></textarea></p>
+                        </fieldset>
+                    </fieldset>
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color="secondary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
+                    </MDBModalFooter>
+                </MDBModal>
+            </MDBContainer>
+        )
     }
 
     renderConteudoTabela(conteudo) {
@@ -162,15 +208,15 @@ class clientes extends Component {
     render() {
         var classAnterior = null
         var classProximo = null
-        if(this.props.clientesDados.paginaAtual === 1){
+        if (this.props.clientesDados.paginaAtual === 1) {
             classAnterior = 'page-item ' + this.state.estiloBotaoMudarPagina
-        }else{
+        } else {
             classAnterior = 'page-item'
         }
 
-        if(this.state.qtdPaginas === this.props.clientesDados.paginaAtual){
+        if (this.state.qtdPaginas === this.props.clientesDados.paginaAtual) {
             classProximo = 'page-item ' + this.state.estiloBotaoMudarPagina
-        }else{
+        } else {
             classProximo = 'page-item'
         }
 
@@ -223,6 +269,7 @@ class clientes extends Component {
                                 <tbody>
 
                                     {this.state.RenderConteudo()}
+                                    
 
                                 </tbody>
                             </table>
@@ -252,10 +299,10 @@ class clientes extends Component {
                         </div>
                     </div>
                 </div>
+                {this.Modal()}
             </div>
         )
     }
 }
 
 export default clientes
-
