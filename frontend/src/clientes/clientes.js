@@ -248,7 +248,7 @@ class clientes extends Component {
 
                         <div className="col-sm-2 col-xs-1">
                             <Link to='/clientes/novo'>
-                                <button className="btn btn-primary btn-sm" id="gambiarra"> <MDBIcon icon="plus" /> &nbsp; NOVO</button>
+                                <button className="btn btn-primary btn-sm" id="gamb"> <MDBIcon icon="plus" /> &nbsp; NOVO</button>
                             </Link>
                         </div>
                     </div>
