@@ -13,7 +13,6 @@ import Funcionarios from './funcionarios/funcionarios'
 import Ajuda from './ajuda/ajuda'
 import CadastrarCliente from './cadastrarCliente/cadastrarCliente'
 import CadastrarItensEstoque from './cadastrarItensEstoque/cadastrarItensEstoque'
-import CadastrarModelo from './cadastrarModeloAparelho/cadastrarModeloAparelho'
 
 class router extends Component{
 
@@ -23,8 +22,7 @@ class router extends Component{
                 <Route exact={true} path='/' component={() => <Agenda />} />
                 <Route path='/vendas' component={() => <Vendas />} />
                 <Route exact={true} path='/estoque' component={() => <Estoque />} />
-                <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque />} />
-                <Route path='/estoque/novo-modelo' component={() => <CadastrarModelo />} />
+                <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque pegandoDadosModeloEstoque={(dados) => this.props.pegandoDadosModeloEstoque(dados)} estoqueDados={this.props.estoqueDados} />} />
                 <Route exact={true} path='/clientes' component={() => <Clientes pegandoDadosServidor={(dados) => this.props.pegandoDadosServidor(dados)} controlarPaginacaoCliente={(pagina) => this.props.controlarPaginacaoCliente(pagina)} clientesDados={this.props.clientesDados} />} />
                 <Route path='/clientes/novo' component={() => <CadastrarCliente size={this.props.sizeInput} />} />
                 <Route path='/ordem-de-servico' component={() => <OrdemServico />} />

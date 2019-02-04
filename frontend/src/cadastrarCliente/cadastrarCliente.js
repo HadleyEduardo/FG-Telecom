@@ -43,15 +43,15 @@ class cadastrarCliente extends React.Component {
         return (
             <div style={{ width: '100%', height: '100%' }}>
                 <form onSubmit={this.enviar} name="form" id="form">
-                    <fieldset class="scheduler-border"><legend class="scheduler-border"> {legend} </legend>
-                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Identificação</legend>
+                    <fieldset className="scheduler-border"><legend className="scheduler-border"> {legend} </legend>
+                        <fieldset id="usuario" className="scheduler-border"><legend className="scheduler-border">Identificação</legend>
                             <p>Nome <input type="text" name="nome" id="iNome" size={size} /> </p>
                             <p>CPF <input type="text" name="cpf" id="icpf" size={size} /> </p>
                             <p>RG <input type="text" name="rg" id="iRG" size={size} /></p>
                             <p>Telefone  <input type="text" name="telefone" id="iTelefone" size={size} /></p>
                             <p>E-mail <input type="email" name="email" id="iemail" size={size} /></p>
                         </fieldset>
-                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
+                        <fieldset id="Endereco" className="scheduler-border"><legend className="scheduler-border">Endereco</legend>
                             <p>Bairro <input type="text" name="bairro" id="ibairro" size={size} /></p>
                             <p>Rua <input type="text" name="rua" id="irua" size={size} /></p>
                             <p>Numero <input type="number" name="numero" id="inume" size={size} /></p>

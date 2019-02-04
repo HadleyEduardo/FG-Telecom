@@ -8,7 +8,7 @@ class modelo {
                 marca: req.body.marca
             }
 
-            Modelo.find({marca: obj.marca}, (erro, marca) => {
+            Modelo.find({nome: obj.nome}, (erro, nome) => {
                 if(erro) {
                     res.send({
                         mensagem: 'O banco de dados está inativo no momento.\nTente novamente, mais tarde!',
@@ -16,7 +16,7 @@ class modelo {
                     });
                 }
 
-                if(marca.length > 0) {
+                if(nome.length > 0) {
                     res.send({
                         mensagem: 'Um modelo com o mesmo nome já existe!',
                         erro: true

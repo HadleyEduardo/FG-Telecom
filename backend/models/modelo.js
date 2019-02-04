@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var modelo = new Schema({
+var modelo = new mongoose.Schema({
     nome: {
         type: String,
         require: true
