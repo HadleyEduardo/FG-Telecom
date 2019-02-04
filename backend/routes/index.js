@@ -9,8 +9,9 @@ let ctrlProduto = new ProdutoController();
 let ctrlModelo = new ModeloController();
 
 /* GET index page. */
-router.get('/', function(req, res) {
-    res.send('Bem Vindo a API FG-Telecom')
+router.get('/', function(req, res, next) {
+    res.send('Bem Vindo a API FG-Telecom');
+    next();
 })
 
 router.get('/clientes', ctrlCliente.buscaTodos);
