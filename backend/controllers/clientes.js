@@ -1,76 +1,112 @@
 import Cliente from '../models/clientes'
 
 class clientes {
-
+    
     novo(req, res) {
-        var data = {
-            nome: req.body.nome,
-            cpf: req.body.cpf,
-            rg: req.body.rg,
-            telefone: req.body.telefone,
-            email: req.body.email,
-            endereco: req.body.endereco
-        }
+        try{
+            var data = {
+                nome: req.body.nome,
+                cpf: req.body.cpf,
+                rg: req.body.rg,
+                telefone: req.body.telefone,
+                email: req.body.email,
+                endereco: req.body.endereco
+            }
 
-        Cliente.find({ cpf: data.cpf }, (erro, cpf) => {
-            if (cpf.length == 0 && erro == undefined) {
-                Cliente.find({ rg: data.rg }, (erro, rg) => {
-                    if (rg.length == 0 && erro == undefined) {
-                        Cliente.find({ telefone: data.telefone }, (erro, telefone) => {
-                            if (telefone.length == 0 && erro == undefined) {
-                                Cliente.create(data)
-                                    .then((cliente) => {
-                                        res.send({
-                                            mensagem: 'salvo com sucesso!',
-                                            erro: false
+            Cliente.find()
+                .then((clientes) => {
+                    if(clientes.length === 0) {
+                        Cliente.create(data)
+                            .then((cliente) => {
+                                return res.send({
+                                    mensagem: 'salvo com sucesso!',
+                                    erro: false
+                                })
+                            },
+                                (erro) => {
+                                    return res.send({
+                                        mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
+                                        erro: true
+                                    })
+                                })
+                            .catch((e) => {
+                                return res.send({
+                                    mensagem: 'ocorreu um erro de servidor: ' + e,
+                                    erro: true
+                                })
+                            })
+                    }else{
+
+                        Cliente.find({ cpf: data.cpf }, (erro, cpf) => {
+                            if (cpf.length == 0 && erro == undefined) {
+                                Cliente.find({ rg: data.rg }, (erro, rg) => {
+                                    if (rg.length == 0 && erro == undefined) {
+                                        Cliente.find({ telefone: data.telefone }, (erro, telefone) => {
+                                            if (telefone.length == 0 && erro == undefined) {
+                                                Cliente.create(data)
+                                                    .then((cliente) => {
+                                                        return res.send({
+                                                            mensagem: 'salvo com sucesso!',
+                                                            erro: false
+                                                        })
+                                                    },
+                                                        (erro) => {
+                                                            return res.send({
+                                                                mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
+                                                                erro: true
+                                                            })
+                                                        })
+                                                    .catch((e) => {
+                                                        return res.send({
+                                                            mensagem: 'ocorreu um erro de servidor: ' + e,
+                                                            erro: true
+                                                        })
+                                                    })
+                                            } else {
+                                                return res.send({
+                                                    mensagem: 'Esse Telefone já está cadastrado!',
+                                                    erro: true
+                                                })
+                                            }
                                         })
-                                    },
-                                        (erro) => {
-                                            res.send({
-                                                mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
-                                                erro: true
-                                            })
-                                        })
-                                    .catch((e) => {
-                                        res.send({
-                                            mensagem: 'ocorreu um erro de servidor: ' + e,
+                                    } else {
+                                        return res.send({
+                                            mensagem: 'Esse RG já está cadastrado!',
                                             erro: true
                                         })
-                                    })
+                                    }
+                                })
                             } else {
-                                res.send({
-                                    mensagem: 'Esse Telefone já está cadastrado!',
-                                    erro: true
+                                return res.send({
+                                    mensagem: 'Esse CPF já está cadastrado!',
+                                    erro: true,
+                                    cpf: cpf
                                 })
                             }
                         })
-                    } else {
-                        res.send({
-                            mensagem: 'Esse RG já está cadastrado!',
-                            erro: true
-                        })
                     }
-                })
-            } else {
-                res.send({
-                    mensagem: 'Esse CPF já está cadastrado!',
-                    erro: true,
-                    cpf: cpf
-                })
-            }
-        })
+            }, (erro) => {
+                return res.send('Ocorreu um erro: ' + erro)
+            })
+            .catch((e) => {
+                return res.send('erro interno no servidor: ' + e)
+            })
+
+        }catch(e) {
+            console.log(e)
+        }
     }
 
     buscaTodos(req, res) {
         Cliente.find()
             .then((clientes) => {
-                res.send(clientes)
+                return res.send(clientes)
             },
                 (erro) => {
-                    res.send('Ocorreu um erro: ' + erro)
+                    return res.send('Ocorreu um erro: ' + erro)
                 })
             .catch((e) => {
-                res.send('erro interno no servidor: ' + e)
+                return res.send('erro interno no servidor: ' + e)
             })
     }
 }

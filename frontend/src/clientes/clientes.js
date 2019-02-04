@@ -38,12 +38,13 @@ class clientes extends Component {
         })
         this.toggleModalVisual();
     }
+
     toggleModalVisual() {
         this.setState({
             modal14: !this.state.modal14
         })
-        console.log('aqui!')
     }
+
     fazerPaginacao(clientList) {
         //definindo número de páginas
         var qtdPaginas = 0

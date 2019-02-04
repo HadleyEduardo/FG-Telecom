@@ -6,15 +6,15 @@ var cliente = new mongoose.Schema({
         required: true
     },
     cpf: {
-        type: Number,
+        type: String,
         required: true
     },
     rg: {
-        type: Number,
+        type: String,
         required: true
     },
     telefone: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
