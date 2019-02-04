@@ -31,7 +31,7 @@ class clientes extends Component {
             modal: !this.state.modal
         });
     }
-    
+
     visualisarModal(i) {
         this.setState({
             varModal: this.props.clientesDados.clientList[i.target.value],
@@ -130,9 +130,9 @@ class clientes extends Component {
         var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
             var renderListCliente = [];
-            if(cliente.length > 0){
-                
-                
+            if (cliente.length > 0) {
+
+
                 for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
                     if (cliente[i] === undefined) {
                         break;
@@ -154,7 +154,7 @@ class clientes extends Component {
                     )
 
                 }
-            }else{
+            } else {
                 renderListCliente[0] = (
 
                     <tr>
@@ -163,7 +163,7 @@ class clientes extends Component {
                         <td> <h5> Não há clientes cadastrados </h5> </td>
                         <td></td>
                         <td>
-         
+
                         </td>
                     </tr>
 
@@ -172,37 +172,39 @@ class clientes extends Component {
             this.renderConteudoTabela(renderListCliente)
         }
     }
-    Modal(){
-        var armazenaCliente = this.state.varModal
-        console.log(armazenaCliente);
-        return(
-            <MDBContainer>
-                <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg" centered>
-                    <MDBModalBody>
-                    <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
-                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
-                            <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente}/> </p>
-                            <p>CPF <input type="text" name="cpf" id="icpf" value="00905271190"/> </p>
-                            <p>RG <input type="text" name="rg" id="iRG" value="363456"/></p>
-                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" value="996633296"  /></p>
-                            <p>E-mail <input type="email" name="email" id="iemail" value="hadleyeduardogarcia@gmail.com" /></p>
-                        </fieldset>
-                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
-                            <p>Bairro <input type="text" name="bairro" id="ibairro" value="Centro"/></p>
-                            <p>Rua <input type="text" name="rua" id="irua"  value="Carlos Luz Ardo"/></p>
-                            <p>Numero <input type="number" name="numero" id="inume"  value="806"/></p>
-                            <p>Cidade <input type="text" name="cidade" id="icidade"  value="Anastacio"/></p>
-                            <p>CEP <input type="text" name="cep" id="icpf"  value="79210000"/></p>
-                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" value="È em algum lugar" ></textarea></p>
-                        </fieldset>
-                    </fieldset>
-                    </MDBModalBody>
-                    <MDBModalFooter>
-                        <MDBBtn color="primary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
-                    </MDBModalFooter>
-                </MDBModal>
-            </MDBContainer>
-        )
+    Modal() {
+        if (this.state.varModal !== null) {
+            var armazenaCliente = this.state.varModal
+            console.log(armazenaCliente);
+            return (
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg" centered>
+                        <MDBModalBody>
+                            <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
+                                <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
+                                    <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente.nome} /> </p>
+                                    <p>CPF <input type="text" name="cpf" id="icpf" value={armazenaCliente.cpf} /> </p>
+                                    <p>RG <input type="text" name="rg" id="iRG" value={armazenaCliente.rg} /></p>
+                                    <p>Telefone  <input type="text" name="telefone" id="iTelefone" value={armazenaCliente.telefone} /></p>
+                                    <p>E-mail <input type="email" name="email" id="iemail" value={armazenaCliente.email} /></p>
+                                </fieldset>
+                                <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
+                                    <p>Bairro <input type="text" name="bairro" id="ibairro" value={armazenaCliente.endereco.bairro} /></p>
+                                    <p>Rua <input type="text" name="rua" id="irua" value={armazenaCliente.endereco.rua} /></p>
+                                    <p>Numero <input type="number" name="numero" id="inume" value={armazenaCliente.endereco.numero} /></p>
+                                    <p>Cidade <input type="text" name="cidade" id="icidade" value={armazenaCliente.endereco.cidade} /></p>
+                                    <p>CEP <input type="text" name="cep" id="icpf" value={armazenaCliente.endereco.cep} /></p>
+                                    <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" value={armazenaCliente.endereco.pontoReferencia} ></textarea></p>
+                                </fieldset>
+                            </fieldset>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="primary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
+                </MDBContainer>
+            )
+        }
     }
 
     renderConteudoTabela(conteudo) {
@@ -282,7 +284,7 @@ class clientes extends Component {
                                 <tbody>
 
                                     {this.state.RenderConteudo()}
-                                    
+
 
                                 </tbody>
                             </table>
