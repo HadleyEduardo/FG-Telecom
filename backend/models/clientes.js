@@ -38,6 +38,10 @@ var cliente = new mongoose.Schema({
             type: String,
             required: false
         },
+        cep: {
+            type: String,
+            required: false
+        },
         pontoReferencia: {
             type: String,
             required: false

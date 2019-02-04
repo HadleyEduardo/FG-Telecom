@@ -176,7 +176,7 @@ class clientes extends Component {
     Modal(){
         if(this.state.varModal !== null) {
             var armazenaCliente = this.state.varModal
-            console.log(armazenaCliente.nome);
+            console.log(armazenaCliente);
             return(
                 <MDBContainer>
                     <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg">
@@ -185,18 +185,18 @@ class clientes extends Component {
                         <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
                             <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
                                 <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente.nome}/> </p>
-                                <p>CPF <input type="text" name="cpf" id="icpf" value="00905271190"/> </p>
-                                <p>RG <input type="text" name="rg" id="iRG" value="363456"/></p>
-                                <p>Telefone  <input type="text" name="telefone" id="iTelefone" value="996633296"  /></p>
-                                <p>E-mail <input type="email" name="email" id="iemail" value="hadleyeduardogarcia@gmail.com" /></p>
+                                <p>CPF <input type="text" name="cpf" id="icpf" value={armazenaCliente.cpf}/> </p>
+                                <p>RG <input type="text" name="rg" id="iRG" value={armazenaCliente.rg}/></p>
+                                <p>Telefone  <input type="text" name="telefone" id="iTelefone" value={armazenaCliente.telefone}  /></p>
+                                <p>E-mail <input type="email" name="email" id="iemail" value={armazenaCliente.email} /></p>
                             </fieldset>
                             <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
-                                <p>Bairro <input type="text" name="bairro" id="ibairro" value="Centro"/></p>
-                                <p>Rua <input type="text" name="rua" id="irua"  value="Carlos Luz Ardo"/></p>
-                                <p>Numero <input type="number" name="numero" id="inume"  value="806"/></p>
-                                <p>Cidade <input type="text" name="cidade" id="icidade"  value="Anastacio"/></p>
-                                <p>CEP <input type="text" name="cep" id="icpf"  value="79210000"/></p>
-                                <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" value="È em algum lugar" ></textarea></p>
+                                <p>Bairro <input type="text" name="bairro" id="ibairro" value={armazenaCliente.endereco.bairro}/></p>
+                                <p>Rua <input type="text" name="rua" id="irua"  value={armazenaCliente.endereco.rua} /></p>
+                                <p>Numero <input type="number" name="numero" id="inume"  value={armazenaCliente.endereco.numero} /></p>
+                                <p>Cidade <input type="text" name="cidade" id="icidade"  value={armazenaCliente.endereco.cidade} /></p>
+                                <p>CEP <input type="text" name="cep" id="icpf"  value={armazenaCliente.endereco.cep} /></p>
+                                <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" value={armazenaCliente.endereco.pontoReferencia} ></textarea></p>
                             </fieldset>
                         </fieldset>
                         </MDBModalBody>
@@ -269,7 +269,6 @@ class clientes extends Component {
                             </Link>
                         </div>
                     </div>
-
 
                     <div className='row'>
                         <div className='table-responsive'>
