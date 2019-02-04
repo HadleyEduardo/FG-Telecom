@@ -13,37 +13,37 @@ class produto {
 
             Produto.find({codigo: obj.codigo}, (erro, codigo) => {
                 if(erro) {
-                    res.send({
+                    return res.send({
                         mensagem: 'O banco de dados está inativo no momento.\nTente novamente mais tarde!',
                         erro: true
                     });
                 }
                 
                 if(codigo.length > 0) {
-                    res.send({
+                    return res.send({
                         mensagem: 'Um produto com o mesmo código já existe!',
                         erro: true
+                    });
+                }else{
+                    Produto.create(obj).then((produto) => {
+                        return res.send({
+                            mensagem: 'Salvo com sucesso!',
+                            error: false
+                        });
+                    }, (erro) => {
+                        return res.send({
+                            mensagem: 'Ocorreu um problema ao tentar salvar os dados: ' + erro,
+                            error: true
+                        });
+                    }).catch((e) => {
+                        return res.send({
+                            mensagem: 'Ocorreu um erro de servidor: ' + erro,
+                            error: true
+                        });
                     });
                 }
             });
 
-            Produto.create(obj).then((produto) => {
-                res.send({
-                    mensagem: 'Salvo com sucesso!',
-                    error: false
-                });
-            }, (erro) => {
-                res.send({
-                    mensagem: 'Ocorreu um problema ao tentar salvar os dados: ' + erro,
-                    error: true
-                });
-            }).catch((e) => {
-                res.send({
-                    mensagem: 'Ocorreu um erro de servidor: ' + erro,
-                    error: true
-                });
-            });
-        
         }catch(e) {
             console.log(e)
         }    
