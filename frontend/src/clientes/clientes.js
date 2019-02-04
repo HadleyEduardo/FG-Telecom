@@ -178,19 +178,16 @@ class clientes extends Component {
         return(
             <MDBContainer>
                 <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg" centered>
-                    <MDBModalHeader className="primary-color text-primary">
-                        a
-                    </MDBModalHeader>
-                    <MDBModalBody className='barra_rolagem'>
-                    <fieldset className="scheduler-border"><legend className="scheduler-border"><h1>Cliente</h1></legend>
-                        <fieldset id="usuario" className="scheduler-border"><legend className="scheduler-border">Informações</legend>
-                            <p>Nome <input type="text" name="nome" id="iNome" value="Hadley"/> </p>
+                    <MDBModalBody>
+                    <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
+                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
+                            <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente}/> </p>
                             <p>CPF <input type="text" name="cpf" id="icpf" value="00905271190"/> </p>
                             <p>RG <input type="text" name="rg" id="iRG" value="363456"/></p>
                             <p>Telefone  <input type="text" name="telefone" id="iTelefone" value="996633296"  /></p>
                             <p>E-mail <input type="email" name="email" id="iemail" value="hadleyeduardogarcia@gmail.com" /></p>
                         </fieldset>
-                        <fieldset id="Endereco" className="scheduler-border"><legend className="scheduler-border">Endereco</legend>
+                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Endereco</legend>
                             <p>Bairro <input type="text" name="bairro" id="ibairro" value="Centro"/></p>
                             <p>Rua <input type="text" name="rua" id="irua"  value="Carlos Luz Ardo"/></p>
                             <p>Numero <input type="number" name="numero" id="inume"  value="806"/></p>
