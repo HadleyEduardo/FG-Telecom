@@ -1,9 +1,27 @@
 import React from "react"
 import axios from 'axios'
+import ModalErro from '../modais/modalErro'
+import ModalSucesso from '../modais/modalSucesso'
 import './cadastrarCliente.css'
 import { MDBBtn } from "mdbreact";
 
 class cadastrarCliente extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalErro: false,
+            modalSucesso: false,
+            mensagemModal: 'teste',
+        }
+        this.enviar = this.enviar.bind(this)
+        this.toggleModalErro = this.toggleModalErro.bind(this)
+    }
+
+    toggleModalErro() {
+        this.setState({modalErro: false})
+    }
+
     enviar(e) {
         e.preventDefault();
         const form = {
@@ -17,21 +35,35 @@ class cadastrarCliente extends React.Component {
                 numero: e.target.numero.value,
                 bairro: e.target.bairro.value,
                 cidade: e.target.cidade.value,
+                cep: e.target.cep.value,
                 pontoReferencia: e.target.pontoReferencia.value
             }
         }
 
-        axios.post('http://localhost:3001/clientes/novo', form)
-            .then((form) => {
-                console.log(form)
-                window.location.href = 'http://localhost:3000/clientes'
-            }, (erro) => {
-                console.log(erro)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+        try{
+            axios.post('http://localhost:3001/clientes/novo', form)
+                .then((form) => {
+                    console.log(form.data.mensagem)
+                    if(form.data.erro){
+                        this.setState({modalErro: true, mensagemModal: form.data.mensagem})    
+                    }else{
+                        this.setState({modalSucesso: true})
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost:3000/clientes'
+                        }, 500)
+                    }
+                }, (erro) => {
+                    console.log(erro)
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+
+        }catch(e) {
+            console.log(e)
+        }
     }
+
     render() {
         const size = this.props.size
         var legend = null
@@ -64,6 +96,8 @@ class cadastrarCliente extends React.Component {
                         </p>
                     </fieldset>
                 </form>
+                <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal} />
+                <ModalSucesso modal={this.state.modalSucesso} />
             </div>
         )
     }
