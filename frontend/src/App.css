@@ -3,3 +3,40 @@
     width: 100%;
     height: 100%;
 }
+
+.modal-content{
+    z-index: 3 !important;
+    margin-top: 3em !important;
+}
+
+.modal-lg{
+   height: 30em;
+}
+
+
+.barra_rolagem{
+    max-height: 440px;
+    overflow-y: auto;
+}
+
+/* width */
+.barra_rolagem::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* Track */
+.barra_rolagem::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+.barra_rolagem::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+.barra_rolagem::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+

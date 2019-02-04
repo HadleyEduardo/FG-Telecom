@@ -54,9 +54,9 @@ class clientes extends Component {
                 var conteudoPaginacao = []
                 for (var i = 0; i < qtdPaginas; i++) {
                     if (this.props.clientesDados.paginaAtual === (i + 1)) {
-                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className={"page-item " + this.state.classActive}> <a class="page-link">{i + 1}</a> </div>)
+                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className={"page-item " + this.state.classActive}> <a className="page-link">{i + 1}</a> </div>)
                     } else {
-                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className="page-item"> <a class="page-link">{i + 1}</a> </div>)
+                        conteudoPaginacao[i] = (<div id={'item' + (i + 1)} className="page-item"> <a className="page-link">{i + 1}</a> </div>)
                     }
 
                 }
@@ -122,10 +122,6 @@ class clientes extends Component {
         } else {
             document.querySelector('div#loader').style.visibility = 'hidden'
             this.fazerPaginacao(this.props.clientesDados.clientList)
-
-
-
-
         }
 
     }
@@ -134,27 +130,44 @@ class clientes extends Component {
         var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
             var renderListCliente = [];
+            if(cliente.lenght > 0){
+                
+                
+                for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
+                    if (cliente[i] === undefined) {
+                        break;
+                    }
+                    renderListCliente[i] = (
 
-            for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
-                if (cliente[i] === undefined) {
-                    break;
+                        <tr>
+                            <td>{(i + 1)}</td>
+                            <td>{cliente[i].nome}</td>
+                            <td>{cliente[i].cpf}</td>
+                            <td>{cliente[i].telefone}</td>
+                            <td className="actions">
+                                <button className="btn btn-success btn-sm" onClick={(event) => this.visualisarModal(event)} value={i} >Visualizar</button>
+                                <button className="btn btn-warning btn-sm" >Editar</button>
+                                <button className="btn btn-danger btn-sm"  >Excluir</button>
+                            </td>
+                        </tr>
+
+                    )
+
                 }
-                renderListCliente[i] = (
+            }else{
+                renderListCliente[0] = (
 
                     <tr>
-                        <td>{(i + 1)}</td>
-                        <td>{cliente[i].nome}</td>
-                        <td>{cliente[i].cpf}</td>
-                        <td>{cliente[i].telefone}</td>
-                        <td class="actions">
-                            <button className="btn btn-success btn-sm" onClick={(event) => this.visualisarModal(event)} value={i} >Visualizar</button>
-                            <button className="btn btn-warning btn-sm" >Editar</button>
-                            <button className="btn btn-danger btn-sm"  >Excluir</button>
+                        <td></td>
+                        <td></td>
+                        <td> <h5> Não há clientes cadastrados </h5> </td>
+                        <td></td>
+                        <td>
+         
                         </td>
                     </tr>
 
                 )
-
             }
             this.renderConteudoTabela(renderListCliente)
         }
@@ -164,7 +177,7 @@ class clientes extends Component {
         console.log(armazenaCliente);
         return(
             <MDBContainer>
-                <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} centered>
+                <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg" centered>
                     <MDBModalBody>
                     <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
                         <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
@@ -185,7 +198,7 @@ class clientes extends Component {
                     </fieldset>
                     </MDBModalBody>
                     <MDBModalFooter>
-                        <MDBBtn color="secondary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
+                        <MDBBtn color="primary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
             </MDBContainer>

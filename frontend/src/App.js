@@ -31,6 +31,9 @@ class App extends Component {
         fimPaginacao: 2,
         qtdContatosPorPagina: 2,
         paginaAtual: 1
+      },
+      estoqueDados: {
+        modelos: null
       }
     }
     this.toggleMenu = this.toggleMenu.bind(this)
@@ -158,7 +161,7 @@ class App extends Component {
             </div>
           </a>
           <div style={this.state.styleDropdown} id='dropdown'>
-            <i class="fas fa-sign-out-alt"></i> <b> Sair </b>
+            <i className="fas fa-sign-out-alt"></i> <b> Sair </b>
           </div>
         </div>
       ), loginIconMobile: null})
@@ -200,6 +203,12 @@ class App extends Component {
     this.setState({ clientesDados })
   }
 
+  pegandoModeloServidor(dados) {
+    var estoqueDados = this.state.estoqueDados
+    estoqueDados.modelos = dados 
+    this.setState({estoqueDados})
+  }
+
   render() {
     return (
       <Route>
@@ -207,7 +216,7 @@ class App extends Component {
             <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
+              <Rotas estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
         </div>
       </Route>
