@@ -3,6 +3,7 @@ import { MDBSelect, MDBSelectInput, MDBSelectOptions, MDBSelectOption, MDBInput,
 import axios from 'axios'
 import ModalSucesso from '../modais/modalSucesso'
 import ModalErro from '../modais/modalErro'
+import ModalAviso from '../modais/modalAviso'
 import './cadastrarItensEstoque.css'
 
 class cadastrarItensEstoque extends Component {
@@ -17,9 +18,11 @@ class cadastrarItensEstoque extends Component {
             conteudoNavTab: null,
             ativarModalSucesso: false,
             ativarModalErro: false,
+            ativarModalAviso: false,
             mensagemModal: 'teste'
         }
         this.toggleModalErro = this.toggleModalErro.bind(this)
+        this.toggleModalAviso = this.toggleModalAviso.bind(this)
     }
 
     componentWillMount(){
@@ -31,7 +34,15 @@ class cadastrarItensEstoque extends Component {
                     var modelos = res.data
                     this.props.pegandoDadosModeloEstoque(modelos)
                 }, (err) => {
-                    console.log(err)
+                    this.setState({mensagemModal: ' A conexão com a internet está interrompida ou o servidor está com problemas!', ativarModalAviso: true})
+                    var interval = setInterval(() => {
+                        axios.get('http://localhost:3001/estoque/modelo')
+                            .then((res) => {
+                                clearInterval(interval)
+                                var modelos = res.data
+                                this.props.pegandoDadosModeloEstoque(modelos)
+                            })
+                    }, 10000)
                 })
         }
     }
@@ -68,6 +79,10 @@ class cadastrarItensEstoque extends Component {
 
     toggleModalErro() {
         this.setState({ativarModalErro: !this.state.ativarModalErro})
+    }
+
+    toggleModalAviso() {
+        this.setState({ativarModalAviso: false})
     }
 
     salvarDadosNovoProduto(e) {
@@ -133,7 +148,7 @@ class cadastrarItensEstoque extends Component {
         var modelos = this.props.estoqueDados.modelos
         var conteudoSelect = []
         if(modelos !== null) {
-            if(modelos.lenght > 0) {        
+            if(modelos.length > 0) {        
                 for(var i in modelos){
                     var modelo = modelos[i].nome
                     var marca = modelos[i].marca
@@ -254,6 +269,7 @@ class cadastrarItensEstoque extends Component {
                 </div>
                 <ModalSucesso modal={this.state.ativarModalSucesso} />
                 <ModalErro toggle={this.toggleModalErro} modal={this.state.ativarModalErro} mensagem={this.state.mensagemModal} />
+                <ModalAviso toggle={this.toggleModalAviso} modal={this.state.ativarModalAviso} mensagem={this.state.mensagemModal} />
             </div>
         )
     }

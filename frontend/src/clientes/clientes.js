@@ -97,7 +97,7 @@ class clientes extends Component {
                                 document.querySelector('div#loader').style.visibility = 'hidden'
                                 this.fazerPaginacao(client)
                             })
-                    }, 1000)
+                    }, 10000)
                     this.setState({
                         RenderConteudo: () => {
                             return (
@@ -130,7 +130,7 @@ class clientes extends Component {
         var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
             var renderListCliente = [];
-            if(cliente.lenght > 0){
+            if(cliente.length > 0){
                 
                 
                 for (var i = this.props.clientesDados.inicioPaginacao; i < this.props.clientesDados.fimPaginacao; i++) {
