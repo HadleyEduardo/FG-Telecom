@@ -87,35 +87,46 @@ class cadastrarItensEstoque extends Component {
 
     salvarDadosNovoProduto(e) {
         e.preventDefault()
-        var MarcaModelo = this.props.estoqueDados.modelos[e.target['marca-modelo'].value]
-        const modelo = MarcaModelo.nome
-        const marca = MarcaModelo.marca
-        var produto = {
-            codigo: e.target['codigo-de-barras'].value,
-            nome: e.target['nome-do-produto'].value,
-            modelo: modelo,
-            marca: marca
-        }
-        
-        axios.post('http://localhost:3001/estoque/produto/novo', produto)
-            .then((res) => {
-                var mensagem = res.data.mensagem
-                var erro = res.data.erro
-                if(erro){
-                    this.setState({ativarModalErro: true, mensagemModal: mensagem})
-                }else{
-                    this.setState({ativarModalSucesso: true})
-                    setTimeout(() => {
-                        window.location.href = 'http://localhost:3000/estoque'
-                    }, 500)
-                }
-            }, (erro) => {
-                console.log('erro: ' + erro)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        if(e.target['marca-modelo'].value === 'Marca & Modelo'){
+            this.setState({ativarModalErro: true, mensagemModal: 'Por favor selecione um modelo!'})
+        }else{
+            var MarcaModelo = this.props.estoqueDados.modelos[e.target['marca-modelo'].value]
+            const modelo = MarcaModelo.nome
+            const marca = MarcaModelo.marca
+            var produto = {
+                codigo: e.target['codigo-de-barras'].value,
+                nome: e.target['nome-do-produto'].value,
+                modelo: modelo,
+                marca: marca
+            }
             
+            if(produto.codigo === ''){
+                this.setState({ativarModalErro: true, mensagemModal: 'Por favor insira o Código de Barras!'})
+            }else{
+                if(produto.nome === ''){
+                    this.setState({ativarModalErro: true, mensagemModal: 'Por favor insira o Nome do Produto!'})
+                }else{
+                    axios.post('http://localhost:3001/estoque/produto/novo', produto)
+                    .then((res) => {
+                        var mensagem = res.data.mensagem
+                        var erro = res.data.erro
+                        if(erro){
+                            this.setState({ativarModalErro: true, mensagemModal: mensagem})
+                        }else{
+                            this.setState({ativarModalSucesso: true})
+                            setTimeout(() => {
+                                window.location.href = 'http://localhost:3000/estoque'
+                            }, 500)
+                        }
+                    }, (erro) => {
+                        console.log('erro: ' + erro)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+            }
+        }
     }
 
     salvarDadosNovoModelo(e) {
