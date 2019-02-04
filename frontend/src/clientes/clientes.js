@@ -184,7 +184,7 @@ class clientes extends Component {
                         <MDBModalBody className='barra_rolagem'>
                         <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
                             <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
-                                <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente.nome}/> </p>
+                                <p>Nome <input type="text" name="nome" id="iNome" value={armazenaCliente}/> </p>
                                 <p>CPF <input type="text" name="cpf" id="icpf" value="00905271190"/> </p>
                                 <p>RG <input type="text" name="rg" id="iRG" value="363456"/></p>
                                 <p>Telefone  <input type="text" name="telefone" id="iTelefone" value="996633296"  /></p>
