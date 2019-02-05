@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/clientes', ctrlCliente.buscaTodos);
 router.post('/clientes/novo', ctrlCliente.novo);
+router.post('/clientes/editar', ctrlCliente.editar)
 
 router.get('/estoque/produto', ctrlProduto.buscaTodos);
 router.post('/estoque/produto/novo', ctrlProduto.novo);

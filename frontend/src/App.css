@@ -10,12 +10,16 @@
     margin-top: 4.5em;
 }
 
+.modal{
+    z-index: 10000 !important;
+}
+
 .modal-lg{
     height: 0em;
 }
 
 .barra_rolagem{
-    max-height: 425px;
+    max-height: 26em !important;
     overflow-y: auto;
 }
 
