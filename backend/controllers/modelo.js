@@ -10,35 +10,35 @@ class modelo {
 
             Modelo.find({nome: obj.nome}, (erro, nome) => {
                 if(erro) {
-                    res.send({
+                    return res.send({
                         mensagem: 'O banco de dados está inativo no momento.\nTente novamente, mais tarde!',
                         erro: true
                     });
                 }
 
                 if(nome.length > 0) {
-                    res.send({
+                    return res.send({
                         mensagem: 'Um modelo com o mesmo nome já existe!',
                         erro: true
                     });
+                }else{
+                    Modelo.create(obj).then((modelo) => {
+                        res.send({
+                            mensagem: 'Salvo com sucesso!',
+                            error: false
+                        });
+                    }, (erro) => {
+                        res.send({
+                            mensagem: 'Ocorreu um problema ao tentar salvar os dados: ' + erro,
+                            error: true
+                        });
+                    }).catch((e) => {
+                        res.send({
+                            mensagem: 'Ocorreu um erro de servidor: ' + erro,
+                            error: true
+                        });
+                    });
                 }
-            });
-
-            Modelo.create(obj).then((modelo) => {
-                res.send({
-                    mensagem: 'Salvo com sucesso!',
-                    error: false
-                });
-            }, (erro) => {
-                res.send({
-                    mensagem: 'Ocorreu um problema ao tentar salvar os dados: ' + erro,
-                    error: true
-                });
-            }).catch((e) => {
-                res.send({
-                    mensagem: 'Ocorreu um erro de servidor: ' + erro,
-                    error: true
-                });
             });
 
         }catch(erro) {

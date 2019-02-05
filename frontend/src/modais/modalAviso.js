@@ -6,7 +6,7 @@ class modalAviso extends Component{
     render() {
         return(
             <MDBContainer>
-                <MDBModal isOpen={this.props.modal} toggle={this.props.toggle} side centered size='sm'>
+                <MDBModal isOpen={this.props.modal} toggle={this.props.toggle} side position="bottom-rigth" size='sm'>
                     <MDBModalHeader style={{ backgroundColor: '#FFBB33', color: 'white', fontWeight: 'bold' }}> <MDBIcon icon="exclamation-triangle" /> Alerta </MDBModalHeader>
                     <MDBModalBody>
                         {this.props.mensagem}

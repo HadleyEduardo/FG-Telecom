@@ -1,24 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>testando CRUD</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+    <script>
+        var dados
+        axios.get('http://localhost:3001/clientes')
+            .then((res) => {
+                dados = res.data
+                console.log(res.data)
+                var cliente = res.data[0]
+                document.getElementsByName('nome')[0].value = cliente.nome
+                document.getElementsByName('cpf')[0].value = cliente.cpf
+                document.getElementsByName('rg')[0].value = cliente.rg
+                document.getElementsByName('telefone')[0].value = cliente.telefone
+                document.getElementsByName('email')[0].value = cliente.email
+
+                document.getElementsByName('rua')[0].value = cliente.endereco.rua
+                document.getElementsByName('numero')[0].value = cliente.endereco.numero
+                document.getElementsByName('bairro')[0].value = cliente.endereco.bairro
+                document.getElementsByName('cidade')[0].value = cliente.endereco.cidade
+                document.getElementsByName('pontoReferencia')[0].value = cliente.endereco.pontoReferencia
+            }, (err) => {
+                console.log(err)
+            })
+
+        function enviarDados(e) {
+            e.preventDefault()
+            var updateCliente = {
+                id: dados[0]._id,
+                nome: e.target.nome.value,
+                cpf: e.target.cpf.value,
+                rg: e.target.rg.value,
+                telefone: e.target.telefone.value,
+                email: e.target.email.value,
+                endereco: {
+                    rua: e.target.rua.value,
+                    numero: e.target.numero.value,
+                    bairro: e.target.bairro.value,
+                    cidade: e.target.cidade.value,
+                    pontoReferencia: e.target.pontoReferencia.value
+                }
+            }
+           
+            axios.post('http://localhost:3001/clientes/editar', updateCliente)
+                .then((res) => {
+                    console.log(res.data.mensagem)
+                    alert(res.data.mensagem)
+                }, (err) => {
+                    console.log(err)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            
+        }   
+    </script>
 </head>
 <body>
-    <form action="http://localhost:3001/clientes/novo" method="POST" enctype="multipart/form-data">
+    <form onsubmit="enviarDados(event)">
         nome:
-        <input type="text" name="nome"/>
+        <input type="text" name="nome" value='teste'/>
         <br />
         CPF:
-        <input type="number" name="cpf" />
+        <input type="text" name="cpf" />
         <br />
         RG:
-        <input type="number" name="rg"  />
+        <input type="text" name="rg"  />
         <br />
         telefone:
-        <input type="number" name="telefone" />
+        <input type="text" name="telefone" />
         <br />
         email:
         <input type="text" name="email" />

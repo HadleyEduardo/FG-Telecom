@@ -180,7 +180,7 @@ class clientes extends Component {
             return(
                 <MDBContainer>
                     <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg">
-                        <MDBModalHeader className='primary-color text-primary'>a</MDBModalHeader>
+                        <MDBModalHeader toggle={() => this.toggleModalVisual()} className='primary-color text-primary'>a</MDBModalHeader>
                         <MDBModalBody className='barra_rolagem'>
                         <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Cliente</h1></legend>
                             <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Informações</legend>
