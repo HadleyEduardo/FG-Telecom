@@ -88,7 +88,7 @@ class cadastrarCliente extends React.Component {
                             <p>Rua <input type="text" name="rua" id="irua" size={size} /></p>
                             <p>Numero <input type="number" name="numero" id="inume" size={size} /></p>
                             <p>Cidade <input type="text" name="cidade" id="icidade" size={size} /></p>
-                            <p>CEP <input type="text" name="cep" id="icpf" size={size} /></p>
+                            <p>CEP <input type="text" name="cep" id="icpf" size={size} placeholder="Digite o CEP aqui"/></p>
                             <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" cols={size}></textarea></p>
                         </fieldset>
                         <p>
