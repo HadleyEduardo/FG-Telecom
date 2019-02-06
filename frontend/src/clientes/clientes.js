@@ -39,6 +39,10 @@ class clientes extends Component {
         this.excluirCliente = this.excluirCliente.bind(this)
     }
 
+    componentWillMount() {
+        this.props.rotaAtual('clientes')
+    }
+
     toggle = () => {
         this.setState({
             modal: !this.state.modal

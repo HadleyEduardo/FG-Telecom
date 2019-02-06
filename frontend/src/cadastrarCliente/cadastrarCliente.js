@@ -18,6 +18,10 @@ class cadastrarCliente extends React.Component {
         this.toggleModalErro = this.toggleModalErro.bind(this)
     }
 
+    componentWillMount() {
+        this.props.rotaAtual('clientes')
+    }
+
     toggleModalErro() {
         this.setState({modalErro: false})
     }
