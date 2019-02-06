@@ -1,4 +1,4 @@
-import Produto from './../models/Produto';
+import Produto from './../models/produto';
 
 class produto {
     novo(req, res) {
