@@ -30,23 +30,11 @@
 
         function enviarDados(e) {
             e.preventDefault()
-            var updateCliente = {
+            var id = {
                 id: dados[0]._id,
-                nome: e.target.nome.value,
-                cpf: e.target.cpf.value,
-                rg: e.target.rg.value,
-                telefone: e.target.telefone.value,
-                email: e.target.email.value,
-                endereco: {
-                    rua: e.target.rua.value,
-                    numero: e.target.numero.value,
-                    bairro: e.target.bairro.value,
-                    cidade: e.target.cidade.value,
-                    pontoReferencia: e.target.pontoReferencia.value
-                }
             }
            
-            axios.post('http://localhost:3001/clientes/editar', updateCliente)
+            axios.post('http://localhost:3001/clientes/remover', id)
                 .then((res) => {
                     console.log(res.data.mensagem)
                     alert(res.data.mensagem)

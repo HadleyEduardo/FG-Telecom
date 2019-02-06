@@ -28,8 +28,8 @@ class App extends Component {
       clientesDados: {
         clientList: null,
         inicioPaginacao: 0,
-        fimPaginacao: 2,
-        qtdContatosPorPagina: 2,
+        fimPaginacao: 9,
+        qtdContatosPorPagina: 9,
         paginaAtual: 1
       },
       estoqueDados: {

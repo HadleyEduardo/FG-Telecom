@@ -154,6 +154,17 @@ class clientes {
             res.send({erro: true, mensagem: e})
         }
     }
+
+    remover(req, res) {
+        const id = req.body.id
+        Cliente.findByIdAndRemove(id, (err, sucesso) => {
+            if(err) {
+                return res.send({erro: true, mensagem: 'Ocorreu um erro ao tentar excuir cliente!'})
+            }else{
+                return res.send({erro: false, mensagem: 'Cliente excluido com sucesso!'})
+            }
+        })
+    }
 }
 
 export default clientes;
