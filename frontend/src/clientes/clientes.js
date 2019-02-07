@@ -25,8 +25,54 @@ class clientes extends Component {
             classActive: 'active',
             estiloBotaoMudarPagina: 'disabled'
         };
+        this.enviar = this.enviar.bind(this)
         this.fazerPaginacao = this.fazerPaginacao.bind(this)
     }
+    //EnviarEdição
+    enviar(e){
+        
+        console.log("Faz alguma coisa porra >:(")
+        e.preventDefault();
+        const form = {
+           
+            nome: e.target.nome.value,
+            cpf: e.target.cpf.value,
+            rg: e.target.rg.value,
+            telefone: e.target.telefone.value,
+            email: e.target.email.value,
+            endereco: {
+                rua: e.target.rua.value,
+                numero: e.target.numero.value,
+                bairro: e.target.bairro.value,
+                cidade: e.target.cidade.value,
+                cep: e.target.cep.value,
+                pontoReferencia: e.target.pontoReferencia.value
+            }
+        }
+        try{
+            axios.post('http://localhost:3001/clientes/editar', form)
+                .then((form) => { 
+                    console.log(form.data.mensagem)
+                    if(form.data.erro){
+                        this.setState({modalErro: true, mensagemModal: form.data.mensagem})    
+                    }else{
+                        this.setState({modalSucesso: true})
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost:3000/clientes'
+                        }, 500)
+                    }
+                }, (erro) => {
+                    console.log(erro)
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+
+        }catch(e) {
+            console.log(e)
+        }
+    }
+    //EnviarEdição
 
     toggle = () => {
         this.setState({
@@ -202,6 +248,7 @@ class clientes extends Component {
             var armazenaClienteEditado = this.state.varEdiModal
             console.log(armazenaClienteEditado);
             return (
+                <form onSubmit={(event) => this.enviar(event)}>
                 <MDBContainer>
                     <MDBModal isOpen={this.state.modal15} toggle={() => this.toggleModalEditar()} className="modal-lg">
                         <MDBModalHeader className='warning-color text-warning'>a</MDBModalHeader>
@@ -229,6 +276,7 @@ class clientes extends Component {
                         </MDBModalFooter>
                     </MDBModal>
                 </MDBContainer>
+                </form>
             )
         }
     }
