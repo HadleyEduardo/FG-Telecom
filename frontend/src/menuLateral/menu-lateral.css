@@ -96,7 +96,7 @@
 
 #menu-lateral{
     width: 20%;
-    height: 90%;
+    height: 89.9%;
     background: white;
     position: fixed;
     bottom: 0;
@@ -133,7 +133,7 @@ li{
 }
 
 .text-decoration-none{
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 #icon-login-mobile{

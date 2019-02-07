@@ -35,6 +35,7 @@ class App extends Component {
       estoqueDados: {
         modelos: null
       },
+      headerEmSegundoPlano: false,
       rotaAtual: ''
     }
     this.toggleMenu = this.toggleMenu.bind(this)
@@ -47,7 +48,9 @@ class App extends Component {
   }
 
   settarRota(rota) {
-    this.setState({rotaAtual: rota})
+    if(this.state.rotaAtual !== rota) {
+      this.setState({rotaAtual: rota})
+    }
   }
 
   componentWillMount(){
@@ -219,8 +222,8 @@ class App extends Component {
     return (
       <Route>
         <div className="App">
-            <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
-            <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
+            <Header headerEmSegundoPlano={this.state.headerEmSegundoPlano} loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
+            <Menu rotaAcessada={this.state.rotaAtual} loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
               <Rotas rotaAtual={(rota) => this.settarRota(rota)} estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
