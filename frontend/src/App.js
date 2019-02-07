@@ -6,6 +6,9 @@ import Container from './container/container'
 import Rotas from './router'
 import {BrowserRouter as Route} from 'react-router-dom'
 import perfilHadlei from './imagens/seu-Hadlei.png'
+import Modal from './modais/modais'
+import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdbreact';
+
 
 class App extends Component {
   constructor(props){
@@ -36,7 +39,12 @@ class App extends Component {
         modelos: null
       },
       headerEmSegundoPlano: false,
-      rotaAtual: ''
+      rotaAtual: '',
+      modais: {
+        nome: null,
+        typeModal: 'visualizar',
+        mensagem: 'testando modal'
+      }
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.estadoDoMenu = this.estadoDoMenu.bind(this)
@@ -218,15 +226,36 @@ class App extends Component {
     this.setState({estoqueDados})
   }
 
+  pegarInfoParaModal(info) {
+    console.log('aqui!')
+    console.log(info)
+    var infoAntigas = this.state.modais
+    infoAntigas = {...info}
+    var infoNovas = infoAntigas
+    this.setState({modais: infoNovas})
+  }
+
   render() {
     return (
       <Route>
         <div className="App">
             <Menu rotaAcessada={this.state.rotaAtual} loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas rotaAtual={(rota) => this.settarRota(rota)} estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
+              
+              <Rotas 
+                rotaAtual={(rota) => this.settarRota(rota)} 
+                estoqueDados={this.state.estoqueDados} 
+                pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} 
+                pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} 
+                controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} 
+                clientesDados={this.state.clientesDados} 
+                sizeInput={this.state.sizeInput}
+                infoModal={(info) => this.pegarInfoParaModal(info)}
+              />
+
             </Container>
             <Header headerEmSegundoPlano={this.state.headerEmSegundoPlano} loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
+            <Modal modais={this.state.modais}/>
         </div>
       </Route>
     );

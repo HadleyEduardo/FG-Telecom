@@ -6,7 +6,7 @@ import ModalErro from '../modais/modalErro'
 import ModalSucesso from '../modais/modalSucesso'
 import ModalConteudo from '../modais/modalConteudo'
 
-import { MDBCol, MDBRow, MDBIcon, MDBBtn } from "mdbreact";
+import { MDBIcon, MDBBtn } from "mdbreact";
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBInput } from 'mdbreact';
 import axios from 'axios';
 
@@ -19,12 +19,10 @@ class clientes extends Component {
             modalErro: false,
             modalAviso: false,
             modalConteudo: false,
-            modal14: false,
-            modal15: false,
-            varModal: null,
-            varEdiModal: null,
             mensagemModal: '',
             conteudoModal: null,
+            modalEditar: false,
+            typeModal: '',
             confirmarOperacao: null,
             btnConfirmacao: false,
             RenderConteudo: () => {
@@ -42,7 +40,7 @@ class clientes extends Component {
         this.fazerPaginacao = this.fazerPaginacao.bind(this)
         this.confirmarOperacao = this.confirmarOperacao.bind(this)
         this.excluirCliente = this.excluirCliente.bind(this)
-        this.Modal = this.Modal.bind(this)
+        this.toggleModalConteudo = this.toggleModalConteudo.bind(this)
     }
 
     componentWillMount() {
@@ -107,29 +105,69 @@ class clientes extends Component {
     }
 
     visualisarModal(i) {
-        this.setState({
-            varModal: this.props.clientesDados.clientList[i.target.value],
-        })
-        this.toggleModalVisual();
+        var armazenaCliente = this.props.clientesDados.clientList[i.target.value]
+        console.log(armazenaCliente);
+        var infoModal = {
+            mensagem: (
+                <div>
+                    <h2>Informações</h2>
+                    <hr />
+                    <MDBInput disabled label="Nome" icon="user" value={armazenaCliente.nome} />
+                    <MDBInput disabled label="CPF" icon="address-card" value={armazenaCliente.cpf} />
+                    <MDBInput disabled label="RG" icon="address-book" value={armazenaCliente.rg} />
+                    <MDBInput disabled label="Telefone" icon="phone" value={armazenaCliente.telefone} />
+                    <MDBInput disabled label="E-Mail" icon="envelope" value={armazenaCliente.email} />
+
+                    <h2>Endereço</h2>
+                    <hr />
+                    <MDBInput disabled label="Bairro" icon="map-marker" value={armazenaCliente.endereco.bairro} />
+                    <MDBInput disabled label="Rua" icon="road" value={armazenaCliente.endereco.rua} />
+                    <MDBInput disabled label="Numero" icon="home" value={armazenaCliente.endereco.numero} />
+                    <MDBInput disabled label="Cidade" icon="city" value={armazenaCliente.endereco.cidade} />
+                    <MDBInput label="CEP" icon='map-marked-alt' value={armazenaCliente.endereco.cep} />
+                    <MDBIcon icon="street-view" className='fa-2x' /> &nbsp; <label>Ponto de referência</label>
+                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="5" value={armazenaCliente.endereco.pontoReferencia} />
+                </div>
+            ),
+            typeModal: 'visualizar',
+            nome: 'modalConteudo'
+        }
+        this.props.infoModal(infoModal)
     }
 
-    toggleModalVisual() {
-        this.setState({
-            modal14: !this.state.modal14
-        })
-    }
+    
     //Edição
     editarDados(i) {
-        this.setState({
-            varEdiModal: this.props.clientesDados.clientList[i.target.value],
+            var armazenaClienteEditado = this.props.clientesDados.clientList[i.target.value]
+            this.setState({conteudoModal: (
+                <form onSubmit={(event) => this.enviar(event)}>
+                    <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
+                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
+                            <p>Nome <input type="text" name="nome" id="iNome" value='teste' onChange={(event) => this.change(event)} /> </p>
+                            <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
+                            <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
+                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
+                            <p>E-mail <input type="email" name="email" id="iemail" placeholder={armazenaClienteEditado.email} /></p>
+                        </fieldset>
+                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Editar Endereco</legend>
+                            <p>Bairro <input type="text" name="bairro" id="ibairro" placeholder={armazenaClienteEditado.endereco.bairro} /></p>
+                            <p>Rua <input type="text" name="rua" id="irua" placeholder={armazenaClienteEditado.endereco.rua} /></p>
+                            <p>Numero <input type="number" name="numero" id="inume" placeholder={armazenaClienteEditado.endereco.numero} /></p>
+                            <p>Cidade <input type="text" name="cidade" id="icidade" placeholder={armazenaClienteEditado.endereco.cidade} /></p>
+                            <p>CEP <input type="text" name="cep" id="icpf" placeholder={armazenaClienteEditado.endereco.cep} /></p>
+                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" placeholder={armazenaClienteEditado.endereco.pontoReferencia} ></textarea></p>
+                        </fieldset>
+                    </fieldset>
+                </form>
+            ), 
+            modalConteudo: true,
+            typeModal: 'editar'
         })
-        console.log(this.varEdiModal)
-        this.toggleModalEditar();
     }
 
     toggleModalEditar() {
         this.setState({
-            modal15: !this.state.modal15
+            modalConteudo: !this.state.modalConteudo
         })
     }
 
@@ -315,80 +353,6 @@ class clientes extends Component {
         this.setState({ confirmarOperacao: decisao })
     }
 
-    //EditarModal
-    EditarModal() {
-        if (this.state.varEdiModal !== null) {
-            var armazenaClienteEditado = this.state.varEdiModal
-            console.log(armazenaClienteEditado);
-            return (
-                <form onSubmit={(event) => this.enviar(event)}>
-                    <MDBContainer>
-                        <MDBModal isOpen={this.state.modal15} toggle={() => this.toggleModalEditar()} className="modal-lg">
-                            <MDBModalHeader className='warning-color text-warning'>a</MDBModalHeader>
-                            <MDBModalBody className='barra_rolagem'>
-                                <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
-                                    <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
-                                        <p>Nome <input type="text" name="nome" id="iNome" value='teste' onChange={(event) => this.change(event)} /> </p>
-                                        <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
-                                        <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
-                                        <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
-                                        <p>E-mail <input type="email" name="email" id="iemail" placeholder={armazenaClienteEditado.email} /></p>
-                                    </fieldset>
-                                    <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Editar Endereco</legend>
-                                        <p>Bairro <input type="text" name="bairro" id="ibairro" placeholder={armazenaClienteEditado.endereco.bairro} /></p>
-                                        <p>Rua <input type="text" name="rua" id="irua" placeholder={armazenaClienteEditado.endereco.rua} /></p>
-                                        <p>Numero <input type="number" name="numero" id="inume" placeholder={armazenaClienteEditado.endereco.numero} /></p>
-                                        <p>Cidade <input type="text" name="cidade" id="icidade" placeholder={armazenaClienteEditado.endereco.cidade} /></p>
-                                        <p>CEP <input type="text" name="cep" id="icpf" placeholder={armazenaClienteEditado.endereco.cep} /></p>
-                                        <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" placeholder={armazenaClienteEditado.endereco.pontoReferencia} ></textarea></p>
-                                    </fieldset>
-                                </fieldset>
-                            </MDBModalBody>
-                            <MDBModalFooter>
-                                <MDBBtn color="warning" type="submit" >Editar</MDBBtn>
-                            </MDBModalFooter>
-                        </MDBModal>
-                    </MDBContainer>
-                </form>
-            )
-        }
-    }
-    //EditarModal
-
-    //VisualisarModal
-    Modal() {
-        if (this.state.varModal !== null) {
-            var armazenaCliente = this.state.varModal
-
-
-            console.log(armazenaCliente);
-            this.setState({
-                modalConteudo: true,
-                conteudoModal: (
-                    <div>
-                        <h2>Informações</h2>
-                        <hr />
-                        <MDBInput disabled label="Nome" icon="user" value={armazenaCliente.nome} />
-                        <MDBInput disabled label="CPF" icon="address-card" value={armazenaCliente.cpf} />
-                        <MDBInput disabled label="RG" icon="address-book" value={armazenaCliente.rg} />
-                        <MDBInput disabled label="Telefone" icon="phone" value={armazenaCliente.telefone} />
-                        <MDBInput disabled label="E-Mail" icon="envelope" value={armazenaCliente.email} />
-
-                        <h2>Endereço</h2>
-                        <hr />
-                        <MDBInput disabled label="Bairro" icon="map-marker" value={armazenaCliente.endereco.bairro} />
-                        <MDBInput disabled label="Rua" icon="road" value={armazenaCliente.endereco.rua} />
-                        <MDBInput disabled label="Numero" icon="home" value={armazenaCliente.endereco.numero} />
-                        <MDBInput disabled label="Cidade" icon="city" value={armazenaCliente.endereco.cidade} />
-                        <MDBInput label="CEP" icon='map-marked-alt' value={armazenaCliente.endereco.cep} />
-                        <MDBIcon icon="street-view" className='fa-2x' /> &nbsp; <label>Ponto de referência</label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1" rows="5" value={armazenaCliente.endereco.pontoReferencia} />
-                    </div>
-                ),
-            })
-        }
-    }
-    //VisualisarModal
     renderConteudoTabela(conteudo) {
         this.setState({
             RenderConteudo: () => {
@@ -495,13 +459,10 @@ class clientes extends Component {
                         </div>
                     </div>
                 </div>
-                {this.Modal()}
-                {this.EditarModal()}
-
                 <ModalAviso decidir={(decisao) => this.confirmarOperacao(decisao)} modal={this.state.modalAviso} btnConfirmacao={this.state.btnConfirmacao} mensagem={this.state.mensagemModal} />
                 <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal} />
                 <ModalSucesso modal={this.state.modalSucesso} mensagem={this.state.mensagemModal} />
-                <ModalConteudo toggle={this.toggleModalConteudo} modal={this.state.modalConteudo} mensagem={this.state.conteudoModal} />
+                <ModalConteudo typeModal={this.state.typeModal} toggle={this.toggleModalConteudo} modal={this.state.modalConteudo} mensagem={this.state.conteudoModal} />
             </div>
         )
     }

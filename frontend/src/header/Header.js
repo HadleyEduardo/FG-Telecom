@@ -18,23 +18,6 @@ class Header extends React.Component{
     
     render(){
         
-        setInterval(() => {
-            if(document.querySelector('.modal-backdrop')){
-                if(this.state.headerEmSegundoPlano === false){
-                    setTimeout(() => {
-                        this.setState({headerEmSegundoPlano: true})
-                    }, 300)
-                    console.log('true!')
-                }
-            }else{
-                if(this.state.headerEmSegundoPlano === true) {
-                    this.setState({headerEmSegundoPlano: false})
-                    console.log('false!')
-                }
-            }
-            
-        }, 0)
-
         var valueIndex
         if(this.state.headerEmSegundoPlano) {
             valueIndex = 0
