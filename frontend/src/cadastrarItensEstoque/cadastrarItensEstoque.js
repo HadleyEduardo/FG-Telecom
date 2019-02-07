@@ -26,6 +26,9 @@ class cadastrarItensEstoque extends Component {
     }
 
     componentWillMount(){
+        //settando rota para selecionar a opção certa no menu lateral
+        this.props.rotaAtual('estoque')
+        
         this.navTabData(1)
         if(this.props.estoqueDados.modelos === null){
             axios.get('http://localhost:3001/estoque/modelo')

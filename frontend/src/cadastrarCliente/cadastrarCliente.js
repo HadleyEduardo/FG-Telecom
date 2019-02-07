@@ -18,6 +18,10 @@ class cadastrarCliente extends React.Component {
         this.toggleModalErro = this.toggleModalErro.bind(this)
     }
 
+    componentWillMount() {
+        this.props.rotaAtual('clientes')
+    }
+
     toggleModalErro() {
         this.setState({modalErro: false})
     }
@@ -43,11 +47,10 @@ class cadastrarCliente extends React.Component {
         try{
             axios.post('http://localhost:3001/clientes/novo', form)
                 .then((form) => {
-                    console.log(form.data.mensagem)
                     if(form.data.erro){
                         this.setState({modalErro: true, mensagemModal: form.data.mensagem})    
                     }else{
-                        this.setState({modalSucesso: true})
+                        this.setState({modalSucesso: true, mensagemModal: form.data.mensagem})
                         setTimeout(() => {
                             window.location.href = 'http://localhost:3000/clientes'
                         }, 500)
@@ -97,7 +100,7 @@ class cadastrarCliente extends React.Component {
                     </fieldset>
                 </form>
                 <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal} />
-                <ModalSucesso modal={this.state.modalSucesso} />
+                <ModalSucesso modal={this.state.modalSucesso} mensagem={this.state.mensagemModal} />
             </div>
         )
     }

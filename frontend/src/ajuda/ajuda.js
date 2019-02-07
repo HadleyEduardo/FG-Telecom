@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 
 class ajuda extends Component{
 
+    componentWillMount() {
+        this.props.rotaAtual('ajuda')
+    }
+
     render(){
         return(
             <div>

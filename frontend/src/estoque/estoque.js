@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom'
 
 class estoque extends Component {
 
+    componentWillMount() {
+        this.props.rotaAtual('estoque')
+    }
+
     render() {
         return (
             <div className="container">

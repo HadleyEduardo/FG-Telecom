@@ -28,13 +28,14 @@ class App extends Component {
       clientesDados: {
         clientList: null,
         inicioPaginacao: 0,
-        fimPaginacao: 2,
-        qtdContatosPorPagina: 2,
+        fimPaginacao: 9,
+        qtdContatosPorPagina: 9,
         paginaAtual: 1
       },
       estoqueDados: {
         modelos: null
-      }
+      },
+      rotaAtual: ''
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.estadoDoMenu = this.estadoDoMenu.bind(this)
@@ -42,6 +43,11 @@ class App extends Component {
     this.widthScreenMobileDevice = this.widthScreenMobileDevice.bind(this)
     this.guardandoDadosLocalmente = this.guardandoDadosLocalmente.bind(this)
     this.controlarPaginacaoCliente = this.controlarPaginacaoCliente.bind(this)
+    this.settarRota = this.settarRota.bind(this)
+  }
+
+  settarRota(rota) {
+    this.setState({rotaAtual: rota})
   }
 
   componentWillMount(){
@@ -216,7 +222,7 @@ class App extends Component {
             <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
-              <Rotas estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
+              <Rotas rotaAtual={(rota) => this.settarRota(rota)} estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
         </div>
       </Route>

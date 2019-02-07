@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 
 class ordemDeServico extends Component{
 
+    componentWillMount() {
+        this.props.rotaAtual('ordemDeServico')
+    }
+
     render(){
         return(
             <div>

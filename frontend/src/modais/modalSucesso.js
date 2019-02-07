@@ -9,7 +9,7 @@ class modalSucesso extends Component{
                 <MDBModal isOpen={this.props.modal} toggle={this.toggle} size='sm' centered>
                     <MDBModalHeader className='success-color text-white' toggle={this.toggle}> <MDBIcon icon="check" /> &nbsp; Alerta!</MDBModalHeader>
                     <MDBModalBody>
-                        <div style={{textAlign: 'center'}}> <h5> Salvo com sucesso!</h5> </div>
+                        <div style={{textAlign: 'center'}}> <h5> {this.props.mensagem} </h5> </div>
                     </MDBModalBody>
                     
                 </MDBModal>

@@ -19,15 +19,15 @@ class router extends Component{
     render(){
         return(
             <div>
-                <Route exact={true} path='/' component={() => <Agenda />} />
-                <Route path='/vendas' component={() => <Vendas />} />
-                <Route exact={true} path='/estoque' component={() => <Estoque />} />
-                <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque pegandoDadosModeloEstoque={(dados) => this.props.pegandoDadosModeloEstoque(dados)} estoqueDados={this.props.estoqueDados} />} />
-                <Route exact={true} path='/clientes' component={() => <Clientes pegandoDadosServidor={(dados) => this.props.pegandoDadosServidor(dados)} controlarPaginacaoCliente={(pagina) => this.props.controlarPaginacaoCliente(pagina)} clientesDados={this.props.clientesDados} />} />
-                <Route path='/clientes/novo' component={() => <CadastrarCliente size={this.props.sizeInput} />} />
-                <Route path='/ordem-de-servico' component={() => <OrdemServico />} />
-                <Route path='/funcionarios' component={() => <Funcionarios />} />
-                <Route path='/ajuda' component={() => <Ajuda />} />
+                <Route exact={true} path='/' component={() => <Agenda rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+                <Route path='/vendas' component={() => <Vendas rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+                <Route exact={true} path='/estoque' component={() => <Estoque rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+                <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque rotaAtual={(rota) => this.props.rotaAtual(rota)} pegandoDadosModeloEstoque={(dados) => this.props.pegandoDadosModeloEstoque(dados)} estoqueDados={this.props.estoqueDados} />} />
+                <Route exact={true} path='/clientes' component={() => <Clientes rotaAtual={(rota) => this.props.rotaAtual(rota)} pegandoDadosServidor={(dados) => this.props.pegandoDadosServidor(dados)} controlarPaginacaoCliente={(pagina) => this.props.controlarPaginacaoCliente(pagina)} clientesDados={this.props.clientesDados} />} />
+                <Route path='/clientes/novo' component={() => <CadastrarCliente rotaAtual={(rota) => this.props.rotaAtual(rota)} size={this.props.sizeInput} />} />
+                <Route path='/ordem-de-servico' component={() => <OrdemServico rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+                <Route path='/funcionarios' component={() => <Funcionarios rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+                <Route path='/ajuda' component={() => <Ajuda rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
             </div>
         )
     }
