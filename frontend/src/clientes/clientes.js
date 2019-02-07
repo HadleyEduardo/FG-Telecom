@@ -4,6 +4,8 @@ import './clientes.css';
 import ModalAviso from '../modais/modalAviso'
 import ModalErro from '../modais/modalErro'
 import ModalSucesso from '../modais/modalSucesso'
+import ModalConteudo from '../modais/modalConteudo'
+
 import { MDBCol, MDBRow, MDBIcon, MDBBtn } from "mdbreact";
 import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBInput } from 'mdbreact';
 import axios from 'axios';
@@ -16,11 +18,13 @@ class clientes extends Component {
             modalSucesso: false,
             modalErro: false,
             modalAviso: false,
+            modalConteudo: false,
             modal14: false,
             modal15: false,
             varModal: null,
             varEdiModal: null,
             mensagemModal: '',
+            conteudoModal: null,
             confirmarOperacao: null,
             btnConfirmacao: false,
             RenderConteudo: () => {
@@ -38,18 +42,23 @@ class clientes extends Component {
         this.fazerPaginacao = this.fazerPaginacao.bind(this)
         this.confirmarOperacao = this.confirmarOperacao.bind(this)
         this.excluirCliente = this.excluirCliente.bind(this)
+        this.Modal = this.Modal.bind(this)
     }
 
     componentWillMount() {
         this.props.rotaAtual('clientes')
     }
+
     //EnviarEdição
-    enviar(e){
-        
+
+    enviar(e) {
+
         console.log("Faz alguma coisa porra >:(")
-        e.preventDefault();
+        e.preventDefault();//Impede o rediresionamento da pagina
+        console.log(this.state.varEdiModal._id)
+
         const form = {
-           
+            id: this.state.varEdiModal._id,
             nome: e.target.nome.value,
             cpf: e.target.cpf.value,
             rg: e.target.rg.value,
@@ -64,14 +73,15 @@ class clientes extends Component {
                 pontoReferencia: e.target.pontoReferencia.value
             }
         }
-        try{
+
+        try {
             axios.post('http://localhost:3001/clientes/editar', form)
-                .then((form) => { 
+                .then((form) => {
                     console.log(form.data.mensagem)
-                    if(form.data.erro){
-                        this.setState({modalErro: true, mensagemModal: form.data.mensagem})    
-                    }else{
-                        this.setState({modalSucesso: true})
+                    if (form.data.erro) {
+                        this.setState({ modalErro: true, mensagemModal: form.data.mensagem })
+                    } else {
+                        this.setState({ modalSucesso: true })
                         setTimeout(() => {
                             window.location.href = 'http://localhost:3000/clientes'
                         }, 500)
@@ -83,9 +93,10 @@ class clientes extends Component {
                     console.log(e)
                 })
 
-        }catch(e) {
+        } catch (e) {
             console.log(e)
         }
+
     }
     //EnviarEdição
 
@@ -207,7 +218,10 @@ class clientes extends Component {
     }
 
     toggleModalErro() {
-        this.setState({modalErro: false})
+        this.setState({ modalErro: false })
+    }
+    toggleModalConteudo(){
+        this.setState({ modalConteudo: false})
     }
 
     preencherTabela() {
@@ -256,60 +270,61 @@ class clientes extends Component {
             this.renderConteudoTabela(renderListCliente)
         }
     }
-    
+
     excluirCliente(e) {
-        const posicaoCliente =  e.target.value
+        const posicaoCliente = e.target.value
         const cliente = this.props.clientesDados.clientList[posicaoCliente]
         const clienteASerExcluido = {
             id: cliente._id
         }
-        this.setState({modalAviso: true, mensagemModal: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true}, () => {
+        this.setState({ modalAviso: true, mensagemModal: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true }, () => {
             var interval = setInterval(() => {
-                if(this.state.confirmarOperacao !== null){
+                if (this.state.confirmarOperacao !== null) {
                     clearInterval(interval)
-                    this.setState({modalAviso: false}, () => {
-                        if(this.state.confirmarOperacao){
+                    this.setState({ modalAviso: false }, () => {
+                        if (this.state.confirmarOperacao) {
                             console.log(this.state.confirmarOperacao)
-                        
-                            axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
-                            .then((excluido) => {
-                                if(excluido.data.erro) {
-                                    this.setState({modalErro: true, mensagemModal: excluido.data.mensagem})
-                                }else{
-                                    this.setState({modalSucesso: true, mensagemModal: excluido.data.mensagem})
-                                    setTimeout(() => {
-                                        window.location.href = 'http://localhost:3000/clientes'
-                                    }, 500)
-                                }
-                            }, (erro) => {
 
-                            })
-                            
+                            axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
+                                .then((excluido) => {
+                                    if (excluido.data.erro) {
+                                        this.setState({ modalErro: true, mensagemModal: excluido.data.mensagem })
+                                    } else {
+                                        this.setState({ modalSucesso: true, mensagemModal: excluido.data.mensagem })
+                                        setTimeout(() => {
+                                            window.location.href = 'http://localhost:3000/clientes'
+                                        }, 500)
+                                    }
+                                }, (erro) => {
+
+                                })
+
                         }
-                        this.setState({confirmarOperacao: null})
+                        this.setState({ confirmarOperacao: null })
                     })
                 }
-                
+
             }, 400)
         })
-        
-        
-    
+
+
+
     }
 
     confirmarOperacao(decisao) {
-        this.setState({confirmarOperacao: decisao})
+        this.setState({ confirmarOperacao: decisao })
     }
 
+    //EditarModal
     EditarModal() {
         if (this.state.varEdiModal !== null) {
             var armazenaClienteEditado = this.state.varEdiModal
             console.log(armazenaClienteEditado);
             return (
                 <form onSubmit={(event) => this.enviar(event)}>
-                <MDBContainer>
-                    <MDBModal isOpen={this.state.modal15} toggle={() => this.toggleModalEditar()} className="modal-lg">
-                        <MDBModalHeader className='warning-color text-warning'>a</MDBModalHeader>
+                    <MDBContainer>
+                        <MDBModal isOpen={this.state.modal15} toggle={() => this.toggleModalEditar()} className="modal-lg">
+                            <MDBModalHeader className='warning-color text-warning'>a</MDBModalHeader>
                             <MDBModalBody className='barra_rolagem'>
                                 <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
                                     <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
@@ -332,8 +347,8 @@ class clientes extends Component {
                             <MDBModalFooter>
                                 <MDBBtn color="warning" type="submit" >Editar</MDBBtn>
                             </MDBModalFooter>
-                    </MDBModal>
-                </MDBContainer>
+                        </MDBModal>
+                    </MDBContainer>
                 </form>
             )
         }
@@ -344,38 +359,33 @@ class clientes extends Component {
     Modal() {
         if (this.state.varModal !== null) {
             var armazenaCliente = this.state.varModal
+
+
             console.log(armazenaCliente);
-            return (
-                <MDBContainer>
-                    <MDBModal isOpen={this.state.modal14} toggle={() => this.toggleModalVisual()} className="modal-lg">
-                        <MDBModalHeader className='primary-color text-white'><h1>Cliente</h1></MDBModalHeader>
-                        <MDBModalBody className='barra_rolagem'>
-                            <h2>Informações</h2>
-                            <hr />
-                            <MDBInput disabled label="Nome" icon="user" value={armazenaCliente.nome}/>
-                            <MDBInput disabled label="CPF" icon="address-card" value={armazenaCliente.cpf}/>
-                            <MDBInput disabled label="RG" icon="address-book" value={armazenaCliente.rg}/>
-                            <MDBInput disabled label="Telefone" icon="phone" value={armazenaCliente.telefone} />
-                            <MDBInput disabled label="E-Mail" icon="envelope" value={armazenaCliente.email}/>
-                            
-                             <h2>Endereço</h2>
-                             <hr />
-                            <MDBInput disabled label="Bairro" icon="map-marker" value={armazenaCliente.endereco.bairro} />
-                            <MDBInput disabled label="Rua" icon="road" value={armazenaCliente.endereco.rua}/>
-                            <MDBInput disabled label="Numero" icon="home" value={armazenaCliente.endereco.numero}/>
-                            <MDBInput disabled label="Cidade" icon="city" value={armazenaCliente.endereco.cidade}/>
-                            <MDBInput label="CEP" icon='map-marked-alt' value={armazenaCliente.endereco.cep} />
-                            <MDBIcon icon="street-view" className='fa-2x' /> &nbsp; <label>Ponto de referência</label>
-                            <textarea className="form-control" id="exampleFormControlTextarea1" rows="5"value={armazenaCliente.endereco.pontoReferencia}/>
+            this.setState({
+                modalConteudo: true,
+                conteudoModal: (
+                    <div>
+                        <h2>Informações</h2>
+                        <hr />
+                        <MDBInput disabled label="Nome" icon="user" value={armazenaCliente.nome} />
+                        <MDBInput disabled label="CPF" icon="address-card" value={armazenaCliente.cpf} />
+                        <MDBInput disabled label="RG" icon="address-book" value={armazenaCliente.rg} />
+                        <MDBInput disabled label="Telefone" icon="phone" value={armazenaCliente.telefone} />
+                        <MDBInput disabled label="E-Mail" icon="envelope" value={armazenaCliente.email} />
 
-
-                        </MDBModalBody>
-                        <MDBModalFooter>
-                            <MDBBtn color="primary" onClick={() => this.toggleModalVisual()}>Sair</MDBBtn>
-                        </MDBModalFooter>
-                    </MDBModal>
-                </MDBContainer>
-            )
+                        <h2>Endereço</h2>
+                        <hr />
+                        <MDBInput disabled label="Bairro" icon="map-marker" value={armazenaCliente.endereco.bairro} />
+                        <MDBInput disabled label="Rua" icon="road" value={armazenaCliente.endereco.rua} />
+                        <MDBInput disabled label="Numero" icon="home" value={armazenaCliente.endereco.numero} />
+                        <MDBInput disabled label="Cidade" icon="city" value={armazenaCliente.endereco.cidade} />
+                        <MDBInput label="CEP" icon='map-marked-alt' value={armazenaCliente.endereco.cep} />
+                        <MDBIcon icon="street-view" className='fa-2x' /> &nbsp; <label>Ponto de referência</label>
+                        <textarea className="form-control" id="exampleFormControlTextarea1" rows="5" value={armazenaCliente.endereco.pontoReferencia} />
+                    </div>
+                ),
+            })
         }
     }
     //VisualisarModal
@@ -488,9 +498,10 @@ class clientes extends Component {
                 {this.Modal()}
                 {this.EditarModal()}
 
-                <ModalAviso decidir={(decisao) => this.confirmarOperacao(decisao)} modal={this.state.modalAviso} btnConfirmacao={this.state.btnConfirmacao}  mensagem={this.state.mensagemModal} />
-                <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal}/>
+                <ModalAviso decidir={(decisao) => this.confirmarOperacao(decisao)} modal={this.state.modalAviso} btnConfirmacao={this.state.btnConfirmacao} mensagem={this.state.mensagemModal} />
+                <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal} />
                 <ModalSucesso modal={this.state.modalSucesso} mensagem={this.state.mensagemModal} />
+                <ModalConteudo toggle={this.toggleModalConteudo} modal={this.state.modalConteudo} mensagem={this.state.conteudoModal} />
             </div>
         )
     }
