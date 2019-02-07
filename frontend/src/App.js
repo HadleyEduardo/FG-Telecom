@@ -222,11 +222,11 @@ class App extends Component {
     return (
       <Route>
         <div className="App">
-            <Header headerEmSegundoPlano={this.state.headerEmSegundoPlano} loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
             <Menu rotaAcessada={this.state.rotaAtual} loginIcon={this.state.loginIconMobile} style={this.state.style} />
             <Container id={this.state.estadosDoContainer}>
               <Rotas rotaAtual={(rota) => this.settarRota(rota)} estoqueDados={this.state.estoqueDados} pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} clientesDados={this.state.clientesDados} sizeInput={this.state.sizeInput}/>
             </Container>
+            <Header headerEmSegundoPlano={this.state.headerEmSegundoPlano} loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
         </div>
       </Route>
     );

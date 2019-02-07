@@ -255,6 +255,13 @@ class clientes extends Component {
         this.setState({confirmarOperacao: decisao})
     }
 
+    change(e) {
+        console.log(e.target.value)
+        var select = "[name='" + e.target.name + "']"
+        console.log('select: ' + select)
+        console.log(document.querySelector(select).value)
+    }
+
     EditarModal() {
         if (this.state.varEdiModal !== null) {
             var armazenaClienteEditado = this.state.varEdiModal
@@ -266,7 +273,7 @@ class clientes extends Component {
                             <MDBModalBody className='barra_rolagem'>
                                 <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
                                     <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
-                                        <p>Nome <input type="text" name="nome" id="iNome" placeholder={armazenaClienteEditado.nome} /> </p>
+                                        <p>Nome <input type="text" name="nome" id="iNome" value='teste' onChange={(event) => this.change(event)} /> </p>
                                         <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
                                         <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
                                         <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
@@ -304,7 +311,7 @@ class clientes extends Component {
                         <MDBModalBody className='barra_rolagem'>
                             <h2>Informações</h2>
                             <hr />
-                            <MDBInput disabled label="Nome" icon="user" value={armazenaCliente.nome}/>
+                            <MDBInput label="Nome" icon="user" value={armazenaCliente.nome}/>
                             <MDBInput disabled label="CPF" icon="address-card" value={armazenaCliente.cpf}/>
                             <MDBInput disabled label="RG" icon="address-book" value={armazenaCliente.rg}/>
                             <MDBInput disabled label="Telefone" icon="phone" value={armazenaCliente.telefone} />

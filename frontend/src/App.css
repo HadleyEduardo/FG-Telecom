@@ -4,10 +4,12 @@
     height: 100%;
 }
 
+
 .modal-content {
-    position: absolute;
-    z-index: 3 !important;
-    margin-top: 4.5em;
+    z-index: 4 !important;
+    margin-top: 2.5em;
+    transition-duration: 2s;
+    transition-delay: 100ms
 }
 
 .modal{
@@ -19,7 +21,7 @@
 }
 
 .barra_rolagem{
-    max-height: 26em !important;
+    max-height: 25em !important;
     overflow-y: auto;
 }
 

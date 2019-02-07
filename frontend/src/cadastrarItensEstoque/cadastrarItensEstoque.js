@@ -81,7 +81,7 @@ class cadastrarItensEstoque extends Component {
     }
 
     toggleModalErro() {
-        this.setState({ativarModalErro: !this.state.ativarModalErro})
+        this.setState({ativarModalErro: false})
     }
 
     toggleModalAviso() {
