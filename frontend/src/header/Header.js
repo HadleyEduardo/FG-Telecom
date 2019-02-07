@@ -8,10 +8,16 @@ class Header extends React.Component{
         e.preventDefault()
         this.props.toggleMenu()
     }
-
+    
     render(){
+        var valueIndex
+        if(this.props.headerEmSegundoPlano) {
+            valueIndex = 0
+        }else{
+            valueIndex = 2
+        }
         return(
-            <div className = "Header">
+            <div style={{zIndex: valueIndex}} className="Header">
                 <a href='' onClick={(e) => this.toggleMenu(e)}>
                     <div id='icon-header'>
                         <img id='img-icon-header' src={listIcon} />
