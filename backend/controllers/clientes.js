@@ -14,6 +14,18 @@ class clientes {
                 endereco: req.body.endereco
             }
 
+            for(var key in data) {
+                if(data[key] !== 'endereco') {
+                    if(data[key] === '') {
+                        return res.send({
+                            erro: true,
+                            mensagem: 'Por favor preencha o campo ' + key + '!',
+                            dadosForm: data
+                        })
+                    }
+                }
+            }
+
             Cliente.find()
                 .then((clientes) => {
                     if(clientes.length === 0) {

@@ -241,25 +241,29 @@ class App extends Component {
     return (
       <Route>
         <div className="App">
-            <Menu rotaAcessada={this.state.rotaAtual} loginIcon={this.state.loginIconMobile} style={this.state.style} />
-            <Container id={this.state.estadosDoContainer}>
-              
-              <Rotas 
-                rotaAtual={(rota) => this.settarRota(rota)} 
-                estoqueDados={this.state.estoqueDados} 
-                pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} 
-                pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} 
-                controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} 
-                clientesDados={this.state.clientesDados} 
-                sizeInput={this.state.sizeInput}
-                infoModal={(info) => this.pegarInfoParaModal(info)}
-                modais={this.state.modais}
-                selecionarCliente={(cliente) => this.selecionarCLiente(cliente)}
-              />
+            
+          <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
 
-            </Container>
-            <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
-            <Modal modais={this.state.modais} infoModal={(info) => this.pegarInfoParaModal(info)} />
+          <Menu rotaAcessada={this.state.rotaAtual} loginIcon={this.state.loginIconMobile} style={this.state.style} />
+          
+          <Container id={this.state.estadosDoContainer}>
+            
+            <Rotas 
+              rotaAtual={(rota) => this.settarRota(rota)} 
+              estoqueDados={this.state.estoqueDados} 
+              pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)} 
+              pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)} 
+              controlarPaginacaoCliente={(pagina) => this.controlarPaginacaoCliente(pagina)} 
+              clientesDados={this.state.clientesDados} 
+              sizeInput={this.state.sizeInput}
+              infoModal={(info) => this.pegarInfoParaModal(info)}
+              modais={this.state.modais}
+              selecionarCliente={(cliente) => this.selecionarCLiente(cliente)}
+            />
+
+          </Container>
+          
+          <Modal modais={this.state.modais} infoModal={(info) => this.pegarInfoParaModal(info)} />
         </div>
       </Route>
     );

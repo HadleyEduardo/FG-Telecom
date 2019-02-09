@@ -77,7 +77,7 @@ class cadastrarCliente extends React.Component {
                         }, 500)
                     }
                 }, (erro) => {
-                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'A conexão com a internet pode estar interrompida oo o servidor está com problemas'}
+                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'A conexão com a internet pode estar interrompida ou o servidor está com problemas'}
                     this.props.infoModal(infoModal)
                 })
                 .catch((e) => {
