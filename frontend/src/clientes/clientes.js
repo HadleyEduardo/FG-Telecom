@@ -14,6 +14,7 @@ class clientes extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            filtro: '',
             listaClientes: [],
             modalSucesso: false,
             modalErro: false,
@@ -46,6 +47,14 @@ class clientes extends Component {
         this.props.rotaAtual('clientes')
         this.excluirCliente()
     }
+
+    //Pesquisar na tabela clientes
+    change(e) {
+        this.setState({
+            filtro: e.target.value,
+        })
+    }
+    //Pesquisar na tabela clientes
 
     //EnviarEdição
 
@@ -147,32 +156,32 @@ class clientes extends Component {
         this.props.infoModal(infoModal)
     }
 
-    
-    
+
+
     //Edição
     editarDados(i) {
         var armazenaClienteEditado = this.props.clientesDados.clientList[i.target.value]
         var infoModal = {
             ...this.props.modais,
             mensagem: (
-                    <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
-                        <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
-                            <p> <input type='hidden' name='vazio' value={armazenaClienteEditado._id} /> </p>
-                            <p>Nome <input type="text" name="nome" id="iNome" /> </p>
-                            <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
-                            <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
-                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
-                            <p>E-mail <input type="email" name="email" id="iemail" placeholder={armazenaClienteEditado.email} /></p>
-                        </fieldset>
-                        <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Editar Endereco</legend>
-                            <p>Bairro <input type="text" name="bairro" id="ibairro" placeholder={armazenaClienteEditado.endereco.bairro} /></p>
-                            <p>Rua <input type="text" name="rua" id="irua" placeholder={armazenaClienteEditado.endereco.rua} /></p>
-                            <p>Numero <input type="number" name="numero" id="inume" placeholder={armazenaClienteEditado.endereco.numero} /></p>
-                            <p>Cidade <input type="text" name="cidade" id="icidade" placeholder={armazenaClienteEditado.endereco.cidade} /></p>
-                            <p>CEP <input type="text" name="cep" id="icpf" placeholder={armazenaClienteEditado.endereco.cep} /></p>
-                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" placeholder={armazenaClienteEditado.endereco.pontoReferencia} ></textarea></p>
-                        </fieldset>
+                <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
+                    <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
+                        <p> <input type='hidden' name='vazio' value={armazenaClienteEditado._id} /> </p>
+                        <p>Nome <input type="text" name="nome" id="iNome" /> </p>
+                        <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
+                        <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
+                        <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
+                        <p>E-mail <input type="email" name="email" id="iemail" placeholder={armazenaClienteEditado.email} /></p>
                     </fieldset>
+                    <fieldset id="Endereco" class="scheduler-border"><legend class="scheduler-border">Editar Endereco</legend>
+                        <p>Bairro <input type="text" name="bairro" id="ibairro" placeholder={armazenaClienteEditado.endereco.bairro} /></p>
+                        <p>Rua <input type="text" name="rua" id="irua" placeholder={armazenaClienteEditado.endereco.rua} /></p>
+                        <p>Numero <input type="number" name="numero" id="inume" placeholder={armazenaClienteEditado.endereco.numero} /></p>
+                        <p>Cidade <input type="text" name="cidade" id="icidade" placeholder={armazenaClienteEditado.endereco.cidade} /></p>
+                        <p>CEP <input type="text" name="cep" id="icpf" placeholder={armazenaClienteEditado.endereco.cep} /></p>
+                        <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" placeholder={armazenaClienteEditado.endereco.pontoReferencia} ></textarea></p>
+                    </fieldset>
+                </fieldset>
             ),
             salvar: (event) => this.enviar(event),
             armazenaClienteEditado: armazenaClienteEditado,
@@ -267,8 +276,19 @@ class clientes extends Component {
 
     }
 
+    filtroDePesquisa(cliente){
+        console.log("+")
+        console.log(cliente)
+        console.log("+")
+        
+    }
+
     preencherTabela() {
         var cliente = this.props.clientesDados.clientList;
+        if (this.state.filtro == '') {
+            this.filtroDePesquisa(cliente)
+        }
+        
         if (cliente !== null) {
             var renderListCliente = [];
             if (cliente.length > 0) {
@@ -315,45 +335,45 @@ class clientes extends Component {
     }
 
     excluirCliente(e = null) {
-        if(e !== null) {
+        if (e !== null) {
             const posicaoCliente = e.target.value
             this.props.selecionarCliente(posicaoCliente)
-        }else{
-            if(this.props.clientesDados.clienteSelecionado !== null) {
+        } else {
+            if (this.props.clientesDados.clienteSelecionado !== null) {
                 const cliente = this.props.clientesDados.clientList[this.props.clientesDados.clienteSelecionado]
                 var clienteASerExcluido = {
                     id: cliente._id
                 }
-                var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true}
-                if(this.props.modais.btnConfirmacao === null) {
+                var infoModal = { ...this.props.modais, nome: 'modalAviso', mensagem: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true }
+                if (this.props.modais.btnConfirmacao === null) {
                     this.props.infoModal(infoModal)
                 }
                 if (this.props.modais.decisao !== null) {
-                    if(this.props.modais.decisao) {
-                        if(this.props.modais.nome === 'modalSucesso'){
-                            var infoModal = {nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
+                    if (this.props.modais.decisao) {
+                        if (this.props.modais.nome === 'modalSucesso') {
+                            var infoModal = { nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
                             this.props.infoModal(infoModal)
-                        }else{
-                        
+                        } else {
+
                             axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
                                 .then((excluido) => {
                                     var infoModal = null
                                     if (excluido.data.erro) {
-                                        infoModal = {nome: 'modalErro', mensagem: excluido.data.mensagem }
+                                        infoModal = { nome: 'modalErro', mensagem: excluido.data.mensagem }
                                         this.props.infoModal(infoModal)
                                     } else {
-                                        var infoModal = {...this.props.modais, nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
+                                        var infoModal = { ...this.props.modais, nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
                                         this.props.infoModal(infoModal)
                                         setTimeout(() => {
                                             window.location.href = 'http://localhost:3000/clientes'
                                         }, 1000)
                                     }
                                 }, (erro) => {
-            
+
                                 })
-                        }    
-                    }else{
-                        this.props.infoModal({...this.props.modais ,decisao: null, btnConfirmacao: null, nome: ''})
+                        }
+                    } else {
+                        this.props.infoModal({ ...this.props.modais, decisao: null, btnConfirmacao: null, nome: '' })
                         this.props.selecionarCliente(null)
                     }
                 }
@@ -409,7 +429,7 @@ class clientes extends Component {
                         <div className="col-sm-5 col-xs-3">
                             <form className="form-inline mt-1 mb-4">
                                 <MDBIcon icon="search" />
-                                <input style={{ width: '80%' }} className="form-control form-control-sm ml-2" type="text" placeholder="Search" aria-label="Search" />
+                                <input style={{ width: '80%' }} className="form-control form-control-sm ml-2" type="text" placeholder="Search" aria-label="Search" onChange={(event) => this.change(event)} value={this.filtro} />
                             </form>
                         </div>
 

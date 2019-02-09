@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 //importando dependencia que administra as rotas, por exemplo: localhost:3000/rotas
 import { Route } from 'react-router-dom'
@@ -14,10 +14,10 @@ import Ajuda from './ajuda/ajuda'
 import CadastrarCliente from './cadastrarCliente/cadastrarCliente'
 import CadastrarItensEstoque from './cadastrarItensEstoque/cadastrarItensEstoque'
 
-class router extends Component{
+class router extends Component {
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <Route exact={true} path='/' component={() => <Agenda rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/vendas' component={() => <Vendas rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
@@ -28,6 +28,8 @@ class router extends Component{
                 <Route path='/ordem-de-servico' component={() => <OrdemServico rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/funcionarios' component={() => <Funcionarios rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/ajuda' component={() => <Ajuda rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
+
+
             </div>
         )
     }
