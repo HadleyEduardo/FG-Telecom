@@ -21,6 +21,7 @@ class clientes extends Component {
             modalConteudo: false,
             mensagemModal: '',
             conteudoModal: null,
+            varEdiModal: null,
             modalEditar: false,
             typeModal: '',
             confirmarOperacao: null,
@@ -38,25 +39,21 @@ class clientes extends Component {
         };
         this.enviar = this.enviar.bind(this)
         this.fazerPaginacao = this.fazerPaginacao.bind(this)
-        this.confirmarOperacao = this.confirmarOperacao.bind(this)
         this.excluirCliente = this.excluirCliente.bind(this)
-        this.toggleModalConteudo = this.toggleModalConteudo.bind(this)
     }
 
     componentWillMount() {
         this.props.rotaAtual('clientes')
+        this.excluirCliente()
     }
 
     //EnviarEdição
 
     enviar(e) {
 
-        console.log("Faz alguma coisa porra >:(")
         e.preventDefault();//Impede o rediresionamento da pagina
-        console.log(this.state.varEdiModal._id)
-
         const form = {
-            id: this.state.varEdiModal._id,
+            id: e.target.vazio.value,
             nome: e.target.nome.value,
             cpf: e.target.cpf.value,
             rg: e.target.rg.value,
@@ -71,30 +68,44 @@ class clientes extends Component {
                 pontoReferencia: e.target.pontoReferencia.value
             }
         }
-
         try {
             axios.post('http://localhost:3001/clientes/editar', form)
                 .then((form) => {
-                    console.log(form.data.mensagem)
                     if (form.data.erro) {
-                        this.setState({ modalErro: true, mensagemModal: form.data.mensagem })
+                        var infoModal = {
+                            nome: 'modalAviso',
+                            mensagem: form.data.mensagem,
+                        }
+                        this.props.infoModal(infoModal)
                     } else {
-                        this.setState({ modalSucesso: true })
+                        var infoModal = {
+                            nome: 'modalSucesso',
+                            mensagem: form.data.mensagem,
+                        }
+                        this.props.infoModal(infoModal)
                         setTimeout(() => {
                             window.location.href = 'http://localhost:3000/clientes'
-                        }, 500)
+                        }, 1200)
                     }
                 }, (erro) => {
-                    console.log(erro)
+                    var infoModal = {
+                        nome: 'modalAviso',
+                        mensagem: 'A conexão com a internet pode estar interrompida ou o servidor está com problemas',
+                    }
+                    this.props.infoModal(infoModal)
                 })
                 .catch((e) => {
-                    console.log(e)
+                    var infoModal = {
+                        nome: 'modalAviso',
+                        //Coloquem o contato de vocês no final da mensagem, coloque '\n' seu nome, depois ':' e o numero!!!
+                        mensagem: 'Ocorreu um erro grave ao tentar editar cliente! Se continuar Chame o suporte!\nTelefone: \nRafael Castro: 067 992359859',
+                    }
+                    this.props.infoModal(infoModal)
                 })
 
         } catch (e) {
             console.log(e)
         }
-
     }
     //EnviarEdição
 
@@ -108,6 +119,7 @@ class clientes extends Component {
         var armazenaCliente = this.props.clientesDados.clientList[i.target.value]
         console.log(armazenaCliente);
         var infoModal = {
+            ...this.props.modais,
             mensagem: (
                 <div>
                     <h2>Informações</h2>
@@ -138,11 +150,13 @@ class clientes extends Component {
     
     //Edição
     editarDados(i) {
-            var armazenaClienteEditado = this.props.clientesDados.clientList[i.target.value]
-            this.setState({conteudoModal: (
-                <form onSubmit={(event) => this.enviar(event)}>
+        var armazenaClienteEditado = this.props.clientesDados.clientList[i.target.value]
+        var infoModal = {
+            ...this.props.modais,
+            mensagem: (
                     <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
                         <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
+                            <p> <input type='hidden' name='vazio' value={armazenaClienteEditado._id} /> </p>
                             <p>Nome <input type="text" name="nome" id="iNome" value='teste' onChange={(event) => this.change(event)} /> </p>
                             <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
                             <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
@@ -158,17 +172,12 @@ class clientes extends Component {
                             <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" placeholder={armazenaClienteEditado.endereco.pontoReferencia} ></textarea></p>
                         </fieldset>
                     </fieldset>
-                </form>
-            ), 
-            modalConteudo: true,
+            ),
+            salvar: (event) => this.enviar(event),
+            nome: 'modalConteudo',
             typeModal: 'editar'
-        })
-    }
-
-    toggleModalEditar() {
-        this.setState({
-            modalConteudo: !this.state.modalConteudo
-        })
+        }
+        this.props.infoModal(infoModal)
     }
 
     //Edição
@@ -255,13 +264,6 @@ class clientes extends Component {
 
     }
 
-    toggleModalErro() {
-        this.setState({ modalErro: false })
-    }
-    toggleModalConteudo(){
-        this.setState({ modalConteudo: false})
-    }
-
     preencherTabela() {
         var cliente = this.props.clientesDados.clientList;
         if (cliente !== null) {
@@ -309,48 +311,51 @@ class clientes extends Component {
         }
     }
 
-    excluirCliente(e) {
-        const posicaoCliente = e.target.value
-        const cliente = this.props.clientesDados.clientList[posicaoCliente]
-        const clienteASerExcluido = {
-            id: cliente._id
-        }
-        this.setState({ modalAviso: true, mensagemModal: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true }, () => {
-            var interval = setInterval(() => {
-                if (this.state.confirmarOperacao !== null) {
-                    clearInterval(interval)
-                    this.setState({ modalAviso: false }, () => {
-                        if (this.state.confirmarOperacao) {
-                            console.log(this.state.confirmarOperacao)
-
-                            axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
-                                .then((excluido) => {
-                                    if (excluido.data.erro) {
-                                        this.setState({ modalErro: true, mensagemModal: excluido.data.mensagem })
-                                    } else {
-                                        this.setState({ modalSucesso: true, mensagemModal: excluido.data.mensagem })
-                                        setTimeout(() => {
-                                            window.location.href = 'http://localhost:3000/clientes'
-                                        }, 500)
-                                    }
-                                }, (erro) => {
-
-                                })
-
-                        }
-                        this.setState({ confirmarOperacao: null })
-                    })
+    excluirCliente(e = null) {
+        if(e !== null) {
+            const posicaoCliente = e.target.value
+            this.props.selecionarCliente(posicaoCliente)
+        }else{
+            if(this.props.clientesDados.clienteSelecionado !== null) {
+                const cliente = this.props.clientesDados.clientList[this.props.clientesDados.clienteSelecionado]
+                var clienteASerExcluido = {
+                    id: cliente._id
                 }
-
-            }, 400)
-        })
-
-
-
-    }
-
-    confirmarOperacao(decisao) {
-        this.setState({ confirmarOperacao: decisao })
+                var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'Tem certeza que deseja excluir esse cliente!', btnConfirmacao: true}
+                if(this.props.modais.btnConfirmacao === null) {
+                    this.props.infoModal(infoModal)
+                }
+                if (this.props.modais.decisao !== null) {
+                    if(this.props.modais.decisao) {
+                        if(this.props.modais.nome === 'modalSucesso'){
+                            var infoModal = {nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
+                            this.props.infoModal(infoModal)
+                        }
+                        
+                        axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
+                            .then((excluido) => {
+                                var infoModal = null
+                                if (excluido.data.erro) {
+                                    infoModal = {nome: 'modalErro', mensagem: excluido.data.mensagem }
+                                    this.props.infoModal(infoModal)
+                                } else {
+                                    var infoModal = {...this.props.modais, nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
+                                    this.props.infoModal(infoModal)
+                                    setTimeout(() => {
+                                        window.location.href = 'http://localhost:3000/clientes'
+                                    }, 1000)
+                                }
+                            }, (erro) => {
+        
+                            })
+                        
+                    }else{
+                        this.props.infoModal({...this.props.modais ,decisao: null, btnConfirmacao: null, nome: ''})
+                        this.props.selecionarCliente(null)
+                    }
+                }
+            }
+        }
     }
 
     renderConteudoTabela(conteudo) {

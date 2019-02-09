@@ -7,8 +7,6 @@ import Rotas from './router'
 import {BrowserRouter as Route} from 'react-router-dom'
 import perfilHadlei from './imagens/seu-Hadlei.png'
 import Modal from './modais/modais'
-import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdbreact';
-
 
 class App extends Component {
   constructor(props){
@@ -33,7 +31,8 @@ class App extends Component {
         inicioPaginacao: 0,
         fimPaginacao: 9,
         qtdContatosPorPagina: 9,
-        paginaAtual: 1
+        paginaAtual: 1,
+        clienteSelecionado: null
       },
       estoqueDados: {
         modelos: null
@@ -42,8 +41,10 @@ class App extends Component {
       rotaAtual: '',
       modais: {
         nome: null,
-        typeModal: 'visualizar',
-        mensagem: 'testando modal'
+        typeModal: '',
+        mensagem: '',
+        decisao: null,
+        btnConfirmacao: null,
       }
     }
     this.toggleMenu = this.toggleMenu.bind(this)
@@ -226,13 +227,14 @@ class App extends Component {
     this.setState({estoqueDados})
   }
 
-  pegarInfoParaModal(info) {
-    console.log('aqui!')
-    console.log(info)
-    var infoAntigas = this.state.modais
-    infoAntigas = {...info}
-    var infoNovas = infoAntigas
-    this.setState({modais: infoNovas})
+  pegarInfoParaModal(modais) {
+    this.setState({modais: modais}, () => {
+      console.log(this.state.modais)
+    }) 
+  }
+
+  selecionarCLiente(cliente) {
+    this.setState({clientesDados: { ...this.state.clientesDados, clienteSelecionado: cliente }})
   }
 
   render() {
@@ -251,11 +253,13 @@ class App extends Component {
                 clientesDados={this.state.clientesDados} 
                 sizeInput={this.state.sizeInput}
                 infoModal={(info) => this.pegarInfoParaModal(info)}
+                modais={this.state.modais}
+                selecionarCliente={(cliente) => this.selecionarCLiente(cliente)}
               />
 
             </Container>
-            <Header headerEmSegundoPlano={this.state.headerEmSegundoPlano} loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
-            <Modal modais={this.state.modais}/>
+            <Header loginIcon={this.state.loginIconLarge} toggleMenu={() => this.toggleMenu()}/>
+            <Modal modais={this.state.modais} infoModal={(info) => this.pegarInfoParaModal(info)} />
         </div>
       </Route>
     );

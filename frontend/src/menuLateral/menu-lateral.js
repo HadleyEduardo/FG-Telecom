@@ -6,7 +6,6 @@ import { MDBAnimation } from "mdbreact";
 class menu extends Component{
 
     ativarMenu(idMenu, id_li){
-        console.log(idMenu, id_li)
         if(document.querySelector('div.ativo') && document.querySelector('li.liAtivo')) {
             document.querySelector('div.ativo').className = ''
             document.querySelector('li.liAtivo').className = ''

@@ -17,6 +17,7 @@ class modalAviso extends Component{
                 <MDBBtn color="warning" size='sm' onClick={this.props.toggle}>Ok, entendi!</MDBBtn>
             )
         }
+        
         return(
             <MDBContainer>
                 <MDBModal isOpen={this.props.modal} toggle={this.props.toggle} centered size='sm'>
