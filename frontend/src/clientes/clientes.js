@@ -148,6 +148,7 @@ class clientes extends Component {
     }
 
     
+    
     //Edição
     editarDados(i) {
         var armazenaClienteEditado = this.props.clientesDados.clientList[i.target.value]
@@ -157,7 +158,7 @@ class clientes extends Component {
                     <fieldset class="scheduler-border"><legend class="scheduler-border"><h1>Editar Cliente</h1></legend>
                         <fieldset id="usuario" class="scheduler-border"><legend class="scheduler-border">Editar Informações</legend>
                             <p> <input type='hidden' name='vazio' value={armazenaClienteEditado._id} /> </p>
-                            <p>Nome <input type="text" name="nome" id="iNome" value='teste' onChange={(event) => this.change(event)} /> </p>
+                            <p>Nome <input type="text" name="nome" id="iNome" /> </p>
                             <p>CPF <input type="text" name="cpf" id="icpf" placeholder={armazenaClienteEditado.cpf} /> </p>
                             <p>RG <input type="text" name="rg" id="iRG" placeholder={armazenaClienteEditado.rg} /></p>
                             <p>Telefone  <input type="text" name="telefone" id="iTelefone" placeholder={armazenaClienteEditado.telefone} /></p>
@@ -174,6 +175,7 @@ class clientes extends Component {
                     </fieldset>
             ),
             salvar: (event) => this.enviar(event),
+            armazenaClienteEditado: armazenaClienteEditado,
             nome: 'modalConteudo',
             typeModal: 'editar'
         }
@@ -199,6 +201,7 @@ class clientes extends Component {
 
                 }
                 this.setState({
+                    // eslint-disable-next-line no-loop-func
                     conteudoPaginacao: () => {
                         return conteudoPaginacao.map((pagina, key) => {
                             return <div className='' onClick={(e) => {
@@ -330,25 +333,25 @@ class clientes extends Component {
                         if(this.props.modais.nome === 'modalSucesso'){
                             var infoModal = {nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
                             this.props.infoModal(infoModal)
-                        }
+                        }else{
                         
-                        axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
-                            .then((excluido) => {
-                                var infoModal = null
-                                if (excluido.data.erro) {
-                                    infoModal = {nome: 'modalErro', mensagem: excluido.data.mensagem }
-                                    this.props.infoModal(infoModal)
-                                } else {
-                                    var infoModal = {...this.props.modais, nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
-                                    this.props.infoModal(infoModal)
-                                    setTimeout(() => {
-                                        window.location.href = 'http://localhost:3000/clientes'
-                                    }, 1000)
-                                }
-                            }, (erro) => {
-        
-                            })
-                        
+                            axios.post('http://localhost:3001/clientes/remover', clienteASerExcluido)
+                                .then((excluido) => {
+                                    var infoModal = null
+                                    if (excluido.data.erro) {
+                                        infoModal = {nome: 'modalErro', mensagem: excluido.data.mensagem }
+                                        this.props.infoModal(infoModal)
+                                    } else {
+                                        var infoModal = {...this.props.modais, nome: 'modalSucesso', mensagem: 'escluido com sucesso' }
+                                        this.props.infoModal(infoModal)
+                                        setTimeout(() => {
+                                            window.location.href = 'http://localhost:3000/clientes'
+                                        }, 1000)
+                                    }
+                                }, (erro) => {
+            
+                                })
+                        }    
                     }else{
                         this.props.infoModal({...this.props.modais ,decisao: null, btnConfirmacao: null, nome: ''})
                         this.props.selecionarCliente(null)

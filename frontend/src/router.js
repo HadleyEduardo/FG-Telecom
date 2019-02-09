@@ -24,7 +24,7 @@ class router extends Component{
                 <Route exact={true} path='/estoque' component={() => <Estoque rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/estoque/novo-item' component={() => <CadastrarItensEstoque rotaAtual={(rota) => this.props.rotaAtual(rota)} pegandoDadosModeloEstoque={(dados) => this.props.pegandoDadosModeloEstoque(dados)} estoqueDados={this.props.estoqueDados} />} />
                 <Route exact={true} path='/clientes' component={() => <Clientes selecionarCliente={(cliente) => this.props.selecionarCliente(cliente)} modais={this.props.modais} infoModal={(info) => this.props.infoModal(info)} rotaAtual={(rota) => this.props.rotaAtual(rota)} pegandoDadosServidor={(dados) => this.props.pegandoDadosServidor(dados)} controlarPaginacaoCliente={(pagina) => this.props.controlarPaginacaoCliente(pagina)} clientesDados={this.props.clientesDados} />} />
-                <Route path='/clientes/novo' component={() => <CadastrarCliente rotaAtual={(rota) => this.props.rotaAtual(rota)} size={this.props.sizeInput} />} />
+                <Route path='/clientes/novo' component={() => <CadastrarCliente modais={this.props.modais} infoModal={(info) => this.props.infoModal(info)} rotaAtual={(rota) => this.props.rotaAtual(rota)} size={this.props.sizeInput} />} />
                 <Route path='/ordem-de-servico' component={() => <OrdemServico rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/funcionarios' component={() => <Funcionarios rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />
                 <Route path='/ajuda' component={() => <Ajuda rotaAtual={(rota) => this.props.rotaAtual(rota)} />} />

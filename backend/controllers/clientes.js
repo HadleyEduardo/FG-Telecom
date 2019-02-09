@@ -2,6 +2,7 @@ import Cliente from '../models/clientes'
 
 class clientes {
     
+    // eslint-disable-next-line class-methods-use-this
     novo(req, res) {
         try{
             var data = {
@@ -26,13 +27,15 @@ class clientes {
                                 (erro) => {
                                     return res.send({
                                         mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
-                                        erro: true
+                                        erro: true,
+                                        dadosForm: data
                                     })
                                 })
                             .catch((e) => {
                                 return res.send({
                                     mensagem: 'ocorreu um erro de servidor: ' + e,
-                                    erro: true
+                                    erro: true,
+                                    dadosForm: data
                                 })
                             })
                     }else{
@@ -53,26 +56,30 @@ class clientes {
                                                         (erro) => {
                                                             return res.send({
                                                                 mensagem: 'ocorreu um problema ao tentar salvar os dados: ' + erro,
-                                                                erro: true
+                                                                erro: true,
+                                                                dadosForm: data
                                                             })
                                                         })
                                                     .catch((e) => {
                                                         return res.send({
                                                             mensagem: 'ocorreu um erro de servidor: ' + e,
-                                                            erro: true
+                                                            erro: true,
+                                                            dadosForm: data
                                                         })
                                                     })
                                             } else {
                                                 return res.send({
                                                     mensagem: 'Esse Telefone já está cadastrado!',
-                                                    erro: true
+                                                    erro: true,
+                                                    dadosForm: data
                                                 })
                                             }
                                         })
                                     } else {
                                         return res.send({
                                             mensagem: 'Esse RG já está cadastrado!',
-                                            erro: true
+                                            erro: true,
+                                            dadosForm: data
                                         })
                                     }
                                 })
@@ -80,16 +87,24 @@ class clientes {
                                 return res.send({
                                     mensagem: 'Esse CPF já está cadastrado!',
                                     erro: true,
-                                    cpf: cpf
+                                    dadosForm: data
                                 })
                             }
                         })
                     }
             }, (erro) => {
-                return res.send('Ocorreu um erro: ' + erro)
+                return res.send({
+                    mensagem: 'Ocorreu um erro a tentar cadastrar o novo cliente',
+                    erro: true,
+                    dadosForm: data
+                })
             })
             .catch((e) => {
-                return res.send('erro interno no servidor: ' + e)
+                return res.send({
+                    mensagem: 'Ocorreu um erro no servidor!',
+                    erro: true,
+                    dadosForm: data
+                })
             })
 
         }catch(e) {
@@ -97,6 +112,7 @@ class clientes {
         }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     buscaTodos(req, res) {
         Cliente.find()
             .then((clientes) => {

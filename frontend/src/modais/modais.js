@@ -51,8 +51,7 @@ class modais extends Component{
             }
 
             if(this.props.modais.nome === 'modalConteudo'){
-                console.log(this.state.ativarModal)
-                modalUsado = (<ModalConteudo salvar={(event) => this.props.modais.salvar(event)} footer={this.props.modais.footer} mensagem={this.props.modais.mensagem} modal={this.state.ativarModal} toggle={this.toggle} typeModal={this.props.modais.typeModal} />)
+                modalUsado = (<ModalConteudo armazenaClienteEditado={this.props.modais.armazenaClienteEditado} salvar={(event) => this.props.modais.salvar(event)} footer={this.props.modais.footer} mensagem={this.props.modais.mensagem} modal={this.state.ativarModal} toggle={this.toggle} typeModal={this.props.modais.typeModal} />)
             }
         }
 

@@ -1,7 +1,5 @@
 import React from "react"
 import axios from 'axios'
-import ModalErro from '../modais/modalErro'
-import ModalSucesso from '../modais/modalSucesso'
 import './cadastrarCliente.css'
 import { MDBBtn } from "mdbreact";
 
@@ -9,17 +7,38 @@ class cadastrarCliente extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            modalErro: false,
-            modalSucesso: false,
-            mensagemModal: 'teste',
-        }
         this.enviar = this.enviar.bind(this)
         this.toggleModalErro = this.toggleModalErro.bind(this)
     }
 
     componentWillMount() {
         this.props.rotaAtual('clientes')
+    }
+
+    componentDidMount() {
+
+        //carrega os dados no formulário novamente caso a operação de salvar não de certo!
+        if(this.props.modais.dadosForm) {
+            console.log('dados')
+            console.log(this.props.modais.dadosForm)
+            var dadosForm = this.props.modais.dadosForm
+            for(var i in dadosForm) {
+                if(i !== 'endereco') {
+                    var input  = document.getElementsByName(i)[0]
+                    input.setAttribute('value', dadosForm[i])
+                }else{
+                    var endereco = dadosForm[i]
+                    for(var key in endereco) {
+                        if(key === 'pontoReferencia') {
+                            document.getElementsByName(key)[0].value = endereco[key]
+                            console.log(document.getElementsByName(key))
+                        }
+                        var input = document.getElementsByName(key)[0]
+                        input.setAttribute('value', endereco[key])
+                    }
+                }
+            }
+        }
     }
 
     toggleModalErro() {
@@ -47,19 +66,23 @@ class cadastrarCliente extends React.Component {
         try{
             axios.post('http://localhost:3001/clientes/novo', form)
                 .then((form) => {
-                    if(form.data.erro){
-                        this.setState({modalErro: true, mensagemModal: form.data.mensagem})    
+                    if(form.data.erro) {
+                        var infoModal = {...this.props.modais, nome: 'modalErro', mensagem: form.data.mensagem, dadosForm: form.data.dadosForm}
+                        this.props.infoModal(infoModal)    
                     }else{
-                        this.setState({modalSucesso: true, mensagemModal: form.data.mensagem})
+                        var infoModal =  {...this.props.modais, nome: 'modalSucesso', mensagem: form.data.mensagem}
+                        this.props.infoModal(infoModal)
                         setTimeout(() => {
                             window.location.href = 'http://localhost:3000/clientes'
                         }, 500)
                     }
                 }, (erro) => {
-                    console.log(erro)
+                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'A conexão com a internet pode estar interrompida oo o servidor está com problemas'}
+                    this.props.infoModal(infoModal)
                 })
                 .catch((e) => {
-                    console.log(e)
+                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'Ocorreu um problema grave ao tentar salvar o novo cliente!\nChame o suporte!'}
+                    this.props.infoModal(infoModal)
                 })
 
         }catch(e) {
@@ -99,8 +122,6 @@ class cadastrarCliente extends React.Component {
                         </p>
                     </fieldset>
                 </form>
-                <ModalErro toggle={this.toggleModalErro} modal={this.state.modalErro} mensagem={this.state.mensagemModal} />
-                <ModalSucesso modal={this.state.modalSucesso} mensagem={this.state.mensagemModal} />
             </div>
         )
     }
