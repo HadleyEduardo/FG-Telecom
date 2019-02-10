@@ -279,19 +279,39 @@ class clientes extends Component {
 
     }
 
-    filtroDePesquisa(cliente){
+    //filtroDePesquisa
+    filtroDePesquisa(cliente) {
         console.log(this.state.filtro)
+        var clienteDigitado = this.props.clientesDados.clientList;
+        var armazenaClienteDoFiltro = [];
+        var controleIndice = 0;
+        var nome;
+        var armazenaFiltro
 
+        if (clienteDigitado !== null) {
+            for (var i = 0; i < clienteDigitado.length; i++) {
+                nome = clienteDigitado[i].nome.toLowerCase()
+                armazenaFiltro = this.state.filtro.toLowerCase()
+                if (nome.indexOf(armazenaFiltro) !== -1) {
+                    armazenaClienteDoFiltro[controleIndice] = clienteDigitado[i]
+                    controleIndice++
+                    console.log(clienteDigitado[i].nome)
+                    console.log("Posicao: " + i)
+                }
+            }
 
-        this.preencherTabela()
-    }
-
-    preencherTabela() {
-        var cliente = this.props.clientesDados.clientList;
-        if (this.state.filtro !== '') {
-            cliente = this.state.listaClientesFiltrada
         }
-        
+
+        this.preencherTabela(armazenaClienteDoFiltro)
+    }
+    //filtroDePesquisa
+
+    preencherTabela(armazenaClienteDoFiltro = null) {
+        var cliente = this.props.clientesDados.clientList;
+        if (this.state.filtro.toLowerCase() !== '') {
+            cliente = armazenaClienteDoFiltro
+        }
+
         if (cliente !== null) {
             var renderListCliente = [];
             if (cliente.length > 0) {
