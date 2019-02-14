@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { MDBBtn, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import { MDBBtn, MDBTable, MDBTableBody, MDBTableHead, MDBRow, MDBCol, MDBIcon } from 'mdbreact';
 import axios from 'axios';
+import './estoque.css';
 
 const Tabela = (props) => {
     return (
@@ -19,6 +20,17 @@ const Tabela = (props) => {
     );
 }
 
+const SearchPage = () => {
+    return (
+        <MDBCol sm="5" xs="3">
+            <form className="form-inline mt-1 mb-4">
+                <MDBIcon icon="search" />
+                <input style={{width: '80%'}} className="form-control form-control-sm ml-2" type="text" placeholder="Pesquisar..." aria-label="Search" />
+            </form>
+        </MDBCol>
+    );
+}
+
 class estoque extends Component {
     componentWillMount() {
         this.props.rotaAtual('estoque')
@@ -26,9 +38,9 @@ class estoque extends Component {
     }
 
     jaFoi(tupla) {
-        var jaForam = document.querySelectorAll('tr#produto');
-        for(var j = 0; j < jaForam.length; ++j) {
-            if(jaForam[j].innerHTML === tupla.innerHTML) {
+        var jaForam = document.querySelectorAll('tr.produto');
+        for (var j = 0; j < jaForam.length; ++j) {
+            if (jaForam[j].innerHTML === tupla.innerHTML) {
                 return true;
             }
         }
@@ -37,28 +49,30 @@ class estoque extends Component {
 
     getDados(res) {
         var dados = res;
+        console.log(dados);
+
         var tabela = document.getElementById('tabela');
 
-        for(var i = 0; i < dados.length; ++i) {
+        for (var i = 0; i < dados.length; ++i) {
             var tupla = document.createElement('tr');
-            tupla.setAttribute('id', 'produto');
-            
+            tupla.setAttribute('class', 'produto');
+
             var codigo = document.createElement('td');
             var nome = document.createElement('td');
             var marca = document.createElement('td');
             var modelo = document.createElement('td');
-            
+
             codigo.innerHTML = dados[i].codigo;
             nome.innerHTML = dados[i].nome;
             marca.innerHTML = dados[i].marca;
             modelo.innerHTML = dados[i].modelo;
-            
+
             tupla.appendChild(codigo);
             tupla.appendChild(nome);
             tupla.appendChild(marca);
             tupla.appendChild(modelo);
-            
-            if(this.jaFoi(tupla)) {
+
+            if (this.jaFoi(tupla)) {
                 continue;
             }
 
@@ -68,16 +82,31 @@ class estoque extends Component {
 
     requisicao() {
         axios.get('http://localhost:3001/estoque/produto')
-        .then(response => this.getDados(response.data))
-        .catch(error => console.log(error));
+            .then(response => this.getDados(response.data))
+            .catch(error => console.log(error));
     }
 
     render() {
         return (
             <div className="container">
-                <Link to='/estoque/novo-item'>
-                    <MDBBtn color="success">Cadastrar produtos no estoque</MDBBtn>
-                </Link>
+                <h2>estocao do seu Hadlei</h2>
+                <br />
+                <MDBRow>
+                    <MDBCol sm="3" xs="0"></MDBCol>
+
+                    <SearchPage />
+
+                    <MDBCol sm="2" xs="0"></MDBCol>
+
+                    <MDBCol sm="2" xs="1">
+                        <Link to='/estoque/novo-item'>
+                            <MDBBtn color="primary" className="btn btn-primary btn-sm">
+                                <MDBIcon icon="plus" className="mr-1" /> novo
+                            </MDBBtn>
+                        </Link>
+                    </MDBCol>
+                </MDBRow>
+
                 <Tabela />
             </div>
         )
