@@ -1,4 +1,6 @@
 import Cliente from '../models/clientes'
+import validator from 'validator'
+import validarDados from '../functions/validarDados'
 
 class clientes {
     
@@ -23,6 +25,17 @@ class clientes {
                             dadosForm: data
                         })
                     }
+                }
+            }
+
+            var result = validarDados(data)
+            for(var i in result) {
+                if(result[i] == false) {
+                    return res.send({
+                        mensagem: i + ' inválido',
+                        erro: 'true',
+                        dadosForm: data
+                    })
                 }
             }
 

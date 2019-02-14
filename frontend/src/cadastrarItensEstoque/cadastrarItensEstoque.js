@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { MDBSelect, MDBSelectInput, MDBSelectOptions, MDBSelectOption, MDBInput, MDBBtn, MDBIcon} from "mdbreact";
 import axios from 'axios'
-import ModalSucesso from '../modais/modalSucesso'
-import ModalErro from '../modais/modalErro'
-import ModalAviso from '../modais/modalAviso'
 import './cadastrarItensEstoque.css'
+import modal from '../modais/manipulandoModal'
 
 class cadastrarItensEstoque extends Component {
 
@@ -21,8 +19,6 @@ class cadastrarItensEstoque extends Component {
             ativarModalAviso: false,
             mensagemModal: 'teste'
         }
-        this.toggleModalErro = this.toggleModalErro.bind(this)
-        this.toggleModalAviso = this.toggleModalAviso.bind(this)
     }
 
     componentWillMount(){
@@ -37,7 +33,8 @@ class cadastrarItensEstoque extends Component {
                     var modelos = res.data
                     this.props.pegandoDadosModeloEstoque(modelos)
                 }, (err) => {
-                    this.setState({mensagemModal: ' A conexão com a internet está interrompida ou o servidor está com problemas!', ativarModalAviso: true})
+                    var mensagemModal = ' A conexão com a internet está interrompida ou o servidor está com problemas!'
+                    modal('aviso', mensagemModal)
                     var interval = setInterval(() => {
                         axios.get('http://localhost:3001/estoque/modelo')
                             .then((res) => {
@@ -80,14 +77,6 @@ class cadastrarItensEstoque extends Component {
         }
     }
 
-    toggleModalErro() {
-        this.setState({ativarModalErro: false})
-    }
-
-    toggleModalAviso() {
-        this.setState({ativarModalAviso: false})
-    }
-
     salvarDadosNovoProduto(e) {
         e.preventDefault()
         if(e.target['marca-modelo'].value === 'Marca & Modelo'){
@@ -104,28 +93,33 @@ class cadastrarItensEstoque extends Component {
             }
             
             if(produto.codigo === ''){
-                this.setState({ativarModalErro: true, mensagemModal: 'Por favor insira o Código de Barras!'})
+                var mensagemModal = 'Por favor insira o Código de Barras!'
+                modal('erro', mensagemModal)
             }else{
                 if(produto.nome === ''){
-                    this.setState({ativarModalErro: true, mensagemModal: 'Por favor insira o Nome do Produto!'})
+                    var mensagemModal = 'Por favor insira o Nome do Produto!'
+                    modal('erro'. mensagemModal)
                 }else{
                     axios.post('http://localhost:3001/estoque/produto/novo', produto)
                     .then((res) => {
                         var mensagem = res.data.mensagem
                         var erro = res.data.erro
                         if(erro){
-                            this.setState({ativarModalErro: true, mensagemModal: mensagem})
+                            var mensagemModal = mensagem
+                            modal('erro', mensagemModal)
                         }else{
-                            this.setState({ativarModalSucesso: true})
+                            modal('sucesso', mensagem)
                             setTimeout(() => {
                                 window.location.href = 'http://localhost:3000/estoque'
-                            }, 500)
+                            }, 1000)
                         }
                     }, (erro) => {
-                        console.log('erro: ' + erro)
+                        var mensagem = 'A conexão com a internet pode estar interrompida ou o servidor está com problemas!'
+                        modal('aviso', mensagem)
                     })
                     .catch((err) => {
-                        console.log(err)
+                        var mensagem = 'Ocorreu um erro grave ao tentar salvar o produto no estoque! Tente novamente mais tarde!'
+                        modal('aviso', mensagem)
                     })
                 }
             }
@@ -143,18 +137,21 @@ class cadastrarItensEstoque extends Component {
                 var mensagem = res.data.mensagem
                 var erro = res.data.erro
                 if(erro){
-                    this.setState({ativarModalErro: true, mensagemModal: mensagem})
+                    var mensagemModal = mensagem
+                    modal('erro', mensagemModal)
                 }else{
-                    this.setState({ativarModalSucesso: true})
+                    modal('sucesso', mensagem)
                     setTimeout(() => {
                         window.location.href = 'http://localhost:3000/estoque'
-                    }, 500)
+                    }, 1000)
                 }
             }, (erro) => {
-                console.log('erro: ' + erro)
+                var mensagem = 'A conexão com a internet pode estar interrompida ou o servidor está com problemas!'
+                modal('aviso', mensagem)
             })
             .catch((err) => {
-                console.log(err)
+                var mensagem = 'Ocorreu um erro grave ao tentar salvar um novo modelo! Tente novamente mais tarde!'
+                modal('aviso', mensagem)
             })
     }
 
@@ -281,9 +278,6 @@ class cadastrarItensEstoque extends Component {
                         {this.state.conteudoNavTab}
                     </div>
                 </div>
-                <ModalSucesso modal={this.state.ativarModalSucesso} />
-                <ModalErro toggle={this.toggleModalErro} modal={this.state.ativarModalErro} mensagem={this.state.mensagemModal} />
-                <ModalAviso toggle={this.toggleModalAviso} modal={this.state.ativarModalAviso} mensagem={this.state.mensagemModal} />
             </div>
         )
     }

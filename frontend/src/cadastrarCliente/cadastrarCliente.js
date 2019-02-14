@@ -2,47 +2,22 @@ import React from "react"
 import axios from 'axios'
 import './cadastrarCliente.css'
 import { MDBBtn } from "mdbreact";
+import modal from '../modais/manipulandoModal'
 
 class cadastrarCliente extends React.Component {
 
     constructor(props) {
         super(props)
         this.enviar = this.enviar.bind(this)
-        this.toggleModalErro = this.toggleModalErro.bind(this)
     }
 
     componentWillMount() {
         this.props.rotaAtual('clientes')
+        window.addEventListener('resize', () => this.sizeScreen())
     }
 
     componentDidMount() {
-
-        //carrega os dados no formulário novamente caso a operação de salvar não de certo!
-        if(this.props.modais.dadosForm) {
-            console.log('dados')
-            console.log(this.props.modais.dadosForm)
-            var dadosForm = this.props.modais.dadosForm
-            for(var i in dadosForm) {
-                if(i !== 'endereco') {
-                    var input  = document.getElementsByName(i)[0]
-                    input.setAttribute('value', dadosForm[i])
-                }else{
-                    var endereco = dadosForm[i]
-                    for(var key in endereco) {
-                        if(key === 'pontoReferencia') {
-                            document.getElementsByName(key)[0].value = endereco[key]
-                            console.log(document.getElementsByName(key))
-                        }
-                        var input = document.getElementsByName(key)[0]
-                        input.setAttribute('value', endereco[key])
-                    }
-                }
-            }
-        }
-    }
-
-    toggleModalErro() {
-        this.setState({modalErro: false})
+        this.sizeScreen()
     }
 
     enviar(e) {
@@ -67,22 +42,22 @@ class cadastrarCliente extends React.Component {
             axios.post('http://localhost:3001/clientes/novo', form)
                 .then((form) => {
                     if(form.data.erro) {
-                        var infoModal = {...this.props.modais, nome: 'modalErro', mensagem: form.data.mensagem, dadosForm: form.data.dadosForm}
-                        this.props.infoModal(infoModal)    
+                        var mensagem = form.data.mensagem
+                        modal('erro', mensagem)
                     }else{
-                        var infoModal =  {...this.props.modais, nome: 'modalSucesso', mensagem: form.data.mensagem}
-                        this.props.infoModal(infoModal)
+                        var mensagem = form.data.mensagem
+                        modal('sucesso', mensagem)
                         setTimeout(() => {
                             window.location.href = 'http://localhost:3000/clientes'
-                        }, 500)
+                        }, 1000)
                     }
                 }, (erro) => {
-                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'A conexão com a internet pode estar interrompida ou o servidor está com problemas'}
-                    this.props.infoModal(infoModal)
+                    var mensagem = 'A conexão com a internet pode estar interrompida ou o servidor está com problemas'
+                    modal('aviso', mensagem)
                 })
                 .catch((e) => {
-                    var infoModal = {...this.props.modais, nome: 'modalAviso', mensagem: 'Ocorreu um problema grave ao tentar salvar o novo cliente!\nChame o suporte!'}
-                    this.props.infoModal(infoModal)
+                    var mensagem = 'Ocorreu um problema grave ao tentar salvar o novo cliente!\nChame o suporte!'
+                    modal('aviso', mensagem)
                 })
 
         }catch(e) {
@@ -90,32 +65,59 @@ class cadastrarCliente extends React.Component {
         }
     }
 
-    render() {
-        const size = this.props.size
-        var legend = null
-        if (size === 40) {
-            legend = (<h1>Cadastrar cliente</h1>)
-        } else {
-            legend = (<h3>Cadastrar cliente</h3>)
+    sizeScreen() {
+        var width = window.innerWidth
+        if(width < 480) {
+            var inputs = document.querySelectorAll('input')
+            console.log(inputs)
+            for(var i = 0; i < inputs.length; i++) {
+                inputs[i].setAttribute('size', '27')
+            }
+            document.querySelector('h1').style.fontSize = '100%'
+        }else{
+            if(width < 546) {
+                var inputs = document.querySelectorAll('input')
+                for(var i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute('size', '27')
+                }
+                document.querySelector('h1').style.fontSize = '99%'
+            }else{
+                if(width < 350) {
+                    var inputs = document.querySelectorAll('input')
+                    for(var i = 0; i < inputs.length; i++) {
+                        inputs[i].setAttribute('size', '25')
+                    }
+                    document.querySelector('h1').style.fontSize = '100%'
+                }else{
+                    document.querySelector('h1').style = ''
+                    var inputs = document.querySelectorAll('input')
+                    for(var i = 0; i < inputs.length; i++) {
+                        inputs[i].setAttribute('size', '40')
+                    }
+                }
+            }
         }
+    }
+
+    render() {
         return (
             <div style={{ width: '100%', height: '100%' }}>
                 <form onSubmit={this.enviar} name="form" id="form">
-                    <fieldset className="scheduler-border"><legend className="scheduler-border"> {legend} </legend>
-                        <fieldset id="usuario" className="scheduler-border"><legend className="scheduler-border">Identificação</legend>
-                            <p>Nome <input type="text" name="nome" id="iNome" size={size} /> </p>
-                            <p>CPF <input type="text" name="cpf" id="icpf" size={size} /> </p>
-                            <p>RG <input type="text" name="rg" id="iRG" size={size} /></p>
-                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" size={size} /></p>
-                            <p>E-mail <input type="email" name="email" id="iemail" size={size} /></p>
+                    <fieldset className="scheduler-border"><legend className="scheduler-border"> <h1>Cadastrar Cliente</h1> </legend>
+                        <fieldset id="usuario" className="scheduler-border"> <legend className="scheduler-border">Identificação</legend>
+                            <p>Nome <input type="text" name="nome" id="iNome" /> </p>
+                            <p>CPF <input type="text" name="cpf" id="icpf" /> </p>
+                            <p>RG <input type="text" name="rg" id="iRG" /></p>
+                            <p>Telefone  <input type="text" name="telefone" id="iTelefone" /></p>
+                            <p>E-mail <input type="email" name="email" id="iemail" /></p>
                         </fieldset>
                         <fieldset id="Endereco" className="scheduler-border"><legend className="scheduler-border">Endereco</legend>
-                            <p>Bairro <input type="text" name="bairro" id="ibairro" size={size} /></p>
-                            <p>Rua <input type="text" name="rua" id="irua" size={size} /></p>
-                            <p>Numero <input type="number" name="numero" id="inume" size={size} /></p>
-                            <p>Cidade <input type="text" name="cidade" id="icidade" size={size} /></p>
-                            <p>CEP <input type="text" name="cep" id="icpf" size={size} placeholder="Digite o CEP aqui"/></p>
-                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" cols={size}></textarea></p>
+                            <p>Bairro <input type="text" name="bairro" id="ibairro" /></p>
+                            <p>Rua <input type="text" name="rua" id="irua" /></p>
+                            <p>Numero <input type="number" name="numero" id="inume" /></p>
+                            <p>Cidade <input type="text" name="cidade" id="icidade" /></p>
+                            <p>CEP <input type="text" name="cep" id="icpf" placeholder="Digite o CEP aqui"/></p>
+                            <p>Ponto de referencia <br /> <textarea name="pontoReferencia" id="ipontoReferencia" rows="10" ></textarea></p>
                         </fieldset>
                         <p>
                             <MDBBtn color="primary" type="submit">Salvar</MDBBtn>

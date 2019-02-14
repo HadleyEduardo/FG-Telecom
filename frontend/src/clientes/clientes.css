@@ -8,5 +8,20 @@ h1 {
 }
 .campo1 {
     float:left;
- }
+}
 
+.inputsEditar {
+    width: 25em
+}
+
+@media only screen and (max-width: 601px){ 
+    .inputsEditar {
+        width: 10em
+    }
+}
+
+@media only screen and (max-width: 801px){ 
+    .inputsEditar {
+        width: 13em
+    }
+}
