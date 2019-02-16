@@ -2,10 +2,6 @@ import React, {Component} from 'react'
 
 class venda extends Component{
 
-    componentWillMount() {
-        this.props.rotaAtual('venda')
-    }
-
     render(){
         return(
             <div>

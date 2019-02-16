@@ -39,10 +39,6 @@ class clientes extends Component {
         this.excluirCliente = this.excluirCliente.bind(this)
     }
 
-    componentWillMount() {
-        this.props.rotaAtual('clientes')
-    }
-
     //Pesquisar na tabela clientes
     change(e) {
         this.setState({filtro: e.target.value }, () => {

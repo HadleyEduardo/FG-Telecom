@@ -13,10 +13,24 @@ class menu extends Component{
                 visibility: 'visible'
             },
             loginIconMobile: null,
+            rotas: ['vendas', 'estoque', 'clientes', 'ordem-de-servico', 'funcionarios', 'ajuda']
         }
     }
 
     componentDidMount() {
+        this.toggleMenu()
+        window.addEventListener('resize', () => this.desativarMenuModoMobile())
+        this.desativarMenuModoMobile()
+
+        var rota = this.definirRotaAoCarregarPagina()
+        if(rota) {
+            var idMenu = '#' + rota
+            var idLi = '#li-' + rota
+            this.ativarItemDoMenu(idMenu, idLi)
+        }
+    }
+
+    toggleMenu() {
         document.getElementById('toggle-menu').addEventListener('click', (e) => {
             e.preventDefault()
             if(this.state.style.visibility === 'visible') {
@@ -29,8 +43,6 @@ class menu extends Component{
                 }})
             }
         })
-        window.addEventListener('resize', () => this.desativarMenuModoMobile())
-        this.desativarMenuModoMobile()
     }
     
     desativarMenuModoMobile() {
@@ -74,7 +86,7 @@ class menu extends Component{
         }
     }
 
-    ativarMenu(idMenu, id_li){
+    ativarItemDoMenu(idMenu, id_li){
         if(document.querySelector('div.ativo') && document.querySelector('li.liAtivo')) {
             document.querySelector('div.ativo').className = ''
             document.querySelector('li.liAtivo').className = ''
@@ -83,19 +95,32 @@ class menu extends Component{
         document.querySelector(id_li).className = 'liAtivo'
     }
 
+    definirRotaAoCarregarPagina() {
+        const rotaAtual = window.location.href
+        var rotas = this.state.rotas
+        var rotaSelecionada = '' 
+        for(var i in rotas) {
+            var rota = rotas[i]
+            rota = rota.substring(0, 5)
+            if(rotaAtual.indexOf(rota) !== -1) {
+                rotaSelecionada = rotas[i]
+            }
+        }
+
+        if(rotaSelecionada === '') {
+            return 'agenda'
+        }
+
+        return rotaSelecionada
+    }
+
     render(){
+        
         var animation
         if(this.state.style.visibility === 'hidden'){
             animation = 'zoomOutLeft' 
         }else{
             animation = 'zoomOutRigth'
-        }
-
-        var rota = this.props.rotaAcessada
-        if(rota) {
-            var idMenu = '#' + rota
-            var idLi = '#li-' + rota
-            this.ativarMenu(idMenu, idLi)
         }
 
         return(
@@ -105,25 +130,25 @@ class menu extends Component{
                     <br />
                     <nav>
                         <ul>
-                            <Link className='text-decoration-none' to='/'>
+                            <Link className='text-decoration-none' to='/' onClick={() => this.ativarItemDoMenu('#agenda', '#li-agenda')}>
                                 <div id='agenda'></div> <li id='li-agenda'> <i className="far fa-calendar-alt fa-lg"></i> &nbsp; <span> AGENDA </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/vendas'>
-                                <div id='venda'></div> <li id='li-venda'> <i className="fas fa-shopping-cart fa-lg"></i> &nbsp; <span> VENDAS </span> </li>
+                            <Link className='text-decoration-none' to='/vendas' onClick={() => this.ativarItemDoMenu('#vendas', '#li-vendas')}>
+                                <div id='vendas'></div> <li id='li-vendas'> <i className="fas fa-shopping-cart fa-lg"></i> &nbsp; <span> VENDAS </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/estoque'> 
+                            <Link className='text-decoration-none' to='/estoque' onClick={() => this.ativarItemDoMenu('#estoque', '#li-estoque')}> 
                                 <div id='estoque'></div><li id='li-estoque'> <i className="fas fa-box-open fa-lg"></i> &nbsp; <span> ESTOQUE </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/clientes'>
+                            <Link className='text-decoration-none' to='/clientes' onClick={() => this.ativarItemDoMenu('#clientes', '#li-clientes')}>
                                 <div id='clientes'></div> <li id='li-clientes'> <i className="fas fa-users fa-lg"></i> &nbsp; <span> CLIENTES </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/ordem-de-servico'>
-                                <div id='ordemDeServico'></div> <li id='li-ordemDeServico'> <i className="fas fa-toolbox fa-lg"></i> &nbsp; <span> ORDEM DE SERVIÇO </span> </li>
+                            <Link className='text-decoration-none' to='/ordem-de-servico' onClick={() => this.ativarItemDoMenu('#ordem-de-servico', '#li-ordem-de-servico')}>
+                                <div id='ordem-de-servico'></div> <li id='li-ordem-de-servico'> <i className="fas fa-toolbox fa-lg"></i> &nbsp; <span> ORDEM DE SERVIÇO </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/funcionarios'>
+                            <Link className='text-decoration-none' to='/funcionarios' onClick={() => this.ativarItemDoMenu('#funcionarios', '#li-funcionarios')}>
                                 <div id='funcionarios'></div> <li id='li-funcionarios'> <i className="fas fa-user-tie fa-lg"></i> &nbsp; <span> FUNCIONARIOS </span> </li>
                             </Link>
-                            <Link className='text-decoration-none' to='/ajuda'>
+                            <Link className='text-decoration-none' to='/ajuda' onClick={() => this.ativarItemDoMenu('#ajuda', '#li-ajuda')}>
                                 <div id='ajuda'></div> <li id='li-ajuda'> <i className="fas fa-question-circle fa-lg"></i> &nbsp; <span> AJUDA </span> </li>
                             </Link>
                         </ul>

@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 class agenda extends Component {
-   
-    componentWillMount() {
-        this.props.rotaAtual('agenda')
-    }
 
     render() {
         return (

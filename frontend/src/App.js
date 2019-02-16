@@ -48,18 +48,9 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-    var addEvent = function (elem, type, eventHandle) {
-      if (elem == null || typeof (elem) == 'undefined') return;
-      if (elem.addEventListener) {
-        elem.addEventListener(type, eventHandle, false);
-      } else if (elem.attachEvent) {
-        elem.attachEvent("on" + type, eventHandle);
-      } else {
-        elem["on" + type] = eventHandle;
-      }
-    };
-  }  
+  componentDidMount() {
+    modal()
+  }
 
   guardandoDadosLocalmente(dados) {
     var clientesDados = this.state.clientesDados
@@ -99,17 +90,16 @@ class App extends Component {
   }
 
   render() {
-    modal()
+    
     return (
       <Route>
         <div id="App">
-          <Menu rotaAcessada={this.state.rotaAtual} />
+          <Menu />
           <Header />
-          <Container id={this.state.estadosDoContainer}>
+          <Container >
           
             <div>
               <Rotas
-                rotaAtual={(rota) => this.settarRota(rota)}
                 estoqueDados={this.state.estoqueDados}
                 pegandoDadosModeloEstoque={(dados) => this.pegandoModeloServidor(dados)}
                 pegandoDadosServidor={(dados) => this.guardandoDadosLocalmente(dados)}

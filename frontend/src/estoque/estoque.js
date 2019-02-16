@@ -32,19 +32,9 @@ const SearchPage = () => {
 }
 
 class estoque extends Component {
-    componentWillMount() {
-        this.props.rotaAtual('estoque')
-        this.requisicao();
-    }
 
-    jaFoi(tupla) {
-        var jaForam = document.querySelectorAll('tr.produto');
-        for (var j = 0; j < jaForam.length; ++j) {
-            if (jaForam[j].innerHTML === tupla.innerHTML) {
-                return true;
-            }
-        }
-        return false;
+    componentDidMount() {
+        this.requisicao();
     }
 
     getDados(res) {
@@ -71,18 +61,15 @@ class estoque extends Component {
             tupla.appendChild(nome);
             tupla.appendChild(marca);
             tupla.appendChild(modelo);
-
-            if (this.jaFoi(tupla)) {
-                continue;
-            }
-
             tabela.appendChild(tupla);
         }
     }
 
     requisicao() {
         axios.get('http://localhost:3001/estoque/produto')
-            .then(response => this.getDados(response.data))
+            .then(response => {
+                this.getDados(response.data)
+            })
             .catch(error => console.log(error));
     }
 

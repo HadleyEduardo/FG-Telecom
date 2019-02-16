@@ -13,10 +13,6 @@ class container extends Component{
         }
     }
 
-    componentWillMount() {
-        
-    }
-
     componentDidMount() {
         document.getElementById('toggle-menu').addEventListener('click', (e) => this.mudarEstadoDoContainer(e))
         window.addEventListener('resize', () => this.mudarEstadoDoContainer())

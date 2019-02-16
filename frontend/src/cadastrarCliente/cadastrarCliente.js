@@ -12,7 +12,6 @@ class cadastrarCliente extends React.Component {
     }
 
     componentWillMount() {
-        this.props.rotaAtual('clientes')
         window.addEventListener('resize', () => this.sizeScreen())
     }
 
