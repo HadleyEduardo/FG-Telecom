@@ -6,12 +6,29 @@ import axios from 'axios';
 import './estoque.css';
 
 const DatatablePage = (dados) => {
+    const columns = dados.dados.columns;
+    const linhas = dados.dados.rows;
+    
+    const codigo = linhas.map(linhas => linhas.codigo);
+    const nome = linhas.map(linhas => linhas.nome);
+    const marca = linhas.map(linhas => linhas.marca);
+    const modelo = linhas.map(linhas => linhas.modelo);
+
+    const rows = [
+        { codigo, nome, marca, modelo }
+    ]
+
+    const data = {
+        columns,
+        rows
+    }
+
     return (
         <MDBDataTable
             striped
             bordered
             hover
-            data={dados}
+            data={data}
         />
     );
 }
@@ -21,7 +38,7 @@ class estoque extends Component {
         this.requisicao();
     }
 
-    getDados(res) {
+    getDados(rows) {
         const dados = {
             columns: [
                 {
@@ -49,18 +66,16 @@ class estoque extends Component {
                     width: 100
                 }
             ],
-            rows: [
-                res.data
-            ]
+            rows
         };
-
+        
         ReactDOM.render(<DatatablePage dados={dados} />, document.querySelector('div#tabela'));
     }
 
     requisicao() {
         axios.get('http://localhost:3001/estoque/produto')
             .then(response => {
-                this.getDados(response)
+                this.getDados(response.data)
             })
             .catch(error => console.log(error));
     }
@@ -81,8 +96,8 @@ class estoque extends Component {
                         </Link>
                     </MDBCol>
                 </MDBRow>
+                
                 <div id="tabela">
-                    {/* tentei inserir a tabela aqui com ReactDOM */}
                 </div>
             </div>
         )
