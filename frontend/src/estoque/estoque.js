@@ -13,10 +13,23 @@ const DatatablePage = (dados) => {
     const nome = linhas.map(linhas => linhas.nome);
     const marca = linhas.map(linhas => linhas.marca);
     const modelo = linhas.map(linhas => linhas.modelo);
+    
+    var rows = [];
+    for(var i = 0; i < linhas.length; ++i) {
+        const c = codigo[i];
+        const n = nome[i];
+        const m = marca[i];
+        const m2 = modelo[i];
 
-    const rows = [
-        { codigo, nome, marca, modelo }
-    ]
+        const obj = {
+            c,
+            n,
+            m,
+            m2
+        }
+
+        rows[i] = obj;
+    }
 
     const data = {
         columns,
@@ -68,7 +81,7 @@ class estoque extends Component {
             ],
             rows
         };
-        
+
         ReactDOM.render(<DatatablePage dados={dados} />, document.querySelector('div#tabela'));
     }
 
