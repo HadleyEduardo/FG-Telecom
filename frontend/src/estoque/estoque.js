@@ -1,48 +1,68 @@
-import React, { Component } from 'react'
+// wWWWw               wWWWw
+// vVVVv (___) wWWWw         (___)  vVVVv
+// (___)  ~Y~  (___)  vVVVv   ~Y~   (___)
+//  ~Y~   \|    ~Y~   (___)    |/    ~Y~
+//  \|   \ |/   \| /  \~Y~/   \|    \ |/
+// \\|// \\|// \\|/// \\|//  \\|// \\\|///
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom'
-import { MDBBtn, MDBRow, MDBCol, MDBIcon, MDBDataTable } from 'mdbreact';
+import { MDBBtn, MDBRow, MDBCol, MDBIcon, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios';
 import './estoque.css';
 
-const DatatablePage = (dados) => {
-    const columns = dados.dados.columns;
-    const linhas = dados.dados.rows;
-    
-    const codigo = linhas.map(linhas => linhas.codigo);
-    const nome = linhas.map(linhas => linhas.nome);
-    const marca = linhas.map(linhas => linhas.marca);
-    const modelo = linhas.map(linhas => linhas.modelo);
-    
-    var rows = [];
-    for(var i = 0; i < linhas.length; ++i) {
-        const c = codigo[i];
-        const n = nome[i];
-        const m = marca[i];
-        const m2 = modelo[i];
+// juntar os btn --> MDBBtnGroup
 
-        const obj = {
-            c,
-            n,
-            m,
-            m2
-        }
-
-        rows[i] = obj;
-    }
-
-    const data = {
-        columns,
-        rows
-    }
-
+const Crud = props => {
     return (
-        <MDBDataTable
-            striped
-            bordered
-            hover
-            data={data}
-        />
+        <Fragment>
+            <MDBBtn color="warning" size="sm">Editar</MDBBtn>
+            <MDBBtn color="danger" size="sm">Excluir</MDBBtn>
+        </Fragment>
+    );
+}
+
+const Produto = props => {
+    return (
+        <tr>
+            <td>{props.data.codigo}</td>
+            <td>{props.data.nome}</td>
+            <td>{props.data.marca}</td>
+            <td>{props.data.modelo}</td>
+            <td><Crud id={props.id} /></td>
+        </tr>
+    );
+}
+
+const SearchPage = () => {
+    return (
+        <MDBCol md="5" xs="3">
+            <form className="form-inline mt-4 mb-4">
+                <MDBIcon icon="search" />
+                <input className="form-control form-control-sm ml-2" type="text" placeholder="Pesquisar" aria-label="Search" autoFocus />
+            </form>
+        </MDBCol>
+    );
+}
+
+const BasicTable = props => {
+    return (
+        <MDBTable striped>
+            <MDBTableHead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ações</th>
+                </tr>
+            </MDBTableHead>
+            <MDBTableBody>
+                {/* produtos aqui */}
+            </MDBTableBody>
+        </MDBTable>
     );
 }
 
@@ -51,38 +71,15 @@ class estoque extends Component {
         this.requisicao();
     }
 
-    getDados(rows) {
-        const dados = {
-            columns: [
-                {
-                    label: 'Código',
-                    field: 'codigo',
-                    sort: 'asc',
-                    width: 150
-                },
-                {
-                    label: 'Nome',
-                    field: 'name',
-                    sort: 'asc',
-                    width: 270
-                },
-                {
-                    label: 'Marca',
-                    field: 'marca',
-                    sort: 'asc',
-                    width: 200
-                },
-                {
-                    label: 'Modelo',
-                    field: 'modelo',
-                    sort: 'asc',
-                    width: 100
-                }
-            ],
-            rows
-        };
+    getDados(data) {
+        const obj = [];
 
-        ReactDOM.render(<DatatablePage dados={dados} />, document.querySelector('div#tabela'));
+        for (var key in data) {
+            const produto = <Produto key={key} id={key} data={data[key]} />;
+            obj[key] = produto;
+        }
+
+        ReactDOM.render(obj, document.querySelector('tbody'));
     }
 
     requisicao() {
@@ -92,26 +89,41 @@ class estoque extends Component {
             })
             .catch(error => console.log(error));
     }
-
+    
     render() {
         return (
             <div className="container">
-                <h2>Estoque</h2>
+                <MDBRow>
+                    <MDBCol sm="12">
+                        <h2>Estoque</h2>
+                    </MDBCol>
+                </MDBRow>
                 <br />
                 <MDBRow>
-                    <MDBCol sm="10" xs="0"></MDBCol>
-
+                    <MDBCol sm="3" xs="0"></MDBCol>
+                
+                    <SearchPage />
+                    
+                    <MDBCol sm="2" xs="0"></MDBCol>
+                    
                     <MDBCol sm="2" xs="1">
                         <Link to='/estoque/novo-item'>
-                            <MDBBtn color="primary" className="btn btn-primary btn-sm">
+                            <MDBBtn color="primary" className="btn btn-primary btn-sm" id="gamb">
                                 <MDBIcon icon="plus" className="mr-1" /> novo
                             </MDBBtn>
                         </Link>
-                    </MDBCol>
+                    </MDBCol>    
                 </MDBRow>
                 
-                <div id="tabela">
-                </div>
+                <BasicTable />  
+
+                <MDBRow>
+                    <MDBCol lg="0" md="1" sm="2" sx="0"></MDBCol>
+                    
+                    <MDBCol lg="1" md="2" sm="2" xs="1">
+                        {/* paginacao aqui */}
+                    </MDBCol>
+                </MDBRow>
             </div>
         )
     }

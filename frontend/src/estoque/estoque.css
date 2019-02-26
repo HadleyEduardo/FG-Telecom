@@ -1,3 +1,14 @@
 h2 {
+    font-weight: bold !important;
     text-align: center;
+    text-transform: uppercase;
+}
+
+input {
+    width: 80% !important;
+}
+
+a#gamb {
+    position: relative;
+    top: 23%;
 }
