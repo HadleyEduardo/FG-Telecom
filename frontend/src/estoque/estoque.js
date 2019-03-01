@@ -1,9 +1,9 @@
-// wWWWw               wWWWw
-// vVVVv (___) wWWWw         (___)  vVVVv
-// (___)  ~Y~  (___)  vVVVv   ~Y~   (___)
-//  ~Y~   \|    ~Y~   (___)    |/    ~Y~
-//  \|   \ |/   \| /  \~Y~/   \|    \ |/
-// \\|// \\|// \\|/// \\|//  \\|// \\\|///
+// wWWWw               wWWWw                    eh um dia lindo la fora
+// vVVVv (___) wWWWw         (___)  vVVVv       
+// (___)  ~Y~  (___)  vVVVv   ~Y~   (___)       passaros cantando...
+//  ~Y~   \|    ~Y~   (___)    |/    ~Y~        flores desabrochando...
+//  \|   \ |/   \| /  \~Y~/   \|    \ |/        
+// \\|// \\|// \\|/// \\|//  \\|// \\\|///      dia perfeito pra programar
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 import React, { Component, Fragment } from 'react'
@@ -12,14 +12,37 @@ import { Link } from 'react-router-dom'
 import { MDBBtn, MDBRow, MDBCol, MDBIcon, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios';
 import './estoque.css';
+import modal from './../modais/manipulandoModal';
 
-// juntar os btn --> MDBBtnGroup
+function editarProd(obj) {
+    const serial = obj.id.data._id;
+
+    var conteudo =
+        `<form>
+            <input />
+        </form>`;
+
+    modal('conteudo', conteudo, () => {
+        
+
+    });
+}
+
+function excluirProd(obj) {
+
+    modal('confirmacao', 'Tem certeza que deseja excluir este produto?', () => {
+        const serial = obj.id.data._id;
+        console.log(serial);
+        // TODO: back-end aqui
+
+    });
+}
 
 const Crud = props => {
     return (
         <Fragment>
-            <MDBBtn color="warning" size="sm">Editar</MDBBtn>
-            <MDBBtn color="danger" size="sm">Excluir</MDBBtn>
+            <MDBBtn color="warning" size="sm" onClick={() => editarProd(props)}>Editar</MDBBtn>
+            <MDBBtn color="danger" size="sm" onClick={() => excluirProd(props)}>Excluir</MDBBtn>
         </Fragment>
     );
 }
@@ -31,7 +54,7 @@ const Produto = props => {
             <td>{props.data.nome}</td>
             <td>{props.data.marca}</td>
             <td>{props.data.modelo}</td>
-            <td><Crud id={props.id} /></td>
+            <td><Crud id={props} /></td>
         </tr>
     );
 }
@@ -75,7 +98,7 @@ class estoque extends Component {
         const obj = [];
 
         for (var key in data) {
-            const produto = <Produto key={key} id={key} data={data[key]} />;
+            const produto = <Produto key={key} data={data[key]} />;
             obj[key] = produto;
         }
 
@@ -89,7 +112,7 @@ class estoque extends Component {
             })
             .catch(error => console.log(error));
     }
-    
+
     render() {
         return (
             <div className="container">
@@ -101,25 +124,25 @@ class estoque extends Component {
                 <br />
                 <MDBRow>
                     <MDBCol sm="3" xs="0"></MDBCol>
-                
+
                     <SearchPage />
-                    
+
                     <MDBCol sm="2" xs="0"></MDBCol>
-                    
+
                     <MDBCol sm="2" xs="1">
                         <Link to='/estoque/novo-item'>
                             <MDBBtn color="primary" className="btn btn-primary btn-sm" id="gamb">
                                 <MDBIcon icon="plus" className="mr-1" /> novo
                             </MDBBtn>
                         </Link>
-                    </MDBCol>    
+                    </MDBCol>
                 </MDBRow>
-                
-                <BasicTable />  
+
+                <BasicTable />
 
                 <MDBRow>
                     <MDBCol lg="0" md="1" sm="2" sx="0"></MDBCol>
-                    
+
                     <MDBCol lg="1" md="2" sm="2" xs="1">
                         {/* paginacao aqui */}
                     </MDBCol>
