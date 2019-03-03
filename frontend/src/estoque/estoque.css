@@ -12,3 +12,8 @@ a#gamb {
     position: relative;
     top: 23%;
 }
+
+.inputsEditar {
+    width: 25em;
+    margin-bottom: 0.75em;
+}

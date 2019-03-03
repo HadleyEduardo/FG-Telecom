@@ -15,24 +15,49 @@ import './estoque.css';
 import modal from './../modais/manipulandoModal';
 
 function editarProd(obj) {
-    const serial = obj.id.data._id;
-
     var conteudo =
-        `<form>
-            <input />
-        </form>`;
+    `
+    <form>
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">
+                <h2>Editar Produto</h2>
+            </legend>
+            <fieldset id="produto" class="scheduler-border">
+                <legend class="scheduler-border">editar informações</legend>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Código do produto: </label><br />
+                        <label>Nome do produto: </label><br />
+                        <label>Marca: </label><br />
+                        <label>Modelo: </label><br />
+                    </div>
+                    <div class="col-sm-10">
+                        <input type='hidden' name='vazio' value="${obj.id.data._id}" /> </p>
+                        <input class="inputsEditar" type="text" name="codigo" id="codigo" value="${obj.id.data.codigo}" /> 
+                        <input class="inputsEditar" type="text" name="nome" id="nome" value="${obj.id.data.nome}" /> 
+                        <input class="inputsEditar" type="text" name="marca" id="marca" value="${obj.id.data.marca}" /> 
+                        <input class="inputsEditar" type="text" name="modelo" id="modelo" value="${obj.id.data.modelo}" /> 
+                    </div>
+                </div>
+            </fieldset>
+        </fieldset>
+    </form>
+    `;
 
-    modal('conteudo', conteudo, () => {
+    modal('conteudo', conteudo, event => {
+        event.preventDefault();
+        const codigo = document.querySelector('input.inputsEditar#codigo').value;
+        const nome = document.querySelector('input.inputsEditar#nome').value;
+        const marca = document.querySelector('input.inputsEditar#marca').value;
+        const modelo = document.querySelector('input.inputsEditar#modelo').value;
+        // TODO: back-end aqui
         
-
-    });
+    }, 'editar');
 }
 
 function excluirProd(obj) {
-
     modal('confirmacao', 'Tem certeza que deseja excluir este produto?', () => {
         const serial = obj.id.data._id;
-        console.log(serial);
         // TODO: back-end aqui
 
     });
@@ -49,9 +74,9 @@ const Crud = props => {
 
 const Produto = props => {
     return (
-        <tr>
-            <td>{props.data.codigo}</td>
-            <td>{props.data.nome}</td>
+        <tr className={'produtos'}>
+            <td id={props.data.id}>{props.data.codigo}</td>
+            <td className={'nomes'}>{props.data.nome}</td>
             <td>{props.data.marca}</td>
             <td>{props.data.modelo}</td>
             <td><Crud id={props} /></td>
@@ -64,7 +89,28 @@ const SearchPage = () => {
         <MDBCol md="5" xs="3">
             <form className="form-inline mt-4 mb-4">
                 <MDBIcon icon="search" />
-                <input className="form-control form-control-sm ml-2" type="text" placeholder="Pesquisar" aria-label="Search" autoFocus />
+                <input
+                className="form-control form-control-sm ml-2"
+                type="text"
+                placeholder="Pesquisar"
+                aria-label="Search"
+                autoFocus
+                onChange={() => {
+                    // pesquisa produtos
+                    var inputValue = document.querySelector('input.form-control.form-control-sm.ml-2').value;
+                    
+
+                    var nomes = document.querySelectorAll('td.nomes');
+
+                    for (var k = 0; k < nomes.length; ++k) {
+                        var str = nomes[k].innerHTML;
+                        if (str.search(inputValue) != 0) {
+                            nomes[k].style.display = 'none';
+                        } else {
+                            nomes[k].style.display = 'block';
+                        }
+                    }
+                }}/>
             </form>
         </MDBCol>
     );
@@ -98,7 +144,7 @@ class estoque extends Component {
         const obj = [];
 
         for (var key in data) {
-            const produto = <Produto key={key} data={data[key]} />;
+            const produto = <Produto key={key} id={key} data={data[key]} />;
             obj[key] = produto;
         }
 
