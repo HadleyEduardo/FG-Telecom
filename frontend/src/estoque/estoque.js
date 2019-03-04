@@ -6,13 +6,29 @@
 // \\|// \\|// \\|/// \\|//  \\|// \\\|///      dia perfeito pra programar
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-import React, { Component, Fragment } from 'react'
-import ReactDOM from 'react-dom';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom'
 import { MDBBtn, MDBRow, MDBCol, MDBIcon, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios';
 import './estoque.css';
 import modal from './../modais/manipulandoModal';
+
+function pesquisar() {
+    // fazer ainda 
+}
+
+const SearchPage = () => {
+    return (
+        <MDBCol md="5" xs="3">
+            <form className="form-inline mt-4 mb-4">
+                <MDBIcon icon="search" />
+                <input className="form-control form-control-sm ml-2" id="pesquisa" type="text" placeholder="Pesquisar" aria-label="Search" autoFocus onChange={() => {
+                    pesquisar();
+                }}/>
+            </form>
+        </MDBCol>
+    );
+}
 
 function editarProd(obj) {
     var conteudo =
@@ -32,11 +48,11 @@ function editarProd(obj) {
                         <label>Modelo: </label><br />
                     </div>
                     <div class="col-sm-10">
-                        <input type='hidden' name='vazio' value="${obj.id.data._id}" /> </p>
-                        <input class="inputsEditar" type="text" name="codigo" id="codigo" value="${obj.id.data.codigo}" /> 
-                        <input class="inputsEditar" type="text" name="nome" id="nome" value="${obj.id.data.nome}" /> 
-                        <input class="inputsEditar" type="text" name="marca" id="marca" value="${obj.id.data.marca}" /> 
-                        <input class="inputsEditar" type="text" name="modelo" id="modelo" value="${obj.id.data.modelo}" /> 
+                        <input type='hidden' name='vazio' value="${obj.prod.dados._id}" /> </p>
+                        <input class="inputsEditar" type="text" name="codigo" id="codigo" value="${obj.prod.dados.codigo}" /> 
+                        <input class="inputsEditar" type="text" name="nome" id="nome" value="${obj.prod.dados.nome}" /> 
+                        <input class="inputsEditar" type="text" name="marca" id="marca" value="${obj.prod.dados.marca}" /> 
+                        <input class="inputsEditar" type="text" name="modelo" id="modelo" value="${obj.prod.dados.modelo}" /> 
                     </div>
                 </div>
             </fieldset>
@@ -46,10 +62,6 @@ function editarProd(obj) {
 
     modal('conteudo', conteudo, event => {
         event.preventDefault();
-        const codigo = document.querySelector('input.inputsEditar#codigo').value;
-        const nome = document.querySelector('input.inputsEditar#nome').value;
-        const marca = document.querySelector('input.inputsEditar#marca').value;
-        const modelo = document.querySelector('input.inputsEditar#modelo').value;
         // TODO: back-end aqui
         
     }, 'editar');
@@ -57,7 +69,7 @@ function editarProd(obj) {
 
 function excluirProd(obj) {
     modal('confirmacao', 'Tem certeza que deseja excluir este produto?', () => {
-        const serial = obj.id.data._id;
+        const serial = obj.prod.dados._id;
         // TODO: back-end aqui
 
     });
@@ -75,88 +87,36 @@ const Crud = props => {
 const Produto = props => {
     return (
         <tr className={'produtos'}>
-            <td id={props.data.id}>{props.data.codigo}</td>
-            <td className={'nomes'}>{props.data.nome}</td>
-            <td>{props.data.marca}</td>
-            <td>{props.data.modelo}</td>
-            <td><Crud id={props} /></td>
+            <td id={props.dados._id}>{props.dados.codigo}</td>
+            <td>{props.dados.nome}</td>
+            <td>{props.dados.marca}</td>
+            <td>{props.dados.modelo}</td>
+            <td><Crud prod={props} /></td>
         </tr>
     );
 }
 
-const SearchPage = () => {
-    return (
-        <MDBCol md="5" xs="3">
-            <form className="form-inline mt-4 mb-4">
-                <MDBIcon icon="search" />
-                <input
-                className="form-control form-control-sm ml-2"
-                type="text"
-                placeholder="Pesquisar"
-                aria-label="Search"
-                autoFocus
-                onChange={() => {
-                    // pesquisa produtos
-                    var inputValue = document.querySelector('input.form-control.form-control-sm.ml-2').value;
-                    
-
-                    var nomes = document.querySelectorAll('td.nomes');
-
-                    for (var k = 0; k < nomes.length; ++k) {
-                        var str = nomes[k].innerHTML;
-                        if (str.search(inputValue) != 0) {
-                            nomes[k].style.display = 'none';
-                        } else {
-                            nomes[k].style.display = 'block';
-                        }
-                    }
-                }}/>
-            </form>
-        </MDBCol>
-    );
-}
-
-const BasicTable = props => {
-    return (
-        <MDBTable striped>
-            <MDBTableHead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Ações</th>
-                </tr>
-            </MDBTableHead>
-            <MDBTableBody>
-                {/* produtos aqui */}
-            </MDBTableBody>
-        </MDBTable>
-    );
-}
+var dados = []
 
 class estoque extends Component {
     componentDidMount() {
-        this.requisicao();
+        this.req()
     }
 
-    getDados(data) {
-        const obj = [];
-
-        for (var key in data) {
-            const produto = <Produto key={key} id={key} data={data[key]} />;
-            obj[key] = produto;
-        }
-
-        ReactDOM.render(obj, document.querySelector('tbody'));
+    inserir() {
+        return dados.map((prod) => {
+            return <Produto dados={prod} key={prod._id} id={prod._id} />
+        });
     }
 
-    requisicao() {
+    req() {
         axios.get('http://localhost:3001/estoque/produto')
             .then(response => {
-                this.getDados(response.data)
+                dados = response.data
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error)
+            });
     }
 
     render() {
@@ -164,7 +124,7 @@ class estoque extends Component {
             <div className="container">
                 <MDBRow>
                     <MDBCol sm="12">
-                        <h2>Estoque</h2>
+                        <h2 id="estoque">Estoque</h2>
                     </MDBCol>
                 </MDBRow>
                 <br />
@@ -184,7 +144,20 @@ class estoque extends Component {
                     </MDBCol>
                 </MDBRow>
 
-                <BasicTable />
+                <MDBTable striped>
+                    <MDBTableHead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </MDBTableHead>
+                    <MDBTableBody>
+                        {this.inserir()}
+                    </MDBTableBody>
+                </MDBTable>
 
                 <MDBRow>
                     <MDBCol lg="0" md="1" sm="2" sx="0"></MDBCol>

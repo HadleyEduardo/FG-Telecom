@@ -14,6 +14,9 @@ import Ajuda from './ajuda/ajuda'
 import CadastrarCliente from './cadastrarCliente/cadastrarCliente'
 import CadastrarItensEstoque from './cadastrarItensEstoque/cadastrarItensEstoque'
 
+// APAGAR DEPOIS 
+import ApagarDepois from './apagarDepois/apagarDepois';
+
 class router extends Component {
 
     render() {
@@ -29,7 +32,8 @@ class router extends Component {
                 <Route path='/funcionarios' component={() => <Funcionarios />} />
                 <Route path='/ajuda' component={() => <Ajuda />} />
 
-
+                {/* APAGAR DEPOIS */}
+                <Route path='/apagar-depois' component={() => <ApagarDepois />} />
             </div>
         )
     }
