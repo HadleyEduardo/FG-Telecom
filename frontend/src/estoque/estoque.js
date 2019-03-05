@@ -6,15 +6,26 @@
 // \\|// \\|// \\|/// \\|//  \\|// \\\|///      dia perfeito pra programar
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import { MDBBtn, MDBRow, MDBCol, MDBIcon, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 import axios from 'axios';
 import './estoque.css';
 import modal from './../modais/manipulandoModal';
 
+var dados = []
+
 function pesquisar() {
-    // fazer ainda 
+    var search = document.getElementById('pesquisa')
+    
+    var filtro = dados.map((prod) => {
+        if (prod.nome.toLowerCase().search(search.value.toLowerCase()) === 0) 
+            return <Produto dados={prod} key={prod._id} id={prod._id} />
+
+    });
+
+    ReactDOM.render(filtro, document.getElementById('tabela'));
 }
 
 const SearchPage = () => {
@@ -96,8 +107,6 @@ const Produto = props => {
     );
 }
 
-var dados = []
-
 class estoque extends Component {
     componentDidMount() {
         this.req()
@@ -154,7 +163,7 @@ class estoque extends Component {
                             <th>Ações</th>
                         </tr>
                     </MDBTableHead>
-                    <MDBTableBody>
+                    <MDBTableBody id="tabela">
                         {this.inserir()}
                     </MDBTableBody>
                 </MDBTable>
