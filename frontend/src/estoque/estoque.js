@@ -156,11 +156,11 @@ class estoque extends Component {
                 <MDBTable striped>
                     <MDBTableHead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Ações</th>
+                            <th style={{width: '20%'}}>ID</th>
+                            <th style={{width: '20%'}}>Nome</th>
+                            <th style={{width: '20%'}}>Marca</th>
+                            <th style={{width: '10%'}}>Modelo</th>
+                            <th style={{width: '30%'}}>Ações</th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody id="tabela">
