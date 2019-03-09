@@ -7,7 +7,7 @@ class venda {
             funcionario: req.body.funcionario,
             cpf: req.body.cpf,
             data: req.body.data,
-            produto: req.body.produto,
+            produtos: req.body.produtos,
         }
         Venda.create(objeto)
             .then((venda) => {
