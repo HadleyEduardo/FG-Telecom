@@ -1,9 +1,9 @@
-// wWWWw               wWWWw                    eh um dia lindo la fora
+// wWWWw               wWWWw                    no momento,
 // vVVVv (___) wWWWw         (___)  vVVVv       
-// (___)  ~Y~  (___)  vVVVv   ~Y~   (___)       passaros cantando...
-//  ~Y~   \|    ~Y~   (___)    |/    ~Y~        flores desabrochando...
-//  \|   \ |/   \| /  \~Y~/   \|    \ |/        
-// \\|// \\|// \\|/// \\|//  \\|// \\\|///      dia perfeito pra programar
+// (___)  ~Y~  (___)  vVVVv   ~Y~   (___)       mais indeciso que
+//  ~Y~   \|    ~Y~   (___)    |/    ~Y~        
+//  \|   \ |/   \| /  \~Y~/   \|    \ |/        Robert Frost.
+// \\|// \\|// \\|/// \\|//  \\|// \\\|///      
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 import React, { Component, Fragment } from 'react'
