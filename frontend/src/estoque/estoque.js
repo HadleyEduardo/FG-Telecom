@@ -98,11 +98,11 @@ const Crud = props => {
 const Produto = props => {
     return (
         <tr className={'produtos'}>
-            <td id={props.dados._id}>{props.dados.codigo}</td>
-            <td>{props.dados.nome}</td>
-            <td>{props.dados.marca}</td>
-            <td>{props.dados.modelo}</td>
-            <td><Crud prod={props} /></td>
+            <td style={{width: '20%'}}>{props.dados.codigo}</td>
+            <td style={{width: '20%'}}>{props.dados.nome}</td>
+            <td style={{width: '20%'}}>{props.dados.marca}</td>
+            <td style={{width: '15%'}}>{props.dados.modelo}</td>
+            <td style={{width: '25%'}}><Crud prod={props} /></td>
         </tr>
     );
 }
@@ -113,6 +113,9 @@ class estoque extends Component {
     }
 
     inserir() {
+        if (dados.length === 0)
+            return <h3 style={{marginTop: '1em'}}>sem produtos!</h3>
+
         return dados.map((prod) => {
             return <Produto dados={prod} key={prod._id} id={prod._id} />
         });
@@ -159,8 +162,8 @@ class estoque extends Component {
                             <th style={{width: '20%'}}>ID</th>
                             <th style={{width: '20%'}}>Nome</th>
                             <th style={{width: '20%'}}>Marca</th>
-                            <th style={{width: '10%'}}>Modelo</th>
-                            <th style={{width: '30%'}}>Ações</th>
+                            <th style={{width: '15%'}}>Modelo</th>
+                            <th style={{width: '25%'}}>Ações</th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody id="tabela">
