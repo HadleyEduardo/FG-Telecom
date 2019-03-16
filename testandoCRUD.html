@@ -52,23 +52,26 @@
         function salvarCompra(e) {
             e.preventDefault();
             var objeto = {
-                nome: 'hadley',
-                cpf: '00905271190',
-                data: '07/03/2019',
+                funcionario: e.target.funcionario.value,
+                cpf:  e.target.cpf.value,
+                data: e.target.data.value,
                 produtos: [
                     {
-                        nome: 'celular',
+                        nome: 'Smarthephone',
                         codigo: 1341241234123,
-                        marca: 'Samsung'
+                        marca: 'Samsung',
+                        Preco: 'R$: 2.000,00'
                     },
                     {
-                        nome: 'celular',
-                        codigo: 123,
-                        marca: 'Apple'
+                        nome: 'Almufada',
+                        codigo: 12356,
+                        marca: 'Apple',
+                        Preco: 'R$: 1.000,00'
                     }
-                ]
+                ],
+                id:['5c88f34384972320181cb455'],
             }
-            console.log(objeto),
+
                 axios.post('http://localhost:3001/venda/salvar', objeto)
                     .then((objeto) => {
                         if (objeto.data.erro) {
@@ -151,15 +154,16 @@
     </form>
     <!--Passa tipo e valor-->
     <br />
-    <!--Ativar passar dados-->
+    <!--savar passar dados-->
     <form onsubmit="salvarCompra(event)">
-        <input type="text" name="funcionario" value="Pedro Alvares">
-        <input type="text" name="cpf" value="00805371291">
-        <input type="text" name="data" value="06/04/2019">
+        <input type="text" name="funcionario">
+        <input type="text" name="cpf">
+        <input type="text" name="data">
         <button type="submit">Enviar</button>
     </form>
     <!--Ativar passar dados-->
     <br />
+    <br>
 </body>
 
 </html>

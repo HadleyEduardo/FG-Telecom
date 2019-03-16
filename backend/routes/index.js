@@ -28,7 +28,7 @@ router.post('/estoque/modelo/novo', ctrlModelo.novo);
 
 router.post('/venda',ctrlVenda.busca);
 router.post('/venda/salvar',ctrlVenda.SalvarCompra);
-router.get('/teste', ctrlVenda.teste);
+router.get('/teste', ctrlVenda.buscaVendas);
 
 
 

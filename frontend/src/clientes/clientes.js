@@ -426,6 +426,7 @@ class clientes extends Component {
         var clienteASerExcluido = {
             id: cliente._id
         }
+        console.log(clienteASerExcluido)
         modal('confirmacao', 'Tem certeza que deseja excluir esse cliente!', confirmado)
 
         function confirmado() {
