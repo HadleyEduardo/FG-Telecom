@@ -88,7 +88,7 @@ class cadastrarCliente extends React.Component {
                     }
                     document.querySelector('h1').style.fontSize = '100%'
                 }else{
-                    document.querySelector('h1').style = ''
+                    // document.querySelector('h1').style = ''
                     var inputs = document.querySelectorAll('input')
                     for(var i = 0; i < inputs.length; i++) {
                         inputs[i].setAttribute('size', '40')

@@ -113,9 +113,6 @@ class estoque extends Component {
     }
 
     inserir() {
-        if (dados.length === 0)
-            return <h3 style={{marginTop: '1em'}}>sem produtos!</h3>
-
         return dados.map((prod) => {
             return <Produto dados={prod} key={prod._id} id={prod._id} />
         });

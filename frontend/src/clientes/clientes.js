@@ -270,7 +270,7 @@ class clientes extends Component {
                                 clearInterval(interval)
                                 const client = res.data;
                                 this.props.pegandoDadosServidor(client)
-                                document.querySelector('div#loader').style.visibility = 'hidden'
+                                    // document.querySelector('div#loader').style.visibility = 'hidden'
                                 this.fazerPaginacao(client)
                             })
                     }, 10000)
